@@ -1,0 +1,9 @@
+.share-food-modal {
+    input::placeholder {
+        color: $gray-400;
+    }
+
+    textarea::placeholder {
+        color: $gray-400;
+    }
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-hant">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/Logo.png" />
+  <title>Flavor Trail - Login</title>
+</head>
+
+<body>
+  <section class="login container mt-7 mb-18">
+    <a href="index.html" class="mb-10">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.0007 31.6666L8.33398 19.9999M8.33398 19.9999L20.0007 8.33325M8.33398 19.9999H31.6673"
+          stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+    <div class="login-content row align-items-center justify-content-between">
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="position-relative h-100 w-100">
+          <a href="index.html" class="footer-logo position-absolute top-0 start-0 z-2">
+            <img src="../assets/images/Logo.png" alt="logo" style="width: 174px; height: 174px;">
+          </a>
+          <img class="login-img object-fit-cover" src="../assets/images/home-2.jpg" alt="img">
+          <div class="login-deco-1 position-absolute d-none d-lg-block">
+            <img src="../assets/images/deco/login-deco-1.svg" alt="login-deco">
+          </div>
+          <div class="login-deco-2 position-absolute d-none d-lg-block">
+            <img src="../assets/images/deco/login-deco-2.svg" alt="login-deco">
+          </div>
+          <div class="login-deco-3 position-relative position-absolute d-none d-lg-block" style="width: 371px; height: 295px">
+            <div class="slogan fs-2 fw-bolder lh-1 position-absolute z-2" style="width: 256px; height: 136px">
+              <p>快樂齊分享，美味</p>
+              <p class="vertical-text text-lg-vertical ms-auto">再出發</p>
+            </div>
+            <img src="../assets/images/deco/login-deco-3.svg" alt="login-deco">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <h2 class="fs-1 fw-bolder mb-14">歡迎回來！</h2>
+        <form class="row g-3 needs-validation" novalidate>
+          <div class="col-12">
+            <div class="col-12 mb-12">
+              <label for="validationUsername" class="form-label mb-4">
+                用戶名<span class="text-danger ms-1">*</span>
+              </label>
+              <input type="email" class="form-control p-5 border border-gray-400 bg-white rounded-3"
+                id="validationUsername" placeholder="請輸入電子信箱" required>
+              <div class="invalid-feedback">
+                請輸入正確的電子信箱
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="col-12 mb-4">
+                <label for="validationPassword" class="form-label mb-4">
+                  密碼<span class="text-danger ms-1">*</span>
+                </label>
+                <div class="position-relative">
+                  <input type="password" class="form-control p-5 border border-gray-400 bg-white rounded-3"
+                    id="validationPassword" placeholder="請輸入密碼" required>
+                  <i class="bi bi-eye" id="checkEye"></i>
+                </div>
+                <div class="invalid-feedback">
+                  請輸入正確的密碼
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-12">
+                <div class="form-check d-flex align-items-center">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="invalidCheck" required>
+                  <label class="form-check-label" for="invalidCheck">
+                    記住帳號
+                  </label>
+                  <div class="invalid-feedback">
+                    請勾選代表同意
+                  </div>
+                </div>
+                <a href="#">忘記密碼？</a>
+              </div>
+              <div class="col-12">
+                <a href="index.html" type="submit" value="立即登入" class="btn btn-dark w-100 mb-12 rounded-3 d-flex align-items-center justify-content-center">立即登入</a>
+              </div>
+              <div class="col-12">
+                沒有 Flavor Trail 帳號嗎？
+                <a href="#" class="link-primary ms-2 text-decoration-underline">立即註冊</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()
+
+    const checkEye = document.querySelector("#checkEye");
+    const validationPassword = document.querySelector("#validationPassword");
+    checkEye.addEventListener("click", function (e) {
+      if (e.target.classList.contains('bi-eye')) {
+        e.target.classList.remove('bi-eye');
+        e.target.classList.add('bi-eye-slash');
+        validationPassword.setAttribute('type', 'text')
+      } else {
+        validationPassword.setAttribute('type', 'password');
+        e.target.classList.remove('bi-eye-slash');
+        e.target.classList.add('bi-eye')
+      }
+    });
+  </script>
+  <script type="module" src="../main.js"></script>
+</body>
+
+</html>

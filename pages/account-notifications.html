@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-hant">
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="/assets/images/Logo.png" />
+<title>Flavor Trail - Notifications</title>
+</head>
+<body>
+<%- include('./layout/header'); -%>
+<%- include('./layout/account-nav.ejs', {currentTitle: '全部通知',page: 'account-notifications'}); %>
+<div class="container">
+    <h2 class="fw-bolder text-black mb-7 d-none d-lg-block">全部通知</h2>
+    <div class="nofify-wrap">
+        <ul class="g-2 mt-2 mb-7 d-flex align-items-center gap-2 notify-menu">
+            <li class="list-group-item ps-0 w-auto">
+                <button type="button" class="btn btn-primary py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex justify-content-between align-items-center">
+                <span class="fs-6 pe-6 me-16">全部</span>
+                <span class="badge bg-white text-primary rounded-circle p-1 fw-medium">9+</span>
+                </button>
+            </li>
+            <li class="col-2 list-group-item border-0 p-0 w-auto">
+                <button type="button" class="btn btn-light py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center">
+                    <img src="../assets/images/icon/clipboard-pen-line.svg" alt="" width="20px" height="20px">
+                    <span class="fs-6 ms-2 pe-12 text-gray-700">申請通知</span>
+                    <span class="badge bg-bedge-color text-primary rounded-circle fw-medium">7</span>
+                </button>
+            </li>
+            <li class="col-2 list-group-item border-0 p-0 w-auto">
+                <button type="button" class="btn btn-light py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center">
+                    <img src="../assets/images/icon/shopping-bag.svg" alt="" width="20px" height="20px">
+                    <span class="fs-6 ms-2 pe-12 text-gray-700">領取通知</span>
+                    <span class="badge bg-bedge-color text-primary rounded-circle fw-medium">5</span>
+                </button>
+            </li>
+            <li class="list-group-item border-0 p-0 w-auto">
+                <button type="button" class="btn btn-light py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center">
+                    <img src="../assets/images/icon/star.svg" alt="" width="20px" height="20px">
+                    <span class="fs-6 ms-2 pe-12 text-gray-700">評價通知</span>
+                </button>
+            </li>
+            <li class="list-group-item border-0 p-0 w-100 d-flex justify-content-between">
+                <form class="d-flex w-100">
+                    <input
+                    class="form-control bg-white border-white py-4 px-5 notify-rounded"
+                    type="search"
+                    placeholder="搜尋通知"
+                    aria-label="Search"
+                    />
+                </form>
+                <img src="../assets/images/icon/search.svg" alt="" class="bg-white rounded-end pe-5 ">
+            </li>
+        </ul>
+    </div>
+</div>
+<%- include('./layout/notifyList'); -%>
+<%- include('./layout/footer'); -%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="module" src="../main.js"></script>
+<script>
+    const citySelect = document.getElementById('city');
+const districtSelect = document.getElementById('district');
+
+const districts = {
+    taipei: ['中正區', '大同區', '中山區', '松山區', '大安區', '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'],
+    newTaipei: ['板橋區', '新莊區', '中和區', '永和區', '土城區', '樹林區', '三峽區', '鶯歌區', '三重區', '蘆洲區', '五股區', '泰山區', '林口區', '八里區', '淡水區', '三芝區', '石門區', '金山區', '萬里區', '汐止區', '瑞芳區', '貢寮區', '平溪區', '雙溪區']
+};
+
+citySelect.addEventListener('change', function () {
+    districtSelect.innerHTML = '<option value="" disabled>請選擇區域</option>';
+    const selectedCity = citySelect.value;
+    if (districts[selectedCity]) {
+        districts[selectedCity].forEach(function (district) {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+    }
+});
+</script>
+<script>
+    $(document).ready(function () {
+        function populateTimeOptions(ulElement) {
+            for (let hour = 0; hour < 24; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    let time = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
+                    ulElement.append('<li>' + time + '</li>');
+                }
+            }
+        }
+
+        populateTimeOptions($('#start-time'));
+        populateTimeOptions($('#end-time'));
+
+        $('#end-time').addClass('disabled');
+
+        $('#start-time').on('click', 'li', function () {
+            var selectedTime = $(this).text();
+            var input = $(this).closest('.dropdown').find('#time-range div');
+            input.data('start-time', selectedTime);
+            input.text(selectedTime + ' - ');
+
+            // 清空并重新填充结束时间选项  
+            var endTimeUl = $('#end-time');
+            endTimeUl.empty();
+            var [startHour, startMinute] = selectedTime.split(':').map(Number);
+            for (let hour = startHour; hour < 24; hour++) {
+                for (let minute = (hour === startHour ? startMinute + 15 : 0); minute < 60; minute += 15) {
+                    let time = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
+                    endTimeUl.append('<li>' + time + '</li>');
+                }
+            }
+            $('#end-time').removeClass('disabled');
+        });
+
+        $('#end-time').on('click', 'li', function () {
+            if (!$(this).closest('ul').hasClass('disabled')) {
+                var selectedTime = $(this).text();
+                var input = $(this).closest('.dropdown').find('#time-range div');
+                input.text(input.data('start-time') + ' - ' + selectedTime);
+                // 不再删除 start-time 数据  
+                // input.removeData('start-time'); // 删除这一行  
+            }
+        });
+    });      
+</script>
+<script>
+    document.getElementById('liveToastBtn').addEventListener('click', function() {
+        const toastElement = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastElement, { delay: 5000 });
+        toast.show();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+.allPost {
+  .postNav {
+    @include media-breakpoint-up(lg) {
+      margin-top: 104px;
+    }
+  }
+  .spinner-border {
+width: 24px;
+height: 24px;
+--bs-spinner-border-width: 2px;
+  }
+}

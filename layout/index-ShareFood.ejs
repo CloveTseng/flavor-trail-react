@@ -1,0 +1,129 @@
+<div class="modal fade" id="shareFoodModal" tabindex="-1" aria-labelledby="shareFoodModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl">
+    <div class="modal-content bg-white">
+        <div class="modal-header border-0 p-lg-7 py-7 px-4">
+            <h1 class="modal-title fw-bolder lh-xs" id="shareFoodModalLabel">分享美味</h1>
+            <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer" data-bs-dismiss="modal" aria-label="Close">
+        </div>
+        <div class="modal-body p-lg-7">
+            <p class="text-black mb-5">請回答以下所有問題，讓領取者清楚了解您分享的食物。</p>
+        <form action="/replay" method="post">
+            <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+            <label for="InputTitle" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7">貼文標題</label>
+            <input type="text" class="form-control py-2 px-5 border-gray-400 rounded-3 bg-white" id="InputTitle" placeholder="請輸入貼文標題">
+            </div>
+            <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+                <label for="InputFood" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7">食物名稱</label>
+                <input type="text" class="form-control py-2 px-5 border-gray-400 rounded-3 bg-white" id="InputFood" placeholder="請輸入食物名稱">
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100 me-4">
+                    <label for="FoodType" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap d-block w-auto">食物類型</label>
+                    <select id="FoodType" name="type" class="form-select py-2 px-5 border-gray-400 rounded-3 ms-md-7 ms-lg-14 bg-white">
+                        <option value="main" selected>主食</option>
+                        <option value="dessert">甜點</option>
+                        <option value="drink">飲料</option>
+                        <option value="fruit">水果</option>
+                        <option value="snack">零食</option>
+                        <option value="cooked">熟食</option>
+                        <option value="raw">生食</option>
+                    </select>
+                </div>
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100 ms-lg-7">
+                    <label for="SaveMethod" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 d-block w-auto">保存方式</label>
+                    <select id="SaveMethod" name="method" class="form-select py-2 px-5 border-gray-400 rounded-3 bg-white">
+                        <option value="normalTemperature">常溫</option>
+                        <option value="refrigeration" selected >冷藏</option>
+                        <option value="freezing">冷凍</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100 me-4">
+                    <label for="FoodNum" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap d-block w-auto">食物份數</label>
+                    <input type="number" class="form-control py-2 px-5 border-gray-400 rounded-3 ms-md-7 ms-lg-14 bg-white" id="FoodNum" placeholder="1">
+                </div>
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100 ms-lg-7">
+                    <label for="event-date" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 d-block w-auto">有效期限</label>
+                    <input type="date" id="event-date" name="event-date" min="2024-01-01" max="2024-12-31" class="form-control py-2 px-5 border-gray-400 rounded-3 bg-white">
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100">
+                    <label for="FoodNum" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-3 d-block w-auto">是否已過期</label>
+                        <div class="form-check ms-0 align-items-center ms-md-7 ms-lg-7">
+                            <input class="form-check-input" type="radio" name="overfood" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">是</label>
+                        </div>
+                        <div class="form-check ms-lg-7">
+                            <input class="form-check-input" type="radio" name="overfood" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">否</label>
+                        </div>
+                </div>
+                <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center w-100 ms-lg-8 ms-7">
+                    <label for="FoodNum" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-5 d-block w-auto">葷食/素食</label>
+                    <div class="form-check ms-0">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">葷食</label>
+                    </div>
+                    <div class="form-check ms-lg-7">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">素食</label>
+                    </div>
+                </div>
+            </div>
+            <div class="share-food-modal mb-7  d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+              <label for="pickUpCity" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7">領取地點</label>
+              <div class="d-flex gap-2 col-lg-4">
+                <select id="city" name="city" class="form-select py-2 px-5 border-gray-400 rounded-3 d-inline-blok w-100 bg-white">
+                    <option disabled>請選擇縣市</option>
+                    <option value="taipei">台北市</option>
+                    <option value="newTaipei" selected >新北市</option>
+                </select>
+                <select id="district" name="district" class="form-select py-2 px-5 border-gray-400 rounded-3 w-100 bg-white">
+                    <option value>新店區</option>
+                </select>
+              </div>
+              <input type="text" class="form-control py-2 px-5 border-gray-400 rounded-3 bg-white" id="InputTitle" placeholder="玫瑰公園123號1樓">
+            </div>
+            <div class="share-food-modal mb-7  d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+                <label for="InputPhone" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7">領取時間</label>
+                <div class="timePicker">
+                <div class="dropdown">
+                    <a class="dropdown-toggle rounded-3 border border-1 border-gray-400 d-flex align-items-center w-100 py-2 px-5"
+                        id="time-range" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                        aria-expanded="false">
+                        <div class="me-auto me-lg-5">14:00 - 16:00</div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                          stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu bg-gray-200 rounded-3 time-range-picker overflow-hidden">
+                        <div class="d-flex">
+                            <!-- 開始時間 -->
+                            <ul class="list-unstyled dropdown-menu-start-time" id="start-time"></ul>
+                            <!-- 結束時間 -->
+                            <ul class="list-unstyled dropdown-menu-end-time disabled" id="end-time"></ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="share-food-modal mb-7  d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+                <label for="InputFood" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7">上傳圖片</label>
+                <input type="file" class="form-control bg-white py-2 px-5 border-gray-400 rounded-3" id="InputFood" placeholder="請輸入食物名稱">
+            </div>
+            <div class="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2">
+                <label for="replyMessage" class="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 mt-lg-3">介紹與描述</label>
+                <textarea class="form-control py-2 px-5 border-gray-400 rounded-3 bg-white" id="replyMessage" rows="5" placeholder="備註與細節說明"></textarea>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer py-7">
+        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">送出</button>
+        </div>
+    </div>
+</div>
+</div>
