@@ -8,15 +8,31 @@
   <link rel="icon" type="image/svg+xml" href="/assets/images/Logo.png" />
   <title>Flavor Trail - Settings</title>
 </head>
+
 <body>
   <%- include('./layout/header'); -%>
-  <%- include('./layout/account-nav.ejs', {currentTitle: '個人設定',page: 'account-settings'}); %>
-  <div class="container">
-    <h2 class="fw-bolder text-black mb-7 d-none d-lg-block">個人設定頁面</h2>
-  </div>
+    <%- include('./layout/account-nav.ejs', {currentTitle: '個人設定' ,page: 'account-settings' });%>
+      <div class="container">
+        <h2 class="fw-bolder text-black mb-7 d-none d-lg-block">個人設定</h2>
+        <div class="row flex-sm-row-reverse mb-19">
+          <%- include('./layout/account-setting'); -%>
+            <%- include('./layout/account-setting-modalPassword.ejs'); -%>
+        </div>
+      </div>
 
-  <%- include('./layout/footer'); -%>
-  <script type="module" src="../main.js"></script>
+      <%- include('./layout/footer'); -%>
+        <script type="module" src="../main.js"></script>
+        <script type="module">
+          import Modal from 'bootstrap/js/dist/modal'
+          const passwordModal = new Modal('#passwordModalToggle', {
+            backdrop: 'static'
+          })
+          // passwordModal.show();
+          const changeModal = document.querySelector('#changePassword');
+          changeModal.addEventListener('click', () => {
+            passwordModal.show();
+          })
+        </script>
 </body>
 
 </html>

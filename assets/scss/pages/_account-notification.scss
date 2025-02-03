@@ -10,7 +10,7 @@
         display: none;
       }
     @include media-breakpoint-up(lg) {
-        overflow-x: hidden;
+        overflow-x: visible;
     }
 }
 

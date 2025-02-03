@@ -52,3 +52,13 @@
     background-color: $primary;
     color: white;
 }
+
+.nofify-modal-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+}
+
+.text-overflow {
+    text-overflow: ellipsis;
+}

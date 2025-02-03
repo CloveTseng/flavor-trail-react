@@ -1,12 +1,25 @@
 <!-- 申請通知 & 回覆申請通知-->
 <div class="modal fade notify" id="notifyApplyModal" aria-hidden="true" aria-labelledby="ModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
-    <div class="modal-content">
+    <div class="modal-content bg-white">
       <div class="modal-header border-0 p-lg-7 py-7 px-4">
         <h1 class="modal-title fw-bolder lh-xs" id="ModalToggleLabel">申請通知</h1>
-        <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer" data-bs-dismiss="modal" aria-label="Close">
+        <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer p-2" data-bs-dismiss="modal" aria-label="Close">
       </div>
       <div class="modal-body p-lg-7 py-7 px-4">
+        <a href="#" alt="" class="d-block mb-7">
+          <div class="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
+            <div class="d-flex align-items-center">
+              <img src="../assets/images/post-1.jpg" alt="" class="nofify-modal-img rounded-1">
+              <h5 class="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">奢華午餐，尋找飢餓的你！</h5>
+            </div>
+            <div class="p-2 me-sm-4">
+              <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 12L10 8L6 4" stroke="#484848" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+          </div>
+        </a>
           <div class="d-flex align-items-center mb-7">
               <img src="../assets/images/icon/path.svg" alt="">
               <h4 class="fw-bold fs-5 fs-lg-4 ps-2">我喜歡你的食物，我想要領取！</h4>
@@ -16,7 +29,7 @@
               聯絡電話：0912345678<br>
               我將在 14:00 時準時抵達</p>
       </div>
-      <div class="modal-footer py-7">
+      <div class="modal-footer py-7 p-lg-7">
           <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">拒絕</button>
           <button class="btn btn-primary" data-bs-target="#notifyApplyModal2" data-bs-toggle="modal" data-bs-dismiss="modal">同意</button>
       </div>
@@ -28,7 +41,7 @@
     <div class="modal-content">
       <div class="modal-header border-0 p-lg-7 py-7 px-4">
           <h1 class="modal-title fw-bolder lh-xs" id="ModalToggleLabel">回覆申請通知</h1>
-          <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer" data-bs-dismiss="modal" aria-label="Close">
+          <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer p-2" data-bs-dismiss="modal" aria-label="Close">
       </div>
       <div class="modal-body p-lg-7">
         <form action="/replay" method="post">
@@ -85,7 +98,7 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer py-7">
+      <div class="modal-footer p-7 p-lg-7">
         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">送出</button>
       </div>
     </div>
@@ -94,12 +107,25 @@
 <!-- 領取通知 -->
 <div class="modal fade notify" id="notifyClaimModal" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
-    <div class="modal-content">
+    <div class="modal-content bg-white">
       <div class="modal-header border-0 p-lg-7 py-7 px-4">
           <h1 class="modal-title fw-bolder lh-xs" id="ModalToggleLabel">領取通知</h1>
-          <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer" data-bs-dismiss="modal" aria-label="Close">
+          <img src="../assets/images/icon/x.svg" alt="" class="ms-auto pointer p-2" data-bs-dismiss="modal" aria-label="Close">
         </div>
         <div class="modal-body p-lg-7 py-7 px-4">
+          <a href="#" alt="" class="d-block mb-7">
+            <div class="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
+              <div class="d-flex align-items-center">
+                <img src="../assets/images/post-1.jpg" alt="" class="nofify-modal-img rounded-1">
+                <h5 class="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">奢華午餐，尋找飢餓的你！</h5>
+              </div>
+              <div class="p-2 me-sm-4">
+                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 12L10 8L6 4" stroke="#484848" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+              </div>
+            </div>
+          </a>
           <div class="d-flex align-items-center mb-7">
               <img src="../assets/images/icon/path.svg" alt="">
               <h4 class="fw-bold fs-5 fs-lg-4 ps-2 d-block d-md-inline">我已經準備好囉～<span class="d-block d-md-inline">快來領取你的食物吧！</span></h4>
@@ -111,8 +137,45 @@
               聯繫方式：0912345678<br>
               請記得帶上你的環保餐具，享受這美味的食物！如果有任何問題，請隨時聯繫我～～</p>
       </div>
-      <div class="modal-footer py-7">
-        <button type="button" class="btn btn-primary" id="liveToastBtn" data-bs-dismiss="modal">馬上領取</button>
+      <!-- 電腦版 - 馬上領取 -->
+      <div class="modal-footer p-7 d-sm-block d-none">
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-white" id="giveUpBtn">放棄領取</button>
+          <div class="d-flex">
+            <div class="me-2">
+              <input type="text" class="form-control-sm form-control p-5 border-gray-400 rounded-3 bg-white lh-account" id="getCodePC" placeholder="請輸入領取碼">
+              <div id="passwordHelpBlock" class="form-text text-start ps-1">
+                請向發文者索取領取碼
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary text-nowrap py-4" id="orderNowPC" data-bs-dismiss="modal" disabled>馬上領取</button>
+          </div>
+        </div>
+      </div>
+      <!-- 手機版 - 馬上領取 -->
+      <div class="d-sm-none border-top text-end">
+        <div class="my-7 mx-4">
+          <button type="button" class="btn btn-white" id="giveUpBtn">放棄領取</button>
+          <button type="button" class="btn btn-primary" id="orderNowPhone" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">馬上領取</button>
+        </div>
+        
+        <div class="offcanvas offcanvas-bottom rounded-top bg-white mb-0 custom-offcanvas" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+          <div class="offcanvas-header pt-8 px-4 pb-6">
+            <h3 class="offcanvas-title fw-bold lh-sm" id="offcanvasWithBothOptionsLabel">輸入領取號碼</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="pt-2 px-4 pb-7">
+            <div class="d-flex">
+                <input type="text" class="form-control py-4 px-5 border-gray-400 rounded-3 bg-white lh-account me-2" id="getCodePhone" placeholder="輸入領取號碼">
+              <div>
+                <button type="button" class="btn btn-primary fw-bold h6 text-nowrap" id="giveUpBtn" disabled>確定</button>
+              </div>
+            </div>
+            <div id="passwordHelpBlock" class="form-text text-start ps-1">
+              請向發文者索取領取碼
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
