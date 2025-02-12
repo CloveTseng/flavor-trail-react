@@ -1,8 +1,7 @@
-import AccountPosts from "../layout/account/AccountPosts"
 
 function Account() {
     return(<>
-        <AccountPosts />
+        123
     </>)
 }
 export default Account
