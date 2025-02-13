@@ -1,7 +1,12 @@
 import { Outlet } from "react-router";
+import Footer from "./Footer";
 
 const Front = () => {
-  return <Outlet />;
+  return (
+    <Outlet />,
+    <Footer />
+  )
+  
 };
 
 export default Front;
