@@ -1,7 +1,12 @@
-import { NavLink, Outlet } from "react-router";
-import Footer from "./Footer";
+import { NavLink, Outlet, useLocation } from 'react-router';
+import Footer from './Footer';
+import { useEffect } from 'react';
 
 const Front = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
     <>
       {/* Navbar 可以放這裡 */}
