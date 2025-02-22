@@ -47,13 +47,3 @@
     }
   }
 }
-
-// gsap定位
-.cta-button {
-  position: absolute;
-  bottom: 24px;
-  right: 5%;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1000;
-}

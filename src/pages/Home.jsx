@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -6,6 +6,8 @@ import 'swiper/css/navigation';
 import CircleCTAButton from '../components/CircleCTAButton';
 
 const Home = () => {
+  const startTriggerRef = useRef();
+  const endTriggerRef = useRef();
   useEffect(() => {
     new Swiper('.mySwiper', {
       modules: [Navigation],
@@ -80,7 +82,7 @@ const Home = () => {
         </div>
       </section>
       {/* introSection */}
-      <section className="intro container">
+      <section className="intro container" ref={startTriggerRef}>
         <div className="intro-title row d-flex flex-xxl-row flex-nowrap flex-column justify-content-center justify-content-xxl-between align-items-center mt-xxl-0 mt-20 mb-lg-19">
           <h3 className="mb-xxl-0 mb-auto me-auto mt-xxl-0 mt-8 col-xxl-4 text-primary px-xxl-0">
             WHO <br className="d-block d-xxl-none" />
@@ -920,7 +922,7 @@ const Home = () => {
         </div>
       </section>
       {/* marqueeSection */}
-      <section className="index-marquee mb-19">
+      <section className="index-marquee mb-19" ref={endTriggerRef}>
         <div className="marquee py-lg-12 py-8 border-top border-bottom border-primary border-4 d-flex">
           <p className="marquee-scroll display-3 display-lg-1 text-primary ms-7 text-nowrap mb-0 letter-spacing-1">
             WE INVITE YOU{' '}
@@ -946,7 +948,11 @@ const Home = () => {
       </section>
 
       {/* CTA */}
-      <CircleCTAButton title={'分享美味'} />
+      <CircleCTAButton
+        title={'分享美味'}
+        startTriggerRef={startTriggerRef}
+        endTriggerRef={endTriggerRef}
+      />
     </>
   );
 };

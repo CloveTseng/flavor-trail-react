@@ -1,20 +1,72 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-const CircleCTAButton = ({ title }) => {
+const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
   const circleCTARef = useRef(null);
+  // useEffect(() => {
+  //   gsap.registerPlugin(ScrollTrigger);
+
+  //   gsap.set(circleCTARef.current, {
+  //     position: 'absolute',
+  //     bottom: '24px',
+  //     right: '5%',
+  //     opacity: 0,
+  //     visibility: 'hidden',
+  //     zIndex: 1000,
+  //   });
+
+  //   ScrollTrigger.defaults({
+  //     markers: true,
+  //   });
+
+  //   ScrollTrigger.create({
+  //     trigger: 'body',
+  //     start: 'top top',
+  //     end: 'top 60%',
+  //     onUpdate: (self) => {
+  //       if (scrollY >= 1080) {
+  //         gsap.to(circleCTARef.current, {
+  //           position: 'fixed',
+  //           opacity: 1,
+  //           visibility: 'visible',
+  //           duration: 0.3,
+  //         });
+  //       } else {
+  //         gsap.to(circleCTARef.current, {
+  //           position: 'absolute',
+  //           opacity: 0,
+  //           visibility: 'hidden',
+  //           duration: 0.3,
+  //           onComplete: () => {
+  //             gsap.set(circleCTARef.current, {
+  //               position: 'absolute',
+  //             });
+  //           },
+  //         });
+  //       }
+  //     },
+  //   });
+  // }, []);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     // ScrollTrigger.defaults({
     //   markers: true,
     // });
+    gsap.set(circleCTARef.current, {
+      bottom: '24px',
+      right: '5%',
+      opacity: 0,
+      visibility: 'hidden',
+      zIndex: 1000,
+    });
 
-    ScrollTrigger.create({
-      trigger: '.intro',
+    const CTATrigger = ScrollTrigger.create({
+      trigger: startTriggerRef.current,
       start: 'top 20%',
-      endTrigger: '.index-marquee',
-      end: 'top 60%',
+      endTrigger: endTriggerRef.current,
+      end: 'bottom 60%',
       onToggle: (self) => {
         if (self.isActive) {
           gsap.to(circleCTARef.current, {
@@ -28,16 +80,14 @@ const CircleCTAButton = ({ title }) => {
             opacity: 0,
             visibility: 'hidden',
             duration: 0.3,
-            // onComplete: () => {
-            //   gsap.set(circleCTARef.current, {
-            //     position: 'absolute',
-            //   });
-            // },
           });
         }
       },
     });
+
+    return () => CTATrigger.kill();
   }, []);
+
   return (
     <div className="cta-button d-lg-block d-none" ref={circleCTARef}>
       <a className="CTA d-flex justify-content-center align-items-center rounded-circle">
