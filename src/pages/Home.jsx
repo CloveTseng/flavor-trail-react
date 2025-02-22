@@ -4,6 +4,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import CircleCTAButton from '../components/CircleCTAButton';
+import { Link } from 'react-router';
 
 const Home = () => {
   const startTriggerRef = useRef();
@@ -89,7 +90,7 @@ const Home = () => {
             ARE (
           </h3>
           <div className="path-section-sm d-block d-xxl-none px-0">
-            <a className="path-sm" href="#">
+            <Link className="path-sm" to="/about-us">
               <svg
                 width="414"
                 height="306"
@@ -104,10 +105,10 @@ const Home = () => {
                   strokeWidth="16"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
           <div className="path-section d-none d-xxl-block col-xxl-4 px-0">
-            <a className="path" href="#">
+            <Link className="path" to="/about-us">
               <div className="card-hover w-100 h-100 position-absolute">
                 <svg
                   width="40"
@@ -145,7 +146,7 @@ const Home = () => {
                   strokeWidth="20"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
           <h3 className="mt-xxl-0 mt-auto ms-auto col-xxl-3 text-primary text-end text-xxl-start px-xxl-0">
             ) WE ?
@@ -155,8 +156,8 @@ const Home = () => {
           <p className="mb-8 text-center fs-5 fw-medium text-primary">
             在餘味尋蹤，我們致力於減少食物浪費，並將多的美味食物分享給有需要的人。無論你是想分享家中的美食，還是希望尋找驚喜的味道，我們的平台都能滿足你的需求。
           </p>
-          <a
-            href="#"
+          <Link
+            to="/about-us"
             className="intro-btn d-flex align-items-center justify-content-center 
         gap-5 py-5 px-7 w-100 
         border border-2 border-primary rounded-3 fs-4 fw-medium"
@@ -175,7 +176,7 @@ const Home = () => {
               />
             </svg>
             瞭解更多
-          </a>
+          </Link>
         </div>
       </section>
       {/* awesomeSection */}
@@ -691,8 +692,8 @@ const Home = () => {
             </div>
           </div>
           <div className="more-post-sm-btn d-lg-none">
-            <a
-              href="allPost.html"
+            <Link
+              to="/all-posts"
               className="mt-8 py-5 w-100 d-flex justify-content-center align-items-center border border-2 border-deco-pink rounded-3"
             >
               <svg
@@ -710,7 +711,7 @@ const Home = () => {
               <div className="more-post-btn-text fs-4 ms-5 fw-medium">
                 還有更多貼文
               </div>
-            </a>
+            </Link>
           </div>
           <div className="more-post-lg-btn d-none d-lg-block mt-7">
             <div className="d-flex justify-content-between align-items-center">
@@ -720,12 +721,12 @@ const Home = () => {
               <div className="arrow-right fs-2 fw-bolder text-deco-pink"></div>
               <div className="fs-1 fw-bolder">
                 （
-                <a
-                  href="allPost.html"
+                <Link
+                  to="/all-posts"
                   className="more-post-btn fs-1 fw-bolder text-nowrap"
                 >
                   還有更多貼文
-                </a>
+                </Link>
                 ）
               </div>
             </div>
@@ -896,8 +897,8 @@ const Home = () => {
                   src="../assets/images/home_event-6.jpg"
                   alt="home-event-img"
                 />
-                <a
-                  href="event.html"
+                <Link
+                  to="/event"
                   className="invite-btn position-absolute bottom-0 end-0 d-flex justify-content-center align-items-center"
                 >
                   <svg
@@ -915,7 +916,7 @@ const Home = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
