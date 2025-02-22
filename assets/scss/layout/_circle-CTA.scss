@@ -1,48 +1,59 @@
 .CTA {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    background-color: black;
-    cursor: pointer;
+  position: relative;
+  width: 160px;
+  height: 160px;
+  background-color: black;
+  cursor: pointer;
 
-    &-content-title {
-        width: 58px;
-        height: 58px;
+  &-content-title {
+    width: 58px;
+    height: 58px;
+  }
+
+  &-rotating-text {
+    position: absolute;
+    fill: none;
+    animation: rotate 15s linear infinite;
+    @keyframes rotate {
+      from {
+        transform: rotate(360deg);
+      }
+      to {
+        transform: rotate(0deg);
+      }
     }
 
-    &-rotating-text {
-        position: absolute;
-        fill: none;
-        animation: rotate 15s linear infinite;
-        @keyframes rotate {
-            from {
-                transform: rotate(360deg);
-            } to {
-                transform: rotate(0deg);
-            }
-        }
-
-        textPath {
-            fill: $deco-bright-green;
-            font-size: 11px;
-            letter-spacing: .25px;
-        }
-
-        &:hover {
-            animation-play-state: paused;
-        }
-    }
-
-    &-content-arrow {
-        display: none;
+    textPath {
+      fill: $deco-bright-green;
+      font-size: 11px;
+      letter-spacing: 0.25px;
     }
 
     &:hover {
-        .CTA-content-title {
-            display: none;
-        }
-        .CTA-content-arrow {
-            display: block;
-        }
+      animation-play-state: paused;
     }
+  }
+
+  &-content-arrow {
+    display: none;
+  }
+
+  &:hover {
+    .CTA-content-title {
+      display: none;
+    }
+    .CTA-content-arrow {
+      display: block;
+    }
+  }
+}
+
+// gsap定位
+.cta-button {
+  position: absolute;
+  bottom: 24px;
+  right: 5%;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
 }

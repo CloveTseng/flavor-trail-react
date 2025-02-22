@@ -3,6 +3,7 @@ import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import CircleCTAButton from '../components/CircleCTAButton';
 
 const Home = () => {
   useEffect(() => {
@@ -943,6 +944,9 @@ const Home = () => {
           </p>
         </div>
       </section>
+
+      {/* CTA */}
+      <CircleCTAButton title={'分享美味'} />
     </>
   );
 };
