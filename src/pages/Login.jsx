@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 
 const Login = () => {
+  //form
   const {
     register,
     handleSubmit,
@@ -9,6 +11,9 @@ const Login = () => {
   } = useForm({
     mode: 'onTouched',
   });
+
+  //eye
+  const [passwordHidden, setPasswordHidden] = useState(true);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -128,7 +133,7 @@ const Login = () => {
                     密碼<span className="text-danger ms-1">*</span>
                   </label>
                   <input
-                    type="password"
+                    type={passwordHidden ? 'password' : 'text'}
                     name="password"
                     className={`form-control p-5 border border-gray-400 bg-white rounded-3 ${
                       errors?.password ? 'is-invalid' : ''
@@ -140,7 +145,20 @@ const Login = () => {
                     })}
                   />
                   {!errors?.password && (
-                    <i className="bi bi-eye" id="checkEye"></i>
+                    <button
+                      type="button"
+                      id="checkEye"
+                      className="btn btn-sm p-0 border-0"
+                      onClick={() => {
+                        setPasswordHidden((pre) => !pre);
+                      }}
+                    >
+                      <i
+                        className={`bi ${
+                          passwordHidden ? 'bi-eye' : 'bi-eye-slash'
+                        }`}
+                      ></i>
+                    </button>
                   )}
                   {errors?.password && (
                     <div className="invalid-feedback">
