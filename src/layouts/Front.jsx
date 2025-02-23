@@ -1,10 +1,12 @@
 import { NavLink, Outlet } from "react-router";
 import Footer from "./Footer";
+import Header from "./Header";
 
 const Front = () => {
   return (
     <>
       {/* Navbar 可以放這裡 */}
+      <Header />
       <div className="d-flex">
         <NavLink className="btn btn-sm btn-outline-dark" to="/">
           首頁
