@@ -1,0 +1,2273 @@
+import { useEffect } from 'react';
+import Swiper from 'swiper';
+const PostPage = () => {
+  useEffect(() => {
+    const postSwiper = new Swiper('.postSwiper', {
+      spaceBetween: 24,
+      slidesPerView: 1,
+      pagination: {
+        el: '.swiper-pagination-post',
+        type: 'fraction',
+      },
+      1200: {
+        grid: {
+          rows: 1,
+        },
+        slidesPerView: 3,
+        spaceBetween: 24,
+      },
+    });
+  }, []);
+  return (
+    <>
+      <header>
+        <div className="container nav-mt">
+          <nav
+            className="pt-7 d-none d-lg-block"
+            style={{
+              '--bs-breadcrumb-divider':
+                'url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9%2018L15%2012L9%206%22%20stroke%3D%22%23484848%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E)',
+            }}
+            aria-label="breadcrumb"
+          >
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <a href="allPost.html" className="link-primary fw-bold">
+                  所有貼文
+                </a>
+              </li>
+              <li
+                className="breadcrumb-item active fw-bold text-gray-400 ps-5"
+                aria-current="page"
+              >
+                分享奢華午餐，尋找飢餓的你
+              </li>
+            </ol>
+          </nav>
+          {/* <!--照片區--> */}
+          <div className="row mt-3 mt-lg-7 mb-7">
+            <div className="col-lg-8">
+              <div className="post-img-sm d-block d-lg-none position-relative">
+                <div className="swiper-pagination-post position-absolute rounded-3 text-white fw-bold py-3 px-5 z-2"></div>
+                <div className="swiper postSwiper">
+                  <div className="swiper-wrapper">
+                    <div className="swiper-slide">
+                      <img
+                        className="rounded-3"
+                        src="../assets/images/allPost/postBanner1.jpg"
+                        alt="postBanner1"
+                      />
+                    </div>
+                    <div className="swiper-slide">
+                      <img
+                        className="rounded-3"
+                        src="../assets/images/allPost/postBanner2.jpg"
+                        alt="postBanner2"
+                      />
+                    </div>
+                    <div className="swiper-slide">
+                      <img
+                        className="rounded-3"
+                        src="../assets/images/allPost/postBanner3.jpg"
+                        alt="postBanner3"
+                      />
+                    </div>
+                    <div className="swiper-slide">
+                      <img
+                        className="rounded-3"
+                        src="../assets/images/allPost/postBanner4.jpg"
+                        alt="postBanner4"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="post-img-lg d-none d-lg-block w-100 h-100">
+                <img
+                  className="w-100 h-100 rounded-3 object-fit-cover"
+                  src="../assets/images/allPost/postBanner1.jpg"
+                  alt="postBanner1"
+                  style={{ maxHeight: '580px' }}
+                />
+              </div>
+            </div>
+            <div className="d-none d-lg-flex flex-column col-lg-4">
+              <div className="mb-7 w-100 h-100">
+                <img
+                  className="w-100 rounded-3 object-fit-cover"
+                  src="../assets/images/allPost/postBanner2.jpg"
+                  alt="postBanner2"
+                  style={{ minHeight: '278px' }}
+                />
+              </div>
+              <div className="w-100 h-100 position-relative">
+                <a
+                  href="#"
+                  className="more-card-text d-flex flex-column justify-content-center align-items-center position-absolute start-50 top-50 translate-middle z-1"
+                >
+                  <svg
+                    width="24"
+                    height="25"
+                    viewBox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11 13.5H5V11.5H11V5.5H13V11.5H19V13.5H13V19.5H11V13.5Z"
+                      fill="white"
+                    />
+                  </svg>
+                  <div className="fw-4 fw-bold text-white mt-2">查看更多</div>
+                </a>
+                <img
+                  className="w-100 rounded-3 object-fit-cover more-card"
+                  src="../assets/images/allPost/postBanner3.jpg"
+                  alt="postBanner3"
+                  style={{
+                    minHeight: '278px',
+                    filter: 'brightness(0.5)',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main className="post-page">
+        {/* <!--貼文區 ＆ 領取區--> */}
+        <section className="post-receiving-area container">
+          {/* <!--貼文領取區大row--> */}
+          <div className="row">
+            {/* <!--左邊貼文區--> */}
+            <div className="col-lg-8">
+              <div className="bg-white rounded-3 p-5 mb-5">
+                {/* <!--個人資訊區--> */}
+                <div className="row mx-0 py-5 border-bottom align-items-center">
+                  {/* <!--頭像及稱號--> */}
+                  <div className="col-lg-8 d-flex align-items-center justify-content-between p-0">
+                    <div className="d-flex me-5">
+                      <img
+                        src="../assets/images/allPost/Ellipse 1.png"
+                        alt="user-img"
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                      />
+                    </div>
+                    <div className="flex-grow-1">
+                      <div className="fs-4">法國地頭蛇</div>
+                      <div
+                        style={{
+                          fontSize: '14px',
+                        }}
+                      >
+                        台北市 / 信義區· 2hr
+                      </div>
+                    </div>
+                    <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
+                      <img src="../assets/images/icon/square-pen.svg" alt="" />
+                    </div>
+                  </div>
+                  {/* <!--後面三個標籤--> */}
+                  <div className="d-none col-lg-4 d-lg-flex justify-content-end px-0 gap-2">
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        最新
+                      </span>
+                    </h5>
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        熱門
+                      </span>
+                    </h5>
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        仍可領取
+                      </span>
+                    </h5>
+                  </div>
+                </div>
+                {/* <!--內文區--> */}
+                <div className="row mx-0 border-bottom">
+                  {/* <!--後面三個標籤--> */}
+                  <div className="d-lg-none col-lg-4 d-flex pt-7 px-0 gap-2">
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        最新
+                      </span>
+                    </h5>
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        熱門
+                      </span>
+                    </h5>
+                    <h5>
+                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                        仍可領取
+                      </span>
+                    </h5>
+                  </div>
+                  {/* <!--標題區--> */}
+                  <div className="d-flex justify-content-between align-items-center py-5 pt-lg-7 px-0">
+                    <h4 className="fs-3 fw-bold">奢華午餐，尋找飢餓的你！</h4>
+                  </div>
+                  {/* <!--內文區--> */}
+                  <div className="row">
+                    <ul className="list-unstyled px-0">
+                      <li>
+                        公司今天的會議取消了，現在有20個未開封的精緻便當在辦公室裡孤單寂寞。
+                      </li>
+                      <li>這些美味的午餐現在孤單地等待著我們的到來。</li>
+                      <br />
+                      <li>每個便當的內容:</li>
+                      <li>主菜: 日本和牛漢堡 (A5等級,油花滿滿)</li>
+                      <li>配菜:黑松露薯條 (香氣四溢,停不下來)</li>
+                      <li>沙拉: 迷你龍蝦沙拉(新鮮龍蝦搭配特製醬料)rr</li>
+                      <li>甜點: 開心果馬卡龍 (精緻可口,回甘無窮)</li>
+                      <li>飲料: 冷萃精品咖啡 (哥倫比亞單品豆,口感順滑)</li>
+                      <br />
+                      <li>* 領取方式:請到前台告知領取便當</li>
+                      <br />
+                      <li>
+                        小提醒：<span className="d-inline d-lg-none">...</span>
+                      </li>
+                      <ol className="list-group-numbered d-none d-lg-block">
+                        <li className="list-group-item">為地球盡一份心力</li>
+                        <li className="list-group-item">
+                          歡迎三五好友一起來,但請勿一人多拿,讓更多人有機會品嚐
+                        </li>
+                        <li className="list-group-item">
+                          如果你是素食者,我們還有5份素食便當喔
+                        </li>
+                      </ol>
+                      <br />
+                    </ul>
+                  </div>
+                  {/* <!--按讚統計區--> */}
+                  <div className="row w-auto d-inline justify-content-start pb-7">
+                    <div className="col d-inline ps-0">
+                      <svg
+                        className="me-2"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.37468 8.23224C1.31912 8.08256 1.31912 7.91792 1.37468 7.76824C1.91581 6.45614 2.83435 5.33427 4.01386 4.54484C5.19336 3.75541 6.58071 3.33398 8.00001 3.33398C9.41932 3.33398 10.8067 3.75541 11.9862 4.54484C13.1657 5.33427 14.0842 6.45614 14.6253 7.76824C14.6809 7.91792 14.6809 8.08256 14.6253 8.23224C14.0842 9.54434 13.1657 10.6662 11.9862 11.4556C10.8067 12.2451 9.41932 12.6665 8.00001 12.6665C6.58071 12.6665 5.19336 12.2451 4.01386 11.4556C2.83435 10.6662 1.91581 9.54434 1.37468 8.23224Z"
+                          stroke="black"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M8.00001 10.0002C9.10458 10.0002 10 9.10481 10 8.00024C10 6.89567 9.10458 6.00024 8.00001 6.00024C6.89544 6.00024 6.00001 6.89567 6.00001 8.00024C6.00001 9.10481 6.89544 10.0002 8.00001 10.0002Z"
+                          stroke="black"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>178</span>
+                    </div>
+                    <div className="col d-inline">
+                      <svg
+                        className="me-2"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M5.26634 13.3332C6.53873 13.9859 8.0024 14.1627 9.3936 13.8317C10.7848 13.5007 12.012 12.6838 12.8542 11.528C13.6963 10.3722 14.098 8.95367 13.9867 7.52798C13.8755 6.10228 13.2587 4.76318 12.2475 3.752C11.2364 2.74081 9.89727 2.12404 8.47157 2.01281C7.04587 1.90159 5.62732 2.30323 4.47155 3.14537C3.31579 3.9875 2.4988 5.21474 2.16782 6.60594C1.83684 7.99714 2.01364 9.46082 2.66634 10.7332L1.33301 14.6665L5.26634 13.3332Z"
+                          stroke="black"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>7</span>
+                    </div>
+                    <div className="col d-inline">
+                      <svg
+                        className="me-2"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_188_5647)">
+                          <path
+                            d="M4.66634 6.66683V14.6668M9.99967 3.92016L9.33301 6.66683H13.2197C13.4267 6.66683 13.6308 6.71502 13.816 6.80759C14.0011 6.90016 14.1621 7.03457 14.2863 7.20016C14.4105 7.36576 14.4945 7.55799 14.5315 7.76165C14.5685 7.9653 14.5576 8.17478 14.4997 8.3735L12.9463 13.7068C12.8656 13.9838 12.6971 14.2271 12.4663 14.4002C12.2355 14.5733 11.9548 14.6668 11.6663 14.6668H2.66634C2.31272 14.6668 1.97358 14.5264 1.72353 14.2763C1.47348 14.0263 1.33301 13.6871 1.33301 13.3335V8.00016C1.33301 7.64654 1.47348 7.3074 1.72353 7.05735C1.97358 6.80731 2.31272 6.66683 2.66634 6.66683H4.50634C4.7544 6.6667 4.9975 6.59737 5.20831 6.46664C5.41912 6.33592 5.58929 6.14897 5.69967 5.92683L7.99967 1.3335C8.31406 1.33739 8.6235 1.41228 8.90488 1.55256C9.18625 1.69284 9.43229 1.8949 9.62461 2.14363C9.81693 2.39236 9.95055 2.68134 10.0155 2.98896C10.0804 3.29659 10.075 3.61492 9.99967 3.92016Z"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_188_5647">
+                            <rect width="16" height="16" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span>13</span>
+                    </div>
+                  </div>
+                </div>
+                {/* <!--按鈕區--> */}
+                <div className="post-card-md-btn-list d-none d-md-block mt-5">
+                  <div className="row mx-0">
+                    <div className="col px-1">
+                      <button className="btn w-100">
+                        <span className="me-2">點讚</span>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                            stroke="#121212"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="col px-1">
+                      <button className="btn w-100">
+                        <span className="me-2">留言</span>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                            stroke="#121212"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="col ps-1 pe-0">
+                      <button className="btn w-100">
+                        <span className="me-2">追蹤貼文</span>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                            stroke="#121212"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="col px-1">
+                      <button className="btn w-100">
+                        <span className="me-2">編輯貼文</span>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.33366 14.6668H12.0003C12.3539 14.6668 12.6931 14.5264 12.9431 14.2763C13.1932 14.0263 13.3337 13.6871 13.3337 13.3335V4.66683L10.0003 1.3335H4.00033C3.6467 1.3335 3.30756 1.47397 3.05752 1.72402C2.80747 1.97407 2.66699 2.31321 2.66699 2.66683V9.00016M9.33366 1.3335V4.00016C9.33366 4.35378 9.47413 4.69292 9.72418 4.94297C9.97423 5.19302 10.3134 5.3335 10.667 5.3335H13.3337M8.91899 10.4175C9.05049 10.286 9.1548 10.1299 9.22596 9.95808C9.29713 9.78627 9.33376 9.60213 9.33376 9.41616C9.33376 9.2302 9.29713 9.04605 9.22596 8.87425C9.1548 8.70244 9.05049 8.54633 8.91899 8.41483C8.7875 8.28333 8.63139 8.17902 8.45958 8.10786C8.28777 8.03669 8.10362 8.00006 7.91766 8.00006C7.73169 8.00006 7.54755 8.03669 7.37574 8.10786C7.20393 8.17902 7.04782 8.28333 6.91632 8.41483L3.57633 11.7562C3.41782 11.9146 3.30181 12.1104 3.23899 12.3255L2.68099 14.2388C2.66426 14.2962 2.66326 14.357 2.67809 14.4149C2.69292 14.4728 2.72304 14.5256 2.76529 14.5679C2.80754 14.6101 2.86038 14.6402 2.91827 14.6551C2.97615 14.6699 3.03696 14.6689 3.09433 14.6522L5.00766 14.0942C5.22277 14.0313 5.41858 13.9153 5.57699 13.7568L8.91899 10.4175Z"
+                            stroke="#121212"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="post-card-sm-btn-list d-block d-md-none mt-5">
+                  <div className="row mx-0 mb-5">
+                    <div className="col-6">
+                      <div className="row flex-nowrap">
+                        <div className="col ps-0 pe-1">
+                          <button className="btn">
+                            <svg
+                              className="d-block"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                stroke="#121212"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div className="col px-1">
+                          <button className="btn">
+                            <svg
+                              className="d-block"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                stroke="#121212"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div className="col ps-1 pe-0">
+                          <button className="btn">
+                            <svg
+                              className="d-block"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                stroke="#121212"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <!--手機版領取區--> */}
+              <div className="d-lg-none">
+                <div className="bg-white rounded-3 p-5 mb-3">
+                  {/* <!--份數統計--> */}
+                  <div className="row gx-0 mb-7">
+                    <div className="col text-center border-end">
+                      <small>總共份量</small>
+                      <h3>25</h3>
+                    </div>
+                    <div className="col text-center border-end">
+                      <small>已領取</small>
+                      <h3>2</h3>
+                    </div>
+                    <div className="col text-center border-end">
+                      <small>預留</small>
+                      <h3>3</h3>
+                    </div>
+                    <div className="col text-center">
+                      <small>待領取</small>
+                      <h3>20</h3>
+                    </div>
+                  </div>
+                  {/* <!--領取按鈕--> */}
+                  <div className="row py-7 gx-0 d-lg-flex d-none">
+                    <button
+                      type="button"
+                      className="btn btn-dark d-flex align-items-center justify-content-center"
+                    >
+                      <span className="me-2">我要領取</span>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_1246_2155)">
+                          <path
+                            d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                            stroke="white"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_1246_2155">
+                            <rect width="16" height="16" fill="white"></rect>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                  </div>
+                  {/* <!--取餐細節--> */}
+                  <div className="py-7 border-top border-bottom border-gray-200 gx-0">
+                    <div className="row justify-content-between gx-0 mb-2">
+                      <div className="col">食物名稱</div>
+                      <div className="col text-end">高級便當們</div>
+                    </div>
+                    <div className="row justify-content-between gx-0 mb-2">
+                      <div className="col">取餐地點</div>
+                      <div className="col text-end">台北市 / 內湖區</div>
+                    </div>
+                    <div className="row justify-content-between gx-0 mb-2">
+                      <div className="col">取餐時間</div>
+                      <div className="col text-end">14:00 ~ 16:00</div>
+                    </div>
+                    <div className="row justify-content-between gx-0 mb-2">
+                      <div className="col">食品有效期限</div>
+                      <div className="col text-end">2024/10/21</div>
+                    </div>
+                  </div>
+                  {/* <!--標籤區--> */}
+                  <div className="row pt-7 pt-5">
+                    <div className="d-flex flex-wrap gap-4">
+                      <h6>
+                        <svg
+                          className="me-1"
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+
+                        <span className="fw-bold">素食</span>
+                      </h6>
+                      <h6>
+                        <svg
+                          className="me-1"
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+
+                        <span className="fw-bold">葷食</span>
+                      </h6>
+                      <h6>
+                        <svg
+                          className="me-1"
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+
+                        <span className="fw-bold">主食</span>
+                      </h6>
+                      <h6>
+                        <svg
+                          className="me-1"
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+
+                        <span className="fw-bold">冷藏</span>
+                      </h6>
+                      <h6>
+                        <svg
+                          className="me-1"
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            fill="black"
+                          />
+                          <path
+                            d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                            stroke="black"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span
+                          className="fw-bold"
+                          style={{
+                            width: 'auto',
+                          }}
+                        >
+                          未過保鮮期
+                        </span>
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <!--留言區--> */}
+              <div className="bg-white rounded-3 p-5 mt-5 mb-14">
+                {/* <!--下拉式選單--> */}
+                <div>
+                  <select
+                    className="form-select py-2 px-5"
+                    aria-label="Default select example"
+                    defaultValue={'全部留言'}
+                    style={{
+                      width: '160px',
+                      height: '40px',
+                    }}
+                  >
+                    <option value={'全部留言'}>全部留言</option>
+                    <option value={'最新排序'}>最新排序</option>
+                  </select>
+                </div>
+                {/* <!--留言區1--> */}
+                <div className="message-area py-7 border-bottom border-gray-200">
+                  {/* <!--頭像 & 暱稱 & 樓層、時間--> */}
+                  <div className="d-flex align-items-center justify-content-between">
+                    {/* <!--頭像--> */}
+                    <div className="d-flex align-items-center justify-content-between mb-5">
+                      <img
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                        src="../assets/images/allPost/Ellipse 1.png"
+                        alt="user-img"
+                      />
+                      {/* <!--暱稱、樓層時間--> */}
+                      <div className="ms-5">
+                        <div className="fs-5 fw-bold">愛吃寶貝</div>
+                        <small className="text-gray-700">
+                          B1・今天下午 12:00
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-5">想吃～但是太遠了QQ</div>
+                  <a href="#" className="link-success fw-bold">
+                    回覆
+                  </a>
+                </div>
+                {/* <!--留言區2--> */}
+                <div className="message-area py-7 border-bottom border-gray-200">
+                  {/* <!--頭像 & 暱稱 & 樓層、時間--> */}
+                  <div className="d-flex align-items-center justify-content-between">
+                    {/* <!--頭像--> */}
+                    <div className="d-flex align-items-center justify-content-between mb-5">
+                      <img
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                        src="../assets/images/allPost/Ellipse 5.png"
+                        alt="user-img"
+                      />
+                      {/* <!--暱稱、樓層時間--> */}
+                      <div className="ms-5">
+                        <div className="fs-5 fw-bold">LEO</div>
+                        <small className="text-gray-700">
+                          B2・今天下午 12:30
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-5">
+                    看起來超誘人,期待有幸領取到~感恩分享!~
+                  </div>
+                  <a href="#" className="link-success fw-bold">
+                    回覆
+                  </a>
+                </div>
+                {/* <!--留言區3--> */}
+                <div className="message-area py-7 border-bottom border-gray-200">
+                  {/* <!--頭像 & 暱稱 & 樓層、時間--> */}
+                  <div className="d-flex align-items-center justify-content-between">
+                    {/* <!--頭像--> */}
+                    <div className="d-flex align-items-center justify-content-between mb-5">
+                      <img
+                        className="rounded-circle"
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                        src="../assets/images/allPost/Ellipse 9.png"
+                        alt="user-img"
+                      />
+                      {/* <!--暱稱、樓層時間--> */}
+                      <div className="ms-5">
+                        <div className="fs-5 fw-bold">Alice</div>
+                        <small className="text-gray-700">
+                          B3・今天下午 1:30
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-5">
+                    已申請領取希望可以通過！謝謝樓主的暖心舉動！
+                  </div>
+                  <a href="#" className="link-success fw-bold">
+                    回覆
+                  </a>
+                </div>
+                {/* <!--留言區4--> */}
+                <div className="message-area py-7 border-bottom border-gray-200">
+                  {/* <!--頭像 & 暱稱 & 樓層、時間--> */}
+                  <div className="d-flex align-items-center justify-content-between">
+                    {/* <!--頭像--> */}
+                    <div className="d-flex align-items-center justify-content-between mb-5">
+                      <img
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                        src="../assets/images/allPost/Ellipse 7.png"
+                        alt="user-img"
+                      />
+                      {/* <!--暱稱、樓層時間--> */}
+                      <div className="ms-5">
+                        <div className="fs-5 fw-bold">煞氣 乂 Kelly</div>
+                        <small className="text-gray-700">
+                          B4・今天下午 2:30
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-5">
+                    啊啊啊啊啊 剛好今天開會不及買午餐，這家便當超好吃的
+                  </div>
+                  <a href="#" className="link-success fw-bold">
+                    回覆
+                  </a>
+                </div>
+                {/* <!--留言區5--> */}
+                <div className="message-area py-7 border-bottom border-gray-200">
+                  {/* <!--頭像 & 暱稱 & 樓層、時間--> */}
+                  <div className="d-flex align-items-center justify-content-between">
+                    {/* <!--頭像--> */}
+                    <div className="d-flex align-items-center justify-content-between mb-5">
+                      <img
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                        }}
+                        src="../assets/images/allPost/Ellipse 8.png"
+                        alt="user-img"
+                      />
+                      {/* <!--暱稱、樓層時間--> */}
+                      <div className="ms-5">
+                        <div className="fs-5 fw-bold">Ariel</div>
+                        <small className="text-gray-700">
+                          B5・今天下午 3:30
+                        </small>
+                      </div>
+                    </div>
+                    <div className="bg-dark text-white rounded-3 py-1 px-2">
+                      領取人評價
+                    </div>
+                  </div>
+                  <div className="mb-5">
+                    感謝分享，超好吃的！今天的午後因為你的分享變得更美好了~
+                  </div>
+                  <a href="#" className="link-success fw-bold">
+                    回覆
+                  </a>
+                </div>
+                {/* <!--留言輸入框--> */}
+                <div className="input-group mt-7">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="寫下你的留言"
+                    aria-label="寫下你的留言"
+                    aria-describedby="button-addon2"
+                  />
+                  <span
+                    className="input-group-text"
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_188_5759)">
+                        <path
+                          d="M7.27526 8.72361C7.14785 8.59643 6.996 8.49636 6.82888 8.42945L1.54221 6.30945C1.47909 6.28412 1.42523 6.24009 1.38785 6.18327C1.35047 6.12645 1.33138 6.05955 1.33312 5.99156C1.33486 5.92357 1.35736 5.85774 1.39759 5.8029C1.43783 5.74806 1.49388 5.70685 1.55821 5.68479L14.2249 1.35145C14.2839 1.33012 14.3479 1.32604 14.4092 1.33971C14.4705 1.35338 14.5266 1.38423 14.571 1.42864C14.6154 1.47305 14.6463 1.52919 14.66 1.59049C14.6736 1.65179 14.6695 1.71571 14.6482 1.77479L10.3149 14.4415C10.2928 14.5058 10.2516 14.5618 10.1968 14.6021C10.1419 14.6423 10.0761 14.6648 10.0081 14.6665C9.94011 14.6683 9.87322 14.6492 9.81639 14.6118C9.75957 14.5744 9.71554 14.5206 9.69021 14.4575L7.57021 9.16945C7.503 9.00245 7.40266 8.85079 7.27526 8.72361ZM7.27526 8.72361L14.5689 1.43145"
+                          stroke="#484848"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_188_5759">
+                          <rect width="16" height="16" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              {/* <!--其他可領取區--> */}
+              <div className="mt-5">
+                <h3 className="mb-7 fs-1 fw-bolder">其他可領取</h3>
+                {/* <!--其他可領取區1--> */}
+                <div className="bg-white rounded-3 p-5 mb-5">
+                  <a href="#" className="card border-0 bg-white">
+                    <div className="row flex-column flex-lg-row-reverse">
+                      <div className="col-xxl-5 tect-align-center">
+                        <img
+                          src="../assets/images/post-2.jpg"
+                          className="img-fluid rounded-3 object-fit-cover h-100 w-100"
+                          alt="post-2"
+                          style={{
+                            minHeight: '319px',
+                          }}
+                        />
+                      </div>
+                      <div className="col-xxl-7">
+                        <div className="pt-7">
+                          <div className="d-flex flex-column flex-lg-row justify-content-between">
+                            {/* <!--頭像 & 暱稱 & 樓層時間--> */}
+                            <div className="d-flex align-items-center">
+                              {/* <!--頭像--> */}
+                              <div className="pe-5 mb-1">
+                                <img
+                                  src="../assets/images/allPost/Ellipse 2.png"
+                                  alt="user-img"
+                                  style={{
+                                    width: '48px',
+                                    height: '48px',
+                                  }}
+                                />
+                              </div>
+                              {/* <!--暱稱、樓層時間--> */}
+                              <div className="my-5">
+                                <div className="fs-5 fw-bold">伯朗大道</div>
+                                <div
+                                  style={{
+                                    fontSize: '14px',
+                                  }}
+                                >
+                                  台北市 / 信義區· 2hr
+                                </div>
+                              </div>
+                            </div>
+                            <hr className="m-0 opacity-100 text-gray-200" />
+                            {/* <!--mobile標籤區--> */}
+                            <div className="d-flex d-xl-none align-items-center pt-7 mb-5 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  預留中
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                            {/* <!--pc標籤區--> */}
+                            <div className="d-none d-xl-flex align-items-center justify-content-end px-0 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  預留中
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                          </div>
+                          {/* <!--內文--> */}
+                          <hr className="m-0 opacity-100 text-gray-200 d-none d-lg-block" />
+                          <div className="row my-3">
+                            <h4>知名咖啡買一送一，有沒有人要幫忙喝</h4>
+                            <p
+                              style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                              className="py-3"
+                            >
+                              我已經喝了一杯，再來一杯恐怕是要整晚失眠。有沒有在附近正好需要提神的朋友。
+                            </p>
+                          </div>
+                          {/* <!--觀看數、留言數、按讚數--> */}
+                          <div className="row my-3 px-3">
+                            <h6 className="row w-auto d-inline justify-content-start pb-3">
+                              <div className="col d-inline ps-0">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M1.37468 8.23224C1.31912 8.08256 1.31912 7.91792 1.37468 7.76824C1.91581 6.45614 2.83435 5.33427 4.01386 4.54484C5.19336 3.75541 6.58071 3.33398 8.00001 3.33398C9.41932 3.33398 10.8067 3.75541 11.9862 4.54484C13.1657 5.33427 14.0842 6.45614 14.6253 7.76824C14.6809 7.91792 14.6809 8.08256 14.6253 8.23224C14.0842 9.54434 13.1657 10.6662 11.9862 11.4556C10.8067 12.2451 9.41932 12.6665 8.00001 12.6665C6.58071 12.6665 5.19336 12.2451 4.01386 11.4556C2.83435 10.6662 1.91581 9.54434 1.37468 8.23224Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                  <path
+                                    d="M8.00001 10.0002C9.10458 10.0002 10 9.10481 10 8.00024C10 6.89567 9.10458 6.00024 8.00001 6.00024C6.89544 6.00024 6.00001 6.89567 6.00001 8.00024C6.00001 9.10481 6.89544 10.0002 8.00001 10.0002Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>209</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5.26634 13.3332C6.53873 13.9859 8.0024 14.1627 9.3936 13.8317C10.7848 13.5007 12.012 12.6838 12.8542 11.528C13.6963 10.3722 14.098 8.95367 13.9867 7.52798C13.8755 6.10228 13.2587 4.76318 12.2475 3.752C11.2364 2.74081 9.89727 2.12404 8.47157 2.01281C7.04587 1.90159 5.62732 2.30323 4.47155 3.14537C3.31579 3.9875 2.4988 5.21474 2.16782 6.60594C1.83684 7.99714 2.01364 9.46082 2.66634 10.7332L1.33301 14.6665L5.26634 13.3332Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>13</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_188_5647)">
+                                    <path
+                                      d="M4.66634 6.66683V14.6668M9.99967 3.92016L9.33301 6.66683H13.2197C13.4267 6.66683 13.6308 6.71502 13.816 6.80759C14.0011 6.90016 14.1621 7.03457 14.2863 7.20016C14.4105 7.36576 14.4945 7.55799 14.5315 7.76165C14.5685 7.9653 14.5576 8.17478 14.4997 8.3735L12.9463 13.7068C12.8656 13.9838 12.6971 14.2271 12.4663 14.4002C12.2355 14.5733 11.9548 14.6668 11.6663 14.6668H2.66634C2.31272 14.6668 1.97358 14.5264 1.72353 14.2763C1.47348 14.0263 1.33301 13.6871 1.33301 13.3335V8.00016C1.33301 7.64654 1.47348 7.3074 1.72353 7.05735C1.97358 6.80731 2.31272 6.66683 2.66634 6.66683H4.50634C4.7544 6.6667 4.9975 6.59737 5.20831 6.46664C5.41912 6.33592 5.58929 6.14897 5.69967 5.92683L7.99967 1.3335C8.31406 1.33739 8.6235 1.41228 8.90488 1.55256C9.18625 1.69284 9.43229 1.8949 9.62461 2.14363C9.81693 2.39236 9.95055 2.68134 10.0155 2.98896C10.0804 3.29659 10.075 3.61492 9.99967 3.92016Z"
+                                      stroke="black"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_188_5647">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                                <span>45</span>
+                              </div>
+                            </h6>
+                          </div>
+                          <hr className="m-0 opacity-100 text-gray-200" />
+                          {/* <!--按鈕區--> */}
+                          <div className="post-card-md-btn-list d-none d-md-block mt-5">
+                            <div className="row mx-0">
+                              <div className="col px-1">
+                                <button
+                                  type="button"
+                                  className="btn btn-dark w-100 p-4 d-flex align-items-center justify-content-center"
+                                >
+                                  <small className="me-1">我要領取</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g clipPath="url(#clip0_1246_2155)">
+                                      <path
+                                        d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_1246_2155">
+                                        <rect
+                                          width="16"
+                                          height="16"
+                                          fill="white"
+                                        ></rect>
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">點讚</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">留言</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col ps-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">追蹤貼文</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="post-card-sm-btn-list d-block d-md-none mt-5">
+                            <div className="row mx-0 mb-5">
+                              <div className="col-6">
+                                <div className="row flex-nowrap">
+                                  <div className="col ps-0 pe-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col px-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col ps-1 pe-0">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row my-4 gx-0 d-lg-none d-flex">
+                              <button type="button" className="btn btn-dark">
+                                <span className="me-2">我要領取</span>
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_1246_2155)">
+                                    <path
+                                      d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                      stroke="white"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_1246_2155">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                {/* <!--其他可領取區2--> */}
+                <div className="bg-white rounded-3 p-5 mb-5">
+                  <a href="#" className="card border-0 bg-white">
+                    <div className="row flex-column flex-lg-row-reverse">
+                      <div className="col-xxl-5 tect-align-center">
+                        <img
+                          src="../assets/images/post-3.jpg"
+                          className="img-fluid rounded-3 object-fit-cover h-100 w-100"
+                          alt="post-3"
+                          style={{
+                            minHeight: '319px',
+                          }}
+                        />
+                      </div>
+                      <div className="col-xxl-7">
+                        <div className="pt-7">
+                          <div className="d-flex flex-column flex-lg-row justify-content-between">
+                            {/* <!--頭像 & 暱稱 & 樓層時間--> */}
+                            <div className="d-flex align-items-center">
+                              {/* <!--頭像--> */}
+                              <div className="pe-5 mb-1">
+                                <img
+                                  src="../assets/images/allPost/Ellipse 3.png"
+                                  alt="user-img"
+                                  style={{
+                                    width: '48px',
+                                    height: '48px',
+                                  }}
+                                />
+                              </div>
+                              {/* <!--暱稱、樓層時間--> */}
+                              <div className="my-5">
+                                <div className="fs-5 fw-bold">台北蒸煮丹</div>
+                                <div
+                                  style={{
+                                    fontSize: '14px',
+                                  }}
+                                >
+                                  台北市 / 信義區· 2hr
+                                </div>
+                              </div>
+                            </div>
+                            <hr className="m-0 opacity-100 text-gray-200" />
+                            {/* <!--mobile標籤區--> */}
+                            <div className="d-flex d-xl-none align-items-center pt-7 mb-5 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                            {/* <!--pc標籤區--> */}
+                            <div className="d-none d-xl-flex align-items-center justify-content-end px-0 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                          </div>
+                          {/* <!--內文--> */}
+                          <hr className="m-0 opacity-100 text-gray-200 d-none d-lg-block" />
+                          <div className="row my-3">
+                            <h4>好吃到不行的披薩在這裡等你來領</h4>
+                            <p
+                              style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                              className="py-3"
+                            >
+                              突然好想吃披薩買了一盒，結果自己吃不完～～有人要幫忙吃嗎?...
+                            </p>
+                          </div>
+                          {/* <!--觀看數、留言數、按讚數--> */}
+                          <div className="row my-3 px-3">
+                            <h6 className="row w-auto d-inline justify-content-start pb-3">
+                              <div className="col d-inline ps-0">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M1.37468 8.23224C1.31912 8.08256 1.31912 7.91792 1.37468 7.76824C1.91581 6.45614 2.83435 5.33427 4.01386 4.54484C5.19336 3.75541 6.58071 3.33398 8.00001 3.33398C9.41932 3.33398 10.8067 3.75541 11.9862 4.54484C13.1657 5.33427 14.0842 6.45614 14.6253 7.76824C14.6809 7.91792 14.6809 8.08256 14.6253 8.23224C14.0842 9.54434 13.1657 10.6662 11.9862 11.4556C10.8067 12.2451 9.41932 12.6665 8.00001 12.6665C6.58071 12.6665 5.19336 12.2451 4.01386 11.4556C2.83435 10.6662 1.91581 9.54434 1.37468 8.23224Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                  <path
+                                    d="M8.00001 10.0002C9.10458 10.0002 10 9.10481 10 8.00024C10 6.89567 9.10458 6.00024 8.00001 6.00024C6.89544 6.00024 6.00001 6.89567 6.00001 8.00024C6.00001 9.10481 6.89544 10.0002 8.00001 10.0002Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>99</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5.26634 13.3332C6.53873 13.9859 8.0024 14.1627 9.3936 13.8317C10.7848 13.5007 12.012 12.6838 12.8542 11.528C13.6963 10.3722 14.098 8.95367 13.9867 7.52798C13.8755 6.10228 13.2587 4.76318 12.2475 3.752C11.2364 2.74081 9.89727 2.12404 8.47157 2.01281C7.04587 1.90159 5.62732 2.30323 4.47155 3.14537C3.31579 3.9875 2.4988 5.21474 2.16782 6.60594C1.83684 7.99714 2.01364 9.46082 2.66634 10.7332L1.33301 14.6665L5.26634 13.3332Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>2</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_188_5647)">
+                                    <path
+                                      d="M4.66634 6.66683V14.6668M9.99967 3.92016L9.33301 6.66683H13.2197C13.4267 6.66683 13.6308 6.71502 13.816 6.80759C14.0011 6.90016 14.1621 7.03457 14.2863 7.20016C14.4105 7.36576 14.4945 7.55799 14.5315 7.76165C14.5685 7.9653 14.5576 8.17478 14.4997 8.3735L12.9463 13.7068C12.8656 13.9838 12.6971 14.2271 12.4663 14.4002C12.2355 14.5733 11.9548 14.6668 11.6663 14.6668H2.66634C2.31272 14.6668 1.97358 14.5264 1.72353 14.2763C1.47348 14.0263 1.33301 13.6871 1.33301 13.3335V8.00016C1.33301 7.64654 1.47348 7.3074 1.72353 7.05735C1.97358 6.80731 2.31272 6.66683 2.66634 6.66683H4.50634C4.7544 6.6667 4.9975 6.59737 5.20831 6.46664C5.41912 6.33592 5.58929 6.14897 5.69967 5.92683L7.99967 1.3335C8.31406 1.33739 8.6235 1.41228 8.90488 1.55256C9.18625 1.69284 9.43229 1.8949 9.62461 2.14363C9.81693 2.39236 9.95055 2.68134 10.0155 2.98896C10.0804 3.29659 10.075 3.61492 9.99967 3.92016Z"
+                                      stroke="black"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_188_5647">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                                <span>30</span>
+                              </div>
+                            </h6>
+                          </div>
+                          <hr className="m-0 opacity-100 text-gray-200" />
+                          {/* <!--按鈕區--> */}
+                          <div className="post-card-md-btn-list d-none d-md-block mt-5">
+                            <div className="row mx-0">
+                              <div className="col px-1">
+                                <button
+                                  type="button"
+                                  className="btn btn-dark w-100 p-4 d-flex align-items-center justify-content-center"
+                                >
+                                  <small className="me-1">我要領取</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g clipPath="url(#clip0_1246_2155)">
+                                      <path
+                                        d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_1246_2155">
+                                        <rect
+                                          width="16"
+                                          height="16"
+                                          fill="white"
+                                        ></rect>
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">點讚</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">留言</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col ps-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">追蹤貼文</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="post-card-sm-btn-list d-block d-md-none mt-5">
+                            <div className="row mx-0 mb-5">
+                              <div className="col-6">
+                                <div className="row flex-nowrap">
+                                  <div className="col ps-0 pe-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col px-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col ps-1 pe-0">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row my-4 gx-0 d-lg-none d-flex">
+                              <button type="button" className="btn btn-dark">
+                                <span className="me-2">我要領取</span>
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_1246_2155)">
+                                    <path
+                                      d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                      stroke="white"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_1246_2155">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                {/* <!--其他可領取區3--> */}
+                <div className="bg-white rounded-3 p-5 mb-19">
+                  <a href="#" className="card border-0 bg-white">
+                    <div className="row flex-column flex-lg-row-reverse">
+                      <div className="col-xxl-5 tect-align-center">
+                        <img
+                          src="../assets/images/allPost/post-4.jpg"
+                          className="img-fluid rounded-3 object-fit-cover h-100 w-100"
+                          alt="post-4"
+                          style={{
+                            minHeight: '319px',
+                          }}
+                        />
+                      </div>
+                      <div className="col-xxl-7">
+                        <div className="pt-7">
+                          <div className="d-flex flex-column flex-lg-row justify-content-between">
+                            {/* <!--頭像 & 暱稱 & 樓層時間--> */}
+                            <div className="d-flex align-items-center">
+                              {/* <!--頭像--> */}
+                              <div className="pe-5 mb-1">
+                                <img
+                                  src="../assets/images/allPost/Ellipse 4.png"
+                                  alt="user-img"
+                                  style={{
+                                    width: '48px',
+                                    height: '48px',
+                                  }}
+                                />
+                              </div>
+                              {/* <!--暱稱、樓層時間--> */}
+                              <div className="my-5">
+                                <div className="fs-5 fw-bold">台中小鋼炮</div>
+                                <div style={{ fontSize: '14px' }}>
+                                  台中市 / 中西區· 2hr
+                                </div>
+                              </div>
+                            </div>
+                            <hr className="m-0 opacity-100 text-gray-200" />
+                            {/* <!--mobile標籤區--> */}
+                            <div className="d-flex d-xl-none align-items-center pt-7 mb-5 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                            {/* <!--pc標籤區--> */}
+                            <div className="d-none d-xl-flex align-items-center justify-content-end px-0 gap-2">
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  熱門
+                                </span>
+                              </h5>
+                              <h5>
+                                <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                                  仍可領取
+                                </span>
+                              </h5>
+                            </div>
+                          </div>
+                          {/* <!--內文--> */}
+                          <hr className="m-0 opacity-100 text-gray-200 d-none d-lg-block" />
+                          <div className="row my-3">
+                            <h4>氣氣7777777便當沒發完不能下班</h4>
+                            <p
+                              style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                              className="py-3"
+                            >
+                              我要發完便當才能下班＠＠快來當好心人幫忙吃便當。地點在台中科技大學的資訊...
+                            </p>
+                          </div>
+                          {/* <!--觀看數、留言數、按讚數--> */}
+                          <div className="row my-3 px-3">
+                            <h6 className="row w-auto d-inline justify-content-start pb-3">
+                              <div className="col d-inline ps-0">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M1.37468 8.23224C1.31912 8.08256 1.31912 7.91792 1.37468 7.76824C1.91581 6.45614 2.83435 5.33427 4.01386 4.54484C5.19336 3.75541 6.58071 3.33398 8.00001 3.33398C9.41932 3.33398 10.8067 3.75541 11.9862 4.54484C13.1657 5.33427 14.0842 6.45614 14.6253 7.76824C14.6809 7.91792 14.6809 8.08256 14.6253 8.23224C14.0842 9.54434 13.1657 10.6662 11.9862 11.4556C10.8067 12.2451 9.41932 12.6665 8.00001 12.6665C6.58071 12.6665 5.19336 12.2451 4.01386 11.4556C2.83435 10.6662 1.91581 9.54434 1.37468 8.23224Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                  <path
+                                    d="M8.00001 10.0002C9.10458 10.0002 10 9.10481 10 8.00024C10 6.89567 9.10458 6.00024 8.00001 6.00024C6.89544 6.00024 6.00001 6.89567 6.00001 8.00024C6.00001 9.10481 6.89544 10.0002 8.00001 10.0002Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>189</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5.26634 13.3332C6.53873 13.9859 8.0024 14.1627 9.3936 13.8317C10.7848 13.5007 12.012 12.6838 12.8542 11.528C13.6963 10.3722 14.098 8.95367 13.9867 7.52798C13.8755 6.10228 13.2587 4.76318 12.2475 3.752C11.2364 2.74081 9.89727 2.12404 8.47157 2.01281C7.04587 1.90159 5.62732 2.30323 4.47155 3.14537C3.31579 3.9875 2.4988 5.21474 2.16782 6.60594C1.83684 7.99714 2.01364 9.46082 2.66634 10.7332L1.33301 14.6665L5.26634 13.3332Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  ></path>
+                                </svg>
+                                <span>7</span>
+                              </div>
+                              <div className="col d-inline">
+                                <svg
+                                  className="me-2"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_188_5647)">
+                                    <path
+                                      d="M4.66634 6.66683V14.6668M9.99967 3.92016L9.33301 6.66683H13.2197C13.4267 6.66683 13.6308 6.71502 13.816 6.80759C14.0011 6.90016 14.1621 7.03457 14.2863 7.20016C14.4105 7.36576 14.4945 7.55799 14.5315 7.76165C14.5685 7.9653 14.5576 8.17478 14.4997 8.3735L12.9463 13.7068C12.8656 13.9838 12.6971 14.2271 12.4663 14.4002C12.2355 14.5733 11.9548 14.6668 11.6663 14.6668H2.66634C2.31272 14.6668 1.97358 14.5264 1.72353 14.2763C1.47348 14.0263 1.33301 13.6871 1.33301 13.3335V8.00016C1.33301 7.64654 1.47348 7.3074 1.72353 7.05735C1.97358 6.80731 2.31272 6.66683 2.66634 6.66683H4.50634C4.7544 6.6667 4.9975 6.59737 5.20831 6.46664C5.41912 6.33592 5.58929 6.14897 5.69967 5.92683L7.99967 1.3335C8.31406 1.33739 8.6235 1.41228 8.90488 1.55256C9.18625 1.69284 9.43229 1.8949 9.62461 2.14363C9.81693 2.39236 9.95055 2.68134 10.0155 2.98896C10.0804 3.29659 10.075 3.61492 9.99967 3.92016Z"
+                                      stroke="black"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_188_5647">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                                <span>38</span>
+                              </div>
+                            </h6>
+                          </div>
+                          <hr className="m-0 opacity-100 text-gray-200" />
+                          {/* <!--按鈕區--> */}
+                          <div className="post-card-md-btn-list d-none d-md-block mt-5">
+                            <div className="row mx-0">
+                              <div className="col px-1">
+                                <button
+                                  type="button"
+                                  className="btn btn-dark w-100 p-4 d-flex align-items-center justify-content-center"
+                                >
+                                  <small className="me-1">我要領取</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g clipPath="url(#clip0_1246_2155)">
+                                      <path
+                                        d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                    </g>
+                                    <defs>
+                                      <clipPath id="clip0_1246_2155">
+                                        <rect
+                                          width="16"
+                                          height="16"
+                                          fill="white"
+                                        ></rect>
+                                      </clipPath>
+                                    </defs>
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">點讚</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col px-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">留言</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="col ps-1">
+                                <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                                  <small className="me-1">追蹤貼文</small>
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                      stroke="#121212"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="post-card-sm-btn-list d-block d-md-none mt-5">
+                            <div className="row mx-0 mb-5">
+                              <div className="col-6">
+                                <div className="row flex-nowrap">
+                                  <div className="col ps-0 pe-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7 10V22M15 5.88L14 10H19.83C20.1405 10 20.4467 10.0723 20.7244 10.2111C21.0021 10.35 21.2437 10.5516 21.43 10.8C21.6163 11.0484 21.7422 11.3367 21.7977 11.6422C21.8533 11.9477 21.8369 12.2619 21.75 12.56L19.42 20.56C19.2988 20.9754 19.0462 21.3404 18.7 21.6C18.3538 21.8596 17.9327 22 17.5 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V12C2 11.4696 2.21071 10.9609 2.58579 10.5858C2.96086 10.2107 3.46957 10 4 10H6.76C7.13208 9.9998 7.49674 9.89581 7.81296 9.69972C8.12917 9.50363 8.38442 9.22321 8.55 8.89L12 2C12.4716 2.00584 12.9357 2.11817 13.3578 2.3286C13.7799 2.53902 14.1489 2.84211 14.4374 3.2152C14.7259 3.5883 14.9263 4.02176 15.0237 4.4832C15.1212 4.94464 15.113 5.42213 15 5.88Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col px-1">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M7.9 20C9.80858 20.9791 12.0041 21.2443 14.0909 20.7478C16.1777 20.2514 18.0186 19.0259 19.2818 17.2922C20.545 15.5586 21.1474 13.4308 20.9806 11.2922C20.8137 9.15366 19.8886 7.14502 18.3718 5.62824C16.855 4.11146 14.8464 3.1863 12.7078 3.01946C10.5693 2.85263 8.44147 3.45509 6.70782 4.71829C4.97417 5.98149 3.74869 7.82236 3.25222 9.90916C2.75575 11.996 3.02094 14.1915 4 16.1L2 22L7.9 20Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                  <div className="col ps-1 pe-0">
+                                    <button className="btn">
+                                      <svg
+                                        className="d-block"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M10.3 21C10.4674 21.3044 10.7134 21.5583 11.0125 21.7352C11.3115 21.912 11.6526 22.0053 12 22.0053C12.3474 22.0053 12.6885 21.912 12.9875 21.7352C13.2866 21.5583 13.5326 21.3044 13.7 21M6 8C6 6.4087 6.63214 4.88258 7.75736 3.75736C8.88258 2.63214 10.4087 2 12 2C13.5913 2 15.1174 2.63214 16.2426 3.75736C17.3679 4.88258 18 6.4087 18 8C18 15 21 17 21 17H3C3 17 6 15 6 8Z"
+                                          stroke="#121212"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row my-4 gx-0 d-lg-none d-flex">
+                              <button type="button" className="btn btn-dark">
+                                <span className="me-2">我要領取</span>
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_1246_2155)">
+                                    <path
+                                      d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                                      stroke="white"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    ></path>
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_1246_2155">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      ></rect>
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                {/* <!-- <button className="btn btn-dark floating-btn d-lg-none" style="width: 90%">
+              <span className="me-2">我要領取</span><img src="/assets/images/icon/hand.svg" alt="" />
+            </button> --> */}
+              </div>
+            </div>
+            {/* <!--右邊領取區--> */}
+            <div className="col-lg-4 d-none d-lg-block">
+              <div className="bg-white rounded-3 p-5 mb-3 sticky-top">
+                {/* <!--份數統計--> */}
+                <div className="row gx-0">
+                  <div className="col text-center border-end">
+                    <small>總共份量</small>
+                    <h3>25</h3>
+                  </div>
+                  <div className="col text-center border-end">
+                    <small>已領取</small>
+                    <h3>2</h3>
+                  </div>
+                  <div className="col text-center border-end">
+                    <small>預留</small>
+                    <h3>3</h3>
+                  </div>
+                  <div className="col text-center">
+                    <small>待領取</small>
+                    <h3>20</h3>
+                  </div>
+                </div>
+                {/* <!--領取按鈕--> */}
+                <div className="row py-7 gx-0 d-lg-flex d-none">
+                  <button
+                    type="button"
+                    className="btn btn-dark d-flex align-items-center justify-content-center"
+                  >
+                    <span className="me-2">我要領取</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_1246_2155)">
+                        <path
+                          d="M11.9997 7.3335V4.00016C11.9997 3.64654 11.8593 3.3074 11.6092 3.05735C11.3592 2.80731 11.02 2.66683 10.6664 2.66683C10.3128 2.66683 9.97365 2.80731 9.7236 3.05735C9.47355 3.3074 9.33308 3.64654 9.33308 4.00016M9.33308 6.66683V2.66683C9.33308 2.31321 9.1926 1.97407 8.94255 1.72402C8.6925 1.47397 8.35337 1.3335 7.99974 1.3335C7.64612 1.3335 7.30698 1.47397 7.05693 1.72402C6.80689 1.97407 6.66641 2.31321 6.66641 2.66683V4.00016M6.66641 4.00016V7.00016M6.66641 4.00016C6.66641 3.64654 6.52593 3.3074 6.27589 3.05735C6.02584 2.80731 5.6867 2.66683 5.33308 2.66683C4.97945 2.66683 4.64032 2.80731 4.39027 3.05735C4.14022 3.3074 3.99974 3.64654 3.99974 4.00016V9.3335M11.9997 5.3335C11.9997 4.97987 12.1402 4.64074 12.3903 4.39069C12.6403 4.14064 12.9795 4.00016 13.3331 4.00016C13.6867 4.00016 14.0258 4.14064 14.2759 4.39069C14.5259 4.64074 14.6664 4.97987 14.6664 5.3335V9.3335C14.6664 10.748 14.1045 12.1045 13.1043 13.1047C12.1041 14.1049 10.7476 14.6668 9.33308 14.6668H7.99974C6.13308 14.6668 4.99974 14.0935 4.00641 13.1068L1.60641 10.7068C1.37703 10.4528 1.25413 10.1203 1.26316 9.77812C1.27218 9.43597 1.41244 9.1104 1.65489 8.8688C1.89734 8.62721 2.22341 8.48811 2.56559 8.48029C2.90777 8.47248 3.23985 8.59656 3.49308 8.82683L4.66641 10.0002"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1246_2155">
+                          <rect width="16" height="16" fill="white"></rect>
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </button>
+                </div>
+                {/* <!--取餐細節--> */}
+                <div className="py-7 border-top border-bottom border-gray-200 gx-0">
+                  <div className="row justify-content-between gx-0 mb-2">
+                    <div className="col">食物名稱</div>
+                    <div className="col text-end">高級便當們</div>
+                  </div>
+                  <div className="row justify-content-between gx-0 mb-2">
+                    <div className="col">取餐地點</div>
+                    <div className="col text-end">台北市 / 內湖區</div>
+                  </div>
+                  <div className="row justify-content-between gx-0 mb-2">
+                    <div className="col">取餐時間</div>
+                    <div className="col text-end">14:00 ~ 16:00</div>
+                  </div>
+                  <div className="row justify-content-between gx-0 mb-2">
+                    <div className="col">食品有效期限</div>
+                    <div className="col text-end">2024/10/21</div>
+                  </div>
+                </div>
+                {/* <!--標籤區--> */}
+                <div className="row pt-7 pt-5">
+                  <div className="d-flex flex-wrap flex-xxl-nowrap gap-4">
+                    <h6>
+                      <svg
+                        className="me-1"
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+
+                      <span className="fw-bold">素食</span>
+                    </h6>
+                    <h6>
+                      <svg
+                        className="me-1"
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+
+                      <span className="fw-bold">葷食</span>
+                    </h6>
+                    <h6>
+                      <svg
+                        className="me-1"
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+
+                      <span className="fw-bold">主食</span>
+                    </h6>
+                    <h6>
+                      <svg
+                        className="me-1"
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+
+                      <span className="fw-bold">冷藏</span>
+                    </h6>
+                    <h6>
+                      <svg
+                        className="me-1"
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M8.39034 2.22416C8.14035 1.9741 7.80127 1.83357 7.44767 1.8335H2.66634C2.31272 1.8335 1.97358 1.97397 1.72353 2.22402C1.47348 2.47407 1.33301 2.81321 1.33301 3.16683V7.94816C1.33308 8.30176 1.47361 8.64084 1.72367 8.89083L7.52634 14.6935C7.82935 14.9946 8.23917 15.1636 8.66634 15.1636C9.09351 15.1636 9.50333 14.9946 9.80634 14.6935L14.193 10.3068C14.4941 10.0038 14.6631 9.594 14.6631 9.16683C14.6631 8.73966 14.4941 8.32984 14.193 8.02683L8.39034 2.22416Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.99967 5.8335C5.18377 5.8335 5.33301 5.68426 5.33301 5.50016C5.33301 5.31607 5.18377 5.16683 4.99967 5.16683C4.81558 5.16683 4.66634 5.31607 4.66634 5.50016C4.66634 5.68426 4.81558 5.8335 4.99967 5.8335Z"
+                          stroke="black"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="fw-bold" style={{ width: 'auto' }}>
+                        未過保鮮期
+                      </span>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+};
+
+export default PostPage;
