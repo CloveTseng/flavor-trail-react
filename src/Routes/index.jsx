@@ -1,5 +1,3 @@
-import { createHashRouter } from "react-router";
-
 import Front from "../layouts/Front";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -41,5 +39,5 @@ const routes = [
   },
 ];
 
-const router = createHashRouter(routes);
-export default router;
+
+export default routes;
