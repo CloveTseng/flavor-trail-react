@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
+import RectangleCTAButton from '../components/RectangleCTAButton';
 const PostPage = () => {
   useEffect(() => {
     new Swiper('.postSwiper', {
@@ -2270,6 +2271,7 @@ const PostPage = () => {
           </div>
         </section>
       </main>
+      <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
     </>
   );
 };
