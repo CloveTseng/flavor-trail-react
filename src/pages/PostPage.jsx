@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
+
 import Swiper from 'swiper';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
 const PostPage = () => {
   useEffect(() => {
-    const postSwiper = new Swiper('.postSwiper', {
+    new Swiper('.postSwiper', {
+      modules: [Pagination],
       spaceBetween: 24,
       slidesPerView: 1,
       pagination: {
