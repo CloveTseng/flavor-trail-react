@@ -1,17 +1,25 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router';
+
+//Swiper
 import Swiper from 'swiper';
-import { Navigation } from 'swiper/modules';
+import { Grid, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/grid';
+
 import CircleCTAButton from '../components/CircleCTAButton';
-import { Link } from 'react-router';
 
 const Home = () => {
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
+  const swiperRef = useRef();
+  const navigationNextRef = useRef();
+  const navigationPrevRef = useRef();
+
   useEffect(() => {
-    new Swiper('.mySwiper', {
-      modules: [Navigation],
+    new Swiper(swiperRef.current, {
+      modules: [Navigation, Grid],
       spaceBetween: 24,
       slidesPerView: 1,
       slidesPerGroup: 1,
@@ -19,8 +27,8 @@ const Home = () => {
         rows: 3,
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: navigationNextRef.current,
+        prevEl: navigationPrevRef.current,
       },
       breakpoints: {
         992: {
@@ -428,9 +436,15 @@ const Home = () => {
         </div>
         <div className="container">
           {/* yummySection-Swiper */}
-          <div className="swiper mySwiper">
-            <div className="swiper-button-next"></div>
-            <div className="swiper-button-prev"></div>
+          <div className="swiper" ref={swiperRef}>
+            <div
+              className="swiper-button-next d-none d-lg-block"
+              ref={navigationNextRef}
+            ></div>
+            <div
+              className="swiper-button-prev d-none d-lg-block"
+              ref={navigationPrevRef}
+            ></div>
             <div className="swiper-wrapper">
               <div className="swiper-slide">
                 <a
