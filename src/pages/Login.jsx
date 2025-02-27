@@ -1,12 +1,15 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
-
+import { Link, useNavigate } from 'react-router';
+const baseUrl = 'https://ec-course-api.hexschool.io/v2';
 const Login = () => {
+  const navigate = useNavigate();
   //form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     mode: 'onTouched',
@@ -15,8 +18,20 @@ const Login = () => {
   //eye
   const [passwordHidden, setPasswordHidden] = useState(true);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const signin = async (formData) => {
+    try {
+      const { email, password, check } = formData;
+      const res = await axios.post(`${baseUrl}/admin/signin`, {
+        username: email,
+        password,
+      });
+      console.log(res);
+      reset();
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      alert(`${error.response.data.error?.message}`);
+    }
   };
 
   return (
@@ -98,7 +113,7 @@ const Login = () => {
 
         <div className="col-lg-5">
           <h2 className="fs-1 fw-bolder mb-14">歡迎回來！</h2>
-          <form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
+          <form className="row g-3" onSubmit={handleSubmit(signin)}>
             <div className="col-12">
               <div className="mb-12">
                 <label htmlFor="validationUsername" className="form-label mb-4">
