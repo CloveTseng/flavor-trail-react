@@ -1,8 +1,10 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 import Footer from './Footer';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Front = () => {
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({
@@ -11,6 +13,7 @@ const Front = () => {
       behavior: 'instant',
     });
   }, [pathname]);
+
   return (
     <>
       {/* Navbar 可以放這裡 */}
@@ -31,7 +34,7 @@ const Front = () => {
           活動
         </NavLink>
         <NavLink className="btn btn-sm btn-outline-dark" to="/login">
-          登入
+          {isLogin ? '已登入' : '登入'}
         </NavLink>
       </div>
       <Outlet />

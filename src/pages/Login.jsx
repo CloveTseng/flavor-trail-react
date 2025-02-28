@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
+import { setIsLogin } from '../redux/LoginStateSlice';
 const baseUrl = 'https://ec-course-api.hexschool.io/v2';
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //form
   const {
     register,
@@ -27,6 +30,12 @@ const Login = () => {
       });
       console.log(res);
       reset();
+      dispatch(
+        setIsLogin({
+          uid: res.data.uid,
+          isLogin: true,
+        })
+      );
       navigate('/');
     } catch (error) {
       console.log(error);
