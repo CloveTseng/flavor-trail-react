@@ -5,6 +5,8 @@ import Event from "../pages/Event";
 import AllPost from "../pages/AllPosts";
 import AboutUsPage from "../pages/AboutUsPage";
 import GuideLine from "../pages/GuideLine";
+import Post from "../pages/Post";
+import PageNotFound from "../pages/PageNotFound";
 
 const routes = [
   {
@@ -24,12 +26,20 @@ const routes = [
         element: <AllPost />,
       },
       {
+        path: "post/:id",
+        element: <Post />,
+      },
+      {
         path: "about-us",
         element: <AboutUsPage />,
       },
       {
         path: "guide-line",
         element: <GuideLine />,
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
       },
     ],
   },
