@@ -1,0 +1,29 @@
+.notify-status {
+    &__list {
+        @include media-breakpoint-down(lg) {
+            width: 100%;
+        }
+    }
+
+    &__list-item {
+        cursor: pointer;
+        &:hover {
+            background-color: $primary;
+            color: $white;
+            font-weight: $font-weight-bold;
+        }
+    }
+
+    &__result-clear {
+        background-color: $gray-200;
+        &:hover {
+            background-color: $primary;
+            color: $white;
+            font-weight: $font-weight-bold;
+
+            svg path {
+                stroke: $white;
+            }
+        }
+    }
+}

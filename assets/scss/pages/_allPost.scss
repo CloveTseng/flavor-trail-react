@@ -1,0 +1,52 @@
+.allPost {
+  .postNav {
+    @include media-breakpoint-up(lg) {
+      margin-top: 104px;
+    }
+  }
+
+  .spinner-border {
+    width: 24px;
+    height: 24px;
+    --bs-spinner-border-width: 2px;
+  }
+
+  .filter-btn:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .filter-btn:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .filter-btn:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover,
+  .clear-btn:active,
+  .clear-btn:hover {
+    color: white !important;
+    background-color: $primary;
+    border-radius: 8px !important;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+
+    svg path {
+      stroke: white;
+      transition: stroke 0.3s ease;
+    }
+  }
+
+  .nomoral-btn {
+    &:hover{
+      border: 1px solid transparent;
+      background: $gray-200;
+    }
+  }
+  .nomoral-sm-btn {
+    &:hover{
+      border: 1px solid transparent;
+    }
+  }
+}

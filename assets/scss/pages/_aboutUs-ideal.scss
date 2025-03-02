@@ -1,0 +1,100 @@
+.our-ideal {
+    .ideal-banner {
+        position: relative;
+    }
+    .ideal-banner-img {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 351px;
+        background: url('/assets/images/about-1.jpg') no-repeat center;
+        background-size: 240%;
+        @include media-breakpoint-up(sm) {
+            background-size: 150%;
+        }
+        @include media-breakpoint-up(lg) {
+            height: 580px;
+            background-size: 100%;
+        }
+    }
+    .ideal-banner-img::before {
+        width:399px;
+        height: 250px;
+        content: "";
+        position: absolute;
+        top: 42%;
+        left: 0;
+        background: url('/assets/images/deco/about-banner-path-sm-1.svg') no-repeat;
+        @include media-breakpoint-up(sm) {
+            top: 30%;
+            left: -30%;
+            background: url('/assets/images/deco/about-banner-path-1.svg') no-repeat;
+        }
+        @include media-breakpoint-up(lg) {
+            top: 57%;
+            left: 0;
+        }
+    }
+    .ideal-banner-img::after {
+        width: 330px;
+        height: 291px;
+        content: "";
+        position: absolute;
+        top: 10%;
+        left: 72%;
+        background: url('/assets/images/deco/about-banner-path-sm-2.svg') no-repeat;
+        @include media-breakpoint-up(sm) {
+            top: -5%;
+            left: 70%;
+            background: url('/assets/images/deco/about-banner-path-2.svg') no-repeat;
+        }
+        @include media-breakpoint-up(lg) {
+            top: 18%;
+            left: 75%;
+        }
+    }
+    .ideal-banner-deco-noise {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: url('/assets/images/Noise.png') no-repeat;
+        opacity: .5;
+        mix-blend-mode: soft-light;
+    }
+    .ideal-banner-deco {
+        position: absolute;
+        top: 68%;
+        left: 3%;
+        width: 219px;
+        height: 247px;
+        background: url('/assets/images/deco/about-banner-sm-hand.svg') no-repeat;
+        @include media-breakpoint-up(lg) {
+            background: url('/assets/images/deco/about-banner-big-hand.svg') no-repeat;
+            width: 425px;
+            height: 481px;
+            top: 60%;
+            left: 50%;
+        }
+    }
+
+    .lh-32 {
+        line-height: 32px;
+    }
+    .ideal-text-vertical {
+        writing-mode: vertical-rl;
+        line-height: 32px;
+        vertical-align: top;
+    }
+    .ideal-title {
+        font-size: 64px;
+        font-weight: 900;
+        letter-spacing: -2.56px;
+        line-height:1 ;
+        @include media-breakpoint-up(lg) {
+            font-size: 80px;
+            letter-spacing: -3.2px;
+        }
+    }
+}

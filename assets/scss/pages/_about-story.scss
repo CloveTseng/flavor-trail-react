@@ -1,0 +1,215 @@
+.about-story {
+    &__container {
+        position: relative;
+        height: 688px;
+        z-index: 1;
+    
+        @include media-breakpoint-up(lg) {
+            height: 920px;
+        }
+
+    }
+    
+    &__deco {
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-49%, -34%);
+            width: 100%;
+            height: 284px;
+            background-image: url('/assets/images/deco/our-story-sm.svg');
+            z-index: -1;
+            background-repeat: no-repeat;
+            background-size: contain;
+            @include media-breakpoint-up(sm) {
+                transform: translate(-50%, -50%);
+                height: 351px;
+            }
+            @include media-breakpoint-up(md) {
+                transform: translate(-37%, -50%);
+                height: 351px;
+            }
+            @include media-breakpoint-up(lg) {
+                background-image: url('/assets/images/deco/our-story-lg.svg');
+                transform: translate(-42%, -50%);
+                height: 478px;
+            }
+            @include media-breakpoint-up(xl) {
+                transform: translate(-43%, -50%);
+                height: 580px;
+            }
+            @include media-breakpoint-up(xxl) {
+                transform: translate(-42%, -50%);
+                height: 640px;
+            }
+        }
+
+    }
+
+    &__background {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        width: 100%;
+        height: 240px;
+        z-index: -2;
+        overflow: hidden;
+        @include media-breakpoint-up(sm) {
+            height: 260px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @include media-breakpoint-up(lg) {
+            width: 93%;
+            height: 456px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(10px);
+        }
+    }
+
+    .title-wrapper {
+        position: absolute;
+    }
+
+    &__title-first-left {
+        top: 0;
+        left: 0;
+    }
+    &__title-first-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        .stack-container {
+            position: relative;
+        }
+        .title-stroke-svg:first-child {
+            position: relative;
+            z-index: 20;
+        }
+        .title-stroke-svg:not(:first-child) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: 0;
+        }
+
+        @for $i from 2 through 16 {
+            .title-stroke-svg:nth-child(#{$i}) {
+                z-index: #{17 - $i};
+                top: #{($i - 1) * 16}px;
+            }
+        }
+    }
+    &__title-second-left {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        .stack-container {
+            position: relative;
+        }
+        .title-stroke-svg:first-child {
+            position: relative;
+            z-index: 20;
+        }
+        .title-stroke-svg:not(:first-child) {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin-top: 0;
+        }
+
+        @for $i from 2 through 16 {
+            .title-stroke-svg:nth-child(#{$i}) {
+                z-index: #{17 - $i};
+                top: #{($i - 1) * (-16)}px;
+            }
+        }
+    }
+    &__title-second-right {
+        bottom: 0;
+        right: 0;
+    }
+
+    .title-stroke-svg {
+        text {
+            font-size: 64px;
+            font-weight: 900;
+            letter-spacing: -2.56px;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+
+            @include media-breakpoint-up(lg) {
+                font-size: 80px;
+                letter-spacing: -3.2px;
+            }
+        }
+
+        &__our-left {
+            width: 128px;
+            height: 100px;
+
+            @include media-breakpoint-up(lg) {
+                width: 160px;
+            }
+        }
+        &__our-right,
+        &__story-left,
+        &__story-right 
+        {
+            width: 68px;
+            height: 100px;
+
+            @include media-breakpoint-up(lg) {
+                width: 85px;
+            }
+        }
+
+        &__our-right {
+            transform: rotate(90deg);
+        }
+        &__story-left  {
+            transform: rotate(180deg);
+            transform-origin: center;
+        }
+    }
+
+    &__content {
+        p {
+            font-weight: 400;
+            @include media-breakpoint-up(lg) {
+                font-weight: 500;
+            }
+        }
+
+        &--first {
+            margin-bottom: auto;
+            margin-top: 88px;
+            @include media-breakpoint-up(lg) {
+                margin-top: 160px;
+            }
+        }
+        &--second {
+            margin-top: auto;
+            margin-bottom: 88px;
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 160px;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+.breadcrumb-item + .breadcrumb-item::before {
+  padding-right: 16px;
+}
+.nav-mt {
+  @include media-breakpoint-up(lg) {
+    margin-top: 104px;
+  }
+}
+.post-page {
+    .floating-btn {
+        position: fixed;
+        bottom: 20px;
+        /* 距離頁面底部 20px */
+        left: 20px;
+        /* 距離頁面右側 20px */
+        z-index: 1000;
+        /* 保證按鈕在最上層 */
+      }
+      .input-group {
+        .form-control, .input-group-text {
+          border: var(--bs-border-width) solid #eee;
+          background-color: $gray-200;
+        }
+      }
+     
+    }
+    .post-img-sm {
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+  
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        min-height: 351px;
+        object-fit: cover;
+      }
+      .swiper-pagination-post.swiper-pagination-fraction {
+        width: 65px;
+        height: 40px;
+        background: #00000080;
+        right: 8px;
+        bottom: 8px;
+        top: auto;
+        left: auto;
+        line-height: 1.2;
+      }
+      }

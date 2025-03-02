@@ -1,0 +1,91 @@
+.tips {
+  .path-section {
+    position: relative;
+    height: 1000px;
+    width: 100%;
+    @include media-breakpoint-up(lg) {
+      height: 690px;
+      background-image: url("/assets/images/deco/guide-tip-path-group-desktop.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    @include media-breakpoint-up(xl) {
+      height: 890px;
+    }
+    .tips-title {
+      position: absolute;
+      top: -70px;
+      left: 0;
+      @include media-breakpoint-up(lg) {
+        top: 5px;
+        left: 110px;
+      }
+    }
+    .path-text {
+      position: absolute;
+      top: -24px;
+      width: 249px;
+      height: 128px;
+      @include media-breakpoint-up(lg) {
+        width: 311px;
+        height: 160px;
+        top: 54px;
+        left: 110px;
+      }
+      z-index: 9;
+    }
+
+    .stroke {
+      position: relative;
+      color: $gray-900;
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 64px;
+      @include media-breakpoint-up(lg) {
+        font-size: 80px;
+        line-height: 80px;
+      }
+      letter-spacing: -0.04em;
+      &::before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        -webkit-text-stroke: 8px $gray-200;
+        content: attr(data-stroke);
+      }
+    }
+
+    .tips-list {
+      position: absolute;
+      top: 250px;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      @include media-breakpoint-up(lg) {
+        padding-top: 32px;
+        padding-bottom: 100px;
+        margin-inline: auto;
+        width: 75%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .tips-border {
+          border-right: 1px solid $gray-400;
+        }
+      }
+      @include media-breakpoint-up(xxl) {
+        width: 83%;
+      }
+    }
+
+    .tips-deco {
+      width: 24px;
+      height: 4px;
+    }
+
+    ol {
+      list-style-type: decimal;
+      padding: 0 24px;
+    }
+  }
+}

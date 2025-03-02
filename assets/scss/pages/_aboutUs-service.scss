@@ -1,0 +1,182 @@
+.aboutService {
+  svg {
+    height: 64px;
+    width: auto;
+    vertical-align: bottom;
+    padding-top: 5px;
+    margin-left: map-get($spacers, 7);
+    margin-right: map-get($spacers, 7);
+    @include media-breakpoint-up(md) {
+      height: 80px;
+    }
+  }
+
+  &-content {
+    color: $white;
+    background-color: $primary;
+    font-size: map-get($font-sizes, 5);
+    line-height: $line-height-base;
+    font-weight: $font-weight-medium;
+    border-top: 4px solid $white;
+    padding-top: map-get($spacers, 8);
+    padding-bottom: map-get($spacers, 8);
+
+    @include media-breakpoint-up(lg) {
+      font-size: map-get($font-sizes, 4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: map-get($spacers, 5);
+      padding-bottom: map-get($spacers, 5);
+    }
+
+    @include media-breakpoint-up(xl) {
+      font-size: map-get($font-sizes, 3);
+      padding-top: 17px;
+      padding-bottom: 17px;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      padding-top: map-get($spacers, 5);
+      padding-bottom: map-get($spacers, 5);
+    }
+
+    @media screen and (min-width: 1600px) {
+      font-size: map-get($font-sizes, 2);
+    }
+
+    @media screen and (min-width: 1770px) {
+      padding-top: map-get($spacers, 10);
+      padding-bottom: map-get($spacers, 10);
+    }
+  }
+
+  &-title,
+  &-marquee-text {
+    letter-spacing: -0.04em;
+  }
+
+  &-title {
+    @include media-breakpoint-up(lg) {
+      display: none;
+      &.wrapTitle {
+        display: block;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 23px;
+      padding-bottom: 23px;
+      display: block;
+      &.wrapTitle {
+        display: none;
+      }
+    }
+
+    @include media-breakpoint-up(xxl) {
+      padding-top: 0;
+      padding-bottom: 0;
+      display: none;
+      &.wrapTitle {
+        display: block;
+      }
+    }
+
+    @media screen and (min-width: 1770px) {
+      padding-top: map-get($spacers, 2);
+      padding-bottom: map-get($spacers, 2);
+      display: block;
+      &.wrapTitle {
+        display: none;
+      }
+    }
+  }
+  //內容文字因排版調整區分aboutService-text與aboutService-text2 不會命名啊QQ
+  &-text {
+    display: none;
+
+    &.wrapText {
+      display: block;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      padding-top: map-get($spacers, 9);
+      padding-bottom: map-get($spacers, 9);
+      display: block;
+      &.wrapText {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 1600px) {
+      padding-top: map-get($spacers, 7);
+      padding-bottom: map-get($spacers, 7);
+    }
+  }
+
+  &-text2 {
+    display: none;
+
+    &.wrapText {
+      display: block;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 38px;
+      padding-bottom: 38px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: map-get($spacers, 9);
+      padding-bottom: map-get($spacers, 9);
+    }
+
+    @include media-breakpoint-up(xxl) {
+      padding-top: 51px;
+      padding-bottom: 51px;
+      display: block;
+      &.wrapText {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 1600px) {
+      padding-top: map-get($spacers, 14);
+      padding-bottom: map-get($spacers, 14);
+    }
+  }
+}
+
+.aboutService-marquee-desktop {
+  border-top: 4px solid $primary;
+  position: relative;
+
+  &:last-child {
+    border-bottom: 4px solid $primary;
+  }
+
+  .contentTitle {
+    position: absolute;
+    left: auto;
+    top: -4px;
+    transform: translateX(-100%);
+  }
+
+  .contentText {
+    padding-top: map-get($spacers, 2);
+    padding-bottom: map-get($spacers, 2);
+    position: absolute;
+    left: 100%;
+    top: -4px;
+  }
+}
