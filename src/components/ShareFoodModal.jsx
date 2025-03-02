@@ -54,7 +54,7 @@ const ShareFoodModal = () => {
           className="modal fade"
           id="shareFoodModal"
           tabIndex="-1"
-          aria-labelledby="shareFoodModalLabel"
+          aria-labelledby="shareFoodModal"
           aria-hidden="true"
         >
           <div className="modal-dialog modal-xl">

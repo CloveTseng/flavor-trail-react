@@ -1,16 +1,16 @@
-import { createHashRouter } from "react-router";
+import { createHashRouter } from 'react-router';
 
-import Front from "../layouts/Front";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Event from "../pages/Event";
-import AllPost from "../pages/AllPosts";
-import AboutUsPage from "../pages/AboutUsPage";
-import GuideLine from "../pages/GuideLine";
+import Front from '../layouts/Front';
+import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Event from '../pages/Event';
+import AllPost from '../pages/AllPosts';
+import AboutUsPage from '../pages/AboutUsPage';
+import GuideLine from '../pages/GuideLine';
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     element: <Front />,
     children: [
       {
@@ -18,25 +18,25 @@ const routes = [
         element: <Home />,
       },
       {
-        path: "event",
+        path: 'event',
         element: <Event />,
       },
       {
-        path: "all-posts",
+        path: 'all-posts',
         element: <AllPost />,
       },
       {
-        path: "about-us",
+        path: 'about-us',
         element: <AboutUsPage />,
       },
       {
-        path: "guide-line",
+        path: 'guide-line',
         element: <GuideLine />,
       },
     ],
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
 ];
