@@ -7,6 +7,11 @@ import Event from "../pages/Event";
 import AllPost from "../pages/AllPosts";
 import AboutUsPage from "../pages/AboutUsPage";
 import GuideLine from "../pages/GuideLine";
+// import AccountFollowing from "../pages/account/AccountFollowing";
+// import AccountHistory from "../pages/account/AccountHistory";
+import AccountNotifications from "../pages/account/AccountNotifications";
+import AccountSetting from "../pages/account/AccountSetting";
+import AccountPosts from "../pages/account/AccountPosts";
 
 const routes = [
   {
@@ -33,6 +38,26 @@ const routes = [
         path: "guide-line",
         element: <GuideLine />,
       },
+      // {
+      //   path: "account-following",
+      //   element: <AccountFollowing />,
+      // },
+      // {
+      //   path: "account-history",
+      //   element: <AccountHistory />,
+      // },
+      {
+        path: "account-notifications",
+        element: <AccountNotifications />,
+      },
+      {
+        path: "account-settings",
+        element: <AccountSetting />,
+      },
+      {
+        path: "account-posts",
+        element: <AccountPosts />,
+      }
     ],
   },
   {

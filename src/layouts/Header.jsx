@@ -2,17 +2,28 @@ import { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router';
 
 const Header = () => {
+  let lastScrollTop = useRef(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileSrolled, setIsMobileScrolled] = useState(false);
+
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('地理位置');
   const [isFoodTypeOpen, setIsFoodTypeOpen] = useState(false);
   const [selectedFoodType, setSelectedFoodType] = useState('美食類型');
-  const [searchInput, setSearchInput] = useState('');
+  const locationDropdownRef = useRef(null);
+  const foodTypeDropdownRef = useRef(null);
+
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
-  let lastScrollTop = useRef(0);
+  const [isAuth, setIsAuth] = useState(false);
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+  });
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef(null);
 
   // 下拉選單選項. 之後再改成從 api 取得
   const locations = [
@@ -32,6 +43,61 @@ const Header = () => {
     '熟食',
     '未烹飪食材',
   ];
+
+  // 模擬登入，之後刪掉
+  const simulateLogin = () => {
+    setIsAuth(true);
+    const testUserData = {
+      ...userData,
+      name: 'test@example.com',
+      password: 'test',
+    };
+    console.log(testUserData);
+  };
+
+  // // 寫來放
+  // const checkUserLogin = async () => {
+  //   try {
+  //     const response = await axios.post(`${BASE_URL}/v2/api/user/check`);
+  //     if (response.data.success) {
+  //       setIsAuth(true);
+  //     } else {
+  //       setIsAuth(false);
+  //     }
+  //   } catch (error) {
+  //     setIsAuth(false);
+  //     alert('檢查使用者登入狀態失敗：' + error.message);
+  //   }
+  // };
+
+  const handleLogout = () => {
+    setIsAuth(false);
+    setUserData(null);
+    console.log('登出');
+  };
+
+  const toggleAccountMenu = () => {
+    setIsAccountMenuOpen(!isAccountMenuOpen);
+  };
+
+  const closeAccountMenu = () => {
+    setIsAccountMenuOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target) && isAccountMenuOpen) {
+        setIsAccountMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isAccountMenuOpen]);
+
 
   /* 向下滾動 - 隱藏 navbar & 向上滾動 - 顯示 navbar */
   useEffect(() => {
@@ -91,6 +157,26 @@ const Header = () => {
     setIsFoodTypeOpen(false);
   };
 
+  useEffect(() => {
+    if (!isLocationOpen && !isFoodTypeOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (isLocationOpen && locationDropdownRef.current && !locationDropdownRef.current.contains(e.target)) {
+        setIsLocationOpen(false);
+      }
+
+      if (isFoodTypeOpen && foodTypeDropdownRef.current && !foodTypeDropdownRef.current.contains(e.target)) {
+        setIsFoodTypeOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isLocationOpen, isFoodTypeOpen]);
+
   /* search bar 的 搜尋欄 */
   const handleSearchInputChange = (e) => {
     const newValue = e.target.value;
@@ -105,7 +191,7 @@ const Header = () => {
       return;
     }
 
-    const searParams = {
+    const searchParams = {
       keyword: searchInput,
       location:
         selectedLocation === '地理位置' || selectedLocation === '全部地區'
@@ -116,7 +202,7 @@ const Header = () => {
           ? null
           : selectedFoodType,
     };
-    console.log(searParams);
+    console.log(searchParams);
   };
 
   const handleNavLinkClick = () => {
@@ -244,17 +330,92 @@ const Header = () => {
                   </svg>
                 </a>
               </li>
-              <li
-                className="nav-item border border-black"
-                id="desktop-auth-button"
-              >
-                <NavLink
-                  to="/login"
-                  className="nav-link nav-item-btn py-lg-3 px-lg-5"
-                >
-                  登入/註冊
-                </NavLink>
-              </li>
+              {!isAuth ? (
+                <>
+                  <li
+                    className="nav-item border border-black"
+                    id="desktop-auth-button"
+                  >
+                    <NavLink
+                      to="/login"
+                      className="nav-link nav-item-btn py-lg-3 px-lg-5"
+                    >
+                      登入/註冊
+                    </NavLink>
+
+                    {/* 模拟登入按鈕 */}
+                    <a
+                      onClick={simulateLogin}
+                      href="#"
+                      className="nav-link nav-item-btn py-lg-3 px-lg-5"
+                    >
+                      模拟登入
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item border border-black dropdown nav-account-menu">
+                    <a
+                      className="nav-link dropdown-toggle nav-dropdown-btn py-3 px-5 position-relative d-flex align-items-center"
+                      href="#"
+                      id="accountDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      我的帳號
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-primary p-1">
+                        <span className="visually-hidden">unread messages</span>
+                      </span>
+                    </a>
+                    <ul
+                      className={`dropdown-menu nav-dropdown-menu mt-1 border-0 ${
+                        isAccountMenuOpen ? 'show' : ''
+                      }`}
+                      aria-labelledby="accountDropdown"
+                    >
+                      <li>
+                        <NavLink
+                          to="/account-settings"
+                          className="dropdown-item"
+                        >
+                          個人設定
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account-notifications"
+                          className="dropdown-item"
+                        >
+                          全部通知
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/account-posts" className="dropdown-item">
+                          我的發文
+                        </NavLink>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">我的追蹤</a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">領取紀錄</a>
+                      </li>
+                      <li>
+                        <a
+                          onClick={handleLogout}
+                          className="dropdown-item logout"
+                          href="#"
+                          id="logout"
+                        >
+                          登出
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -273,18 +434,108 @@ const Header = () => {
                   <img src="/assets/images/Logo-navbar.svg" alt="logo" />
                 </a>
               </h1>
-              <ul
-                className="nav-item border border-black"
-                id="mobile-auth-button"
-              >
-                <NavLink
-                  onClick={handleNavLinkClick}
-                  to="/login"
-                  className="nav-link nav-item-btn py-3 px-5 fw-bold"
-                >
-                  登入/註冊
-                </NavLink>
-              </ul>
+              {!isAuth ? (
+                <>
+                  <div
+                    className="nav-item border border-black"
+                    id="mobile-auth-button"
+                  >
+                    <NavLink
+                      onClick={handleNavLinkClick}
+                      to="/login"
+                      className="nav-link nav-item-btn py-3 px-5 fw-bold"
+                    >
+                      登入/註冊
+                    </NavLink>
+                  </div>
+
+                  {/* 模拟登入按鈕 */}
+                  <a
+                    onClick={simulateLogin}
+                    href="#"
+                    className="nav-link nav-item-btn py-lg-3 px-lg-5"
+                  >
+                    模拟登入
+                  </a>
+                </>
+              ) : (
+                <>
+                  <div ref={accountMenuRef} className="nav-item border border-black dropdown nav-account-menu">
+                    <a
+                      onClick={toggleAccountMenu}
+                      className="nav-link dropdown-toggle nav-dropdown-btn py-3 px-5 position-relative d-flex align-items-center"
+                      href="#"
+                      id="accountDropdown"
+                      role="button"
+                      aria-expanded="false"
+                    >
+                      我的帳號
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-primary p-1">
+                        <span className="visually-hidden">unread messages</span>
+                      </span>
+                    </a>
+                    <ul
+                      className={`dropdown-menu nav-dropdown-menu mt-1 border-0 ${
+                        isAccountMenuOpen ? 'show' : ''
+                      }`}
+                      aria-labelledby="accountDropdown"
+                    >
+                      <li>
+                        <NavLink
+                          to="/account-settings"
+                          onClick={() => {
+                            closeAccountMenu()
+                            handleNavLinkClick()
+                          }}
+                          className="dropdown-item"
+                        >
+                          個人設定
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account-notifications"
+                          onClick={() => {
+                            closeAccountMenu()
+                            handleNavLinkClick()
+                          }}
+                          className="dropdown-item"
+                        >
+                          全部通知
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account-posts"
+                          onClick={() => {
+                            closeAccountMenu()
+                            handleNavLinkClick()
+                          }}
+                          className="dropdown-item"
+                        >
+                          我的發文
+                        </NavLink>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">我的追蹤</a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item">領取紀錄</a>
+                      </li>
+                      <li>
+                        <a
+                          onClick={handleLogout}
+                          className="dropdown-item logout"
+                          href="#"
+                          id="logout"
+                        >
+                          登出
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
             <ul className="offcanvas-body navbar-nav vh-100 pt-0">
               <li className="nav-item mb-10">
@@ -542,7 +793,7 @@ const Header = () => {
                 </svg>
               </a>
             </li>
-            <li className="dropdown">
+            <li className="dropdown" ref={locationDropdownRef}>
               <button
                 onClick={handleLocationClick}
                 className="nav-link dropdown-btn d-flex align-items-center justify-content-between py-2 ps-5 pe-2 gap-5 rounded-3 bg-white"
@@ -604,7 +855,7 @@ const Header = () => {
                 </ul>
               )}
             </li>
-            <li className="dropdown">
+            <li className="dropdown" ref={foodTypeDropdownRef}>
               <button
                 onClick={handleFoodTypeClick}
                 className="nav-link dropdown-btn d-flex align-items-center justify-content-between py-2 ps-5 pe-2 gap-5 rounded-3 bg-white"
