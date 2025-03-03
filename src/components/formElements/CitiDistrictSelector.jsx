@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-function CitiDistrictSelector({ register, errors, cityId, districtId, rules }) {
+function CityDistrictSelector({ register, errors, cityId, districtId, rules }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
@@ -97,4 +97,4 @@ function CitiDistrictSelector({ register, errors, cityId, districtId, rules }) {
   );
 }
 
-export default CitiDistrictSelector;
+export default CityDistrictSelector;

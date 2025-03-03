@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
-import CitiDistrictSelector from './formElements/CitiDistrictSelector';
+import CityDistrictSelector from './formElements/CityDistrictSelector';
 import InputTextGroup from './formElements/InputTextGroup';
 import InputText from './formElements/InputText';
 import TextArea from './formElements/TextArea';
@@ -263,7 +263,7 @@ const ShareFoodModal = () => {
                       >
                         領取地點
                       </label>
-                      <CitiDistrictSelector
+                      <CityDistrictSelector
                         register={register}
                         errors={errors}
                         cityId="city"
