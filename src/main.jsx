@@ -1,11 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router';
+import { createHashRouter, RouterProvider } from 'react-router';
 import { Provider } from 'react-redux';
-import router from './routes';
+import routes from './routes/index.jsx';
 import store from './redux/store';
 import '../assets/scss/all.scss';
 // import App from './App.jsx'
+const router = createHashRouter(routes);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
