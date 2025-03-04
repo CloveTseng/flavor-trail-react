@@ -49,4 +49,11 @@
       border: 1px solid transparent;
     }
   }
+
+  .scrollbar-max-height {
+    max-height: 307px;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

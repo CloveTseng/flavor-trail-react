@@ -396,7 +396,7 @@ function AllPosts() {
                       />
                     </svg>
                   </button>
-                  <ul className='dropdown-menu custom-dropdown-menu position-absolute'>
+                  <ul className='dropdown-menu custom-dropdown-menu position-absolute overflow-y-scroll scrollbar-max-height hide-scrollbar'>
                     {city.map((city) => (
                       <li key={city.id}>
                         <a
@@ -436,7 +436,7 @@ function AllPosts() {
                     />
                   </svg>
                 </button>
-                <ul className='dropdown-menu custom-dropdown-menu position-absolute'>
+                <ul className='dropdown-menu custom-dropdown-menu position-absolute overflow-y-scroll scrollbar-max-height hide-scrollbar'>
                   {foodType.map((food) => (
                     <li key={food.id}>
                       <a
