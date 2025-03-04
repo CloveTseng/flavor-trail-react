@@ -24,6 +24,9 @@ const Front = () => {
         <NavLink className="btn btn-sm btn-outline-dark" to="/all-posts">
           所有貼文
         </NavLink>
+        <NavLink className="btn btn-sm btn-outline-dark" to="/account">
+          我的帳戶
+        </NavLink>
         <NavLink className="btn btn-sm btn-outline-dark" to="/guide-line">
           使用指南
         </NavLink>
