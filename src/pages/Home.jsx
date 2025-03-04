@@ -7,6 +7,7 @@ import { Grid, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/grid';
+import ShareFoodModal from '../components/ShareFoodModal';
 
 import CircleCTAButton from '../components/CircleCTAButton';
 
@@ -85,6 +86,7 @@ const Home = () => {
               >
                 分享美味
               </a>
+              <ShareFoodModal />
               <span>）</span>
             </div>
           </div>
