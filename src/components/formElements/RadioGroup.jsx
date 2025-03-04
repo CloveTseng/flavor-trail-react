@@ -5,7 +5,7 @@ const RadioGroup = ({ register, errors, labelText, id, rules, options }) => {
         <div className="me-lg-7 mb-2">
           <label
             htmlFor={id}
-            className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap"
+            className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
           >
             {labelText}
           </label>
@@ -25,6 +25,9 @@ const RadioGroup = ({ register, errors, labelText, id, rules, options }) => {
             <label className="form-check-label text-nowrap" htmlFor={item.id}>
               {item.label}
             </label>
+            {errors[id] && (
+              <div className="invalid-feedback">{errors?.[id]?.message}</div>
+            )}
           </div>
         ))}
       </div>

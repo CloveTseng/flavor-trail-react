@@ -114,11 +114,11 @@ const ShareFoodModal = () => {
                     <div className="col-lg-6">
                       {/* 食物類型 */}
                       <div className="mb-7">
-                        <div className="share-food-modal d-lg-flex align-items-lg-center">
+                        <div className="share-food-modal d-lg-flex">
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodType"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-5"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-5 py-4"
                             >
                               食物類型
                             </label>
@@ -144,11 +144,11 @@ const ShareFoodModal = () => {
                     <div className="col-lg-6">
                       {/* 保存方式 */}
                       <div className="mb-7">
-                        <div className="share-food-modal d-lg-flex align-items-lg-center">
+                        <div className="share-food-modal d-lg-flex">
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodType"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
                             >
                               保存方式
                             </label>
@@ -173,12 +173,12 @@ const ShareFoodModal = () => {
                     </div>
                     <div className="col-lg-6">
                       {/* 食物份數 */}
-                      <div className="mb-7">
-                        <div className="share-food-modal d-lg-flex align-items-lg-center">
+                      <div className="mb-4">
+                        <div className="share-food-modal d-lg-flex">
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodNum"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-12"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-12 py-4"
                             >
                               食物份數
                             </label>
@@ -205,12 +205,12 @@ const ShareFoodModal = () => {
                     </div>
                     {/* 有效期限 */}
                     <div className="col-lg-6">
-                      <div className="mb-7">
-                        <div className="share-food-modal d-lg-flex align-items-lg-center">
+                      <div className="mb-4">
+                        <div className="share-food-modal d-lg-flex">
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="exp"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-2"
                             >
                               有效期限
                             </label>
@@ -256,7 +256,7 @@ const ShareFoodModal = () => {
                     </div>
 
                     {/* 領取地點 */}
-                    <div className="share-food-modal mb-7  d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+                    <div className="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
                       <label
                         htmlFor="pickUpCity"
                         className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7"

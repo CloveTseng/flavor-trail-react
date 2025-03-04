@@ -86,10 +86,10 @@ const Home = () => {
               >
                 分享美味
               </a>
-              <ShareFoodModal />
               <span>）</span>
             </div>
           </div>
+          <ShareFoodModal />
         </div>
       </section>
       {/* introSection */}
