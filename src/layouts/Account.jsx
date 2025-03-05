@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Outlet } from 'react-router';
 import AccountNav from '../components/account/AccountNav';
 
 function Account() {
@@ -6,9 +6,7 @@ function Account() {
     <>
       <div className="container">
         <AccountNav />
-        <Routes>
-          <Route></Route>
-        </Routes>
+        <Outlet />
       </div>
     </>
   );
