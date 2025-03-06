@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ShareFoodModal from './ShareFoodModal';
 const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
   const circleCTARef = useRef(null);
   // useEffect(() => {
@@ -90,7 +91,11 @@ const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
 
   return (
     <div className="cta-button d-lg-block d-none" ref={circleCTARef}>
-      <a className="CTA d-flex justify-content-center align-items-center rounded-circle">
+      <a
+        className="CTA d-flex justify-content-center align-items-center rounded-circle"
+        data-bs-toggle="modal"
+        data-bs-target="#shareFoodModal"
+      >
         <p className="CTA-content-title text-center fs-4 fw-bold lh-xs text-deco-bright-green">
           {/* <!-- 分享美味 立即報名 --> */}
           {title}
@@ -130,6 +135,7 @@ const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
           />
         </svg>
       </a>
+      <ShareFoodModal />
     </div>
   );
 };

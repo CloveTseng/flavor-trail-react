@@ -1,3 +1,5 @@
+import ShareFoodModal from '../components/ShareFoodModal';
+
 const Footer = () => {
   return (
     <>
@@ -89,6 +91,7 @@ const Footer = () => {
                         我要分享
                       </a>
                     </li>
+                    <ShareFoodModal />
                     <li>
                       <a href="#" className="footer-nav__link">
                         我的收藏
