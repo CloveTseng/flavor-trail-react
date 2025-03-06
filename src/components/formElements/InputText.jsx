@@ -4,7 +4,7 @@ const InputText = ({ register, errors, id, labelText, rules }) => {
       <input
         type="text"
         id={id}
-        className={`form-control py-2 px-5 border-gray-400 rounded-3 bg-white ${
+        className={`form-control py-2 px-5 border-gray-400 rounded-3 bg-white lh-account ${
           errors?.[id] && 'is-invalid'
         }`}
         placeholder={`請輸入${labelText}`}
