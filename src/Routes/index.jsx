@@ -1,5 +1,3 @@
-import { createHashRouter } from 'react-router';
-
 import Front from '../layouts/Front';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -8,6 +6,7 @@ import AllPost from '../pages/AllPosts';
 import AboutUsPage from '../pages/AboutUsPage';
 import GuideLine from '../pages/GuideLine';
 import Post from '../pages/Post';
+import PageNotFound from '../pages/PageNotFound';
 
 const routes = [
   {
@@ -38,6 +37,10 @@ const routes = [
         path: 'guide-line',
         element: <GuideLine />,
       },
+      {
+        path: '*',
+        element: <PageNotFound />,
+      },
     ],
   },
   {
@@ -46,5 +49,4 @@ const routes = [
   },
 ];
 
-const router = createHashRouter(routes);
-export default router;
+export default routes;

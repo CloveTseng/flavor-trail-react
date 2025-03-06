@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import Account from './Account'
+import Account from './Account';
+import { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
       <h1>Vite + React</h1>
       <div className="card">
-        <button className="btn btn-primary" onClick={() => setCount((count) => count + 1)}>
+        <button
+          className="btn btn-primary"
+          onClick={() => setCount((count) => count + 1)}
+        >
           count is {count}
         </button>
         <p>
@@ -20,7 +23,7 @@ function App() {
       </p>
       <Account />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
