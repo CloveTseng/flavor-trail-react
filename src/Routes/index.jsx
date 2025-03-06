@@ -7,7 +7,7 @@ import Event from '../pages/Event';
 import AllPost from '../pages/AllPosts';
 import AboutUsPage from '../pages/AboutUsPage';
 import GuideLine from '../pages/GuideLine';
-import PostPage from '../pages/PostPage';
+import Post from '../pages/Post';
 
 const routes = [
   {
@@ -27,14 +27,8 @@ const routes = [
         element: <AllPost />,
       },
       {
-        path: 'post-page',
-        element: <PostPage />,
-        // children:[
-        //   {
-        //     path:'id',
-        //     element: <Post />
-        //   }
-        // ]
+        path: 'post/:id',
+        element: <Post />,
       },
       {
         path: 'about-us',
