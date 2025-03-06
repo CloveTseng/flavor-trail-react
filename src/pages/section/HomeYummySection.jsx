@@ -14,7 +14,6 @@ const HomeYummySection = () => {
     (async () => {
       try {
         const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
-        console.log('yummy:', res);
         setPosts(res.data.filter((post, index) => index >= 10));
       } catch (error) {
         console.log(error);

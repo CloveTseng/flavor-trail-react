@@ -1,12 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router';
 
-//Swiper
-import Swiper from 'swiper';
-import { Grid, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/grid';
 import ShareFoodModal from '../components/ShareFoodModal';
 
 import CircleCTAButton from '../components/CircleCTAButton';
@@ -15,41 +9,6 @@ import HomeYummySection from './section/HomeYummySection';
 const Home = () => {
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
-  // const swiperRef = useRef();
-  // const navigationNextRef = useRef();
-  // const navigationPrevRef = useRef();
-
-  // useEffect(() => {
-  //   new Swiper(swiperRef.current, {
-  //     modules: [Navigation, Grid],
-  //     spaceBetween: 24,
-  //     slidesPerView: 1,
-  //     slidesPerGroup: 1,
-  //     grid: {
-  //       rows: 3,
-  //     },
-  //     navigation: {
-  //       nextEl: navigationNextRef.current,
-  //       prevEl: navigationPrevRef.current,
-  //     },
-  //     breakpoints: {
-  //       992: {
-  //         grid: {
-  //           rows: 1,
-  //         },
-  //         slidesPerView: 2,
-  //         spaceBetween: 48,
-  //       },
-  //       1200: {
-  //         grid: {
-  //           rows: 1,
-  //         },
-  //         slidesPerView: 3,
-  //         spaceBetween: 24,
-  //       },
-  //     },
-  //   });
-  // }, []);
 
   return (
     <>
