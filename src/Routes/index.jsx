@@ -7,6 +7,9 @@ import AboutUsPage from '../pages/AboutUsPage';
 import GuideLine from '../pages/GuideLine';
 import Post from '../pages/Post';
 import PageNotFound from '../pages/PageNotFound';
+import AccountNotifications from "../pages/account/AccountNotifications";
+import AccountSetting from "../pages/account/AccountSetting";
+import AccountPosts from "../pages/account/AccountPosts";
 
 const routes = [
   {
@@ -36,6 +39,18 @@ const routes = [
       {
         path: 'guide-line',
         element: <GuideLine />,
+      },
+      {
+        path: "account-notifications",
+        element: <AccountNotifications />,
+      },
+      {
+        path: "account-settings",
+        element: <AccountSetting />,
+      },
+      {
+        path: "account-posts",
+        element: <AccountPosts />,
       },
       {
         path: '*',
