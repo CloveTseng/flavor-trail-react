@@ -7,16 +7,16 @@ dayjs.locale('zh-tw');
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-const OtherPosts = () => {
+const OtherPosts = ({ id }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
   const getOtherPosts = (posts, count) => {
-    let tempPosts = [...posts]; // 複製一份，避免改變原陣列
+    let tempPosts = [...posts].filter((post) => post.id !== id);
     let otherPosts = [];
 
     for (let i = 0; i < count; i++) {
       let randomIndex = Math.floor(Math.random() * tempPosts.length);
-      otherPosts.push(tempPosts.splice(randomIndex, 1)[0]); // 移除並存入結果
+      otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
     }
     return otherPosts;
   };

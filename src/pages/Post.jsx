@@ -703,7 +703,7 @@ const Post = () => {
               {/* 留言區 */}
               <PostComments id={id} commentCount={post?.commentCount} />
               {/* 其他貼文 */}
-              <OtherPosts />
+              <OtherPosts id={id} />
             </div>
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
