@@ -31,12 +31,31 @@ const Post = () => {
         );
         console.log(res.data);
         setPost(res.data);
-        if (res.data.likeCount > 100)
+        // setTimeAgo((pre) => dayjs(res.data.createdPostDate).fromNow());
+        setTimeAgo((pre) => res.data.createdPostDate);
+        if (res.data.likeCount > 100) {
           setPostTag((pre) => ({
             ...pre,
             hot: true,
           }));
-        setTimeAgo((pre) => dayjs(res.data.createdPostDate).fromNow());
+        } else {
+          setPostTag((pre) => ({
+            ...pre,
+            hot: false,
+          }));
+        }
+
+        if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
+          setPostTag((pre) => ({
+            ...pre,
+            latest: true,
+          }));
+        } else {
+          setPostTag((pre) => ({
+            ...pre,
+            latest: false,
+          }));
+        }
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +81,7 @@ const Post = () => {
     });
   }, []);
   useEffect(() => {
-    console.log('測試時間', timeAgo, typeof timeAgo);
+    console.log('測試時間', dayjs(timeAgo).fromNow());
   }, [timeAgo]);
   return (
     <>
@@ -218,7 +237,9 @@ const Post = () => {
                           fontSize: '14px',
                         }}
                       >
-                        {`${post?.user?.pickupCity} / ${post?.user?.pickupDistrict}· ${timeAgo}`}
+                        {`${post?.user?.pickupCity} / ${
+                          post?.user?.pickupDistrict
+                        }· ${dayjs(timeAgo).fromNow()}`}
                       </div>
                     </div>
                     <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
@@ -226,11 +247,13 @@ const Post = () => {
                     </div>
                   </div>
                   <div className="d-none col-lg-4 d-lg-flex justify-content-end px-0 gap-2">
-                    <h5>
-                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                        最新
-                      </span>
-                    </h5>
+                    {postTag.latest && (
+                      <h5>
+                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                          最新
+                        </span>
+                      </h5>
+                    )}
                     {postTag.hot && (
                       <h5>
                         <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
@@ -247,11 +270,13 @@ const Post = () => {
                 </div>
                 <div className="row mx-0 border-bottom">
                   <div className="d-lg-none col-lg-4 d-flex pt-7 px-0 gap-2">
-                    <h5>
-                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                        最新
-                      </span>
-                    </h5>
+                    {postTag.latest && (
+                      <h5>
+                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                          最新
+                        </span>
+                      </h5>
+                    )}
                     {postTag.hot && (
                       <h5>
                         <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
@@ -339,7 +364,10 @@ const Post = () => {
                 <div className="post-card-md-btn-list d-none d-md-block mt-5">
                   <div className="row mx-0">
                     <div className="col px-1">
-                      <button className="btn w-100">
+                      <button
+                        type="button"
+                        className="normal-btn btn border-0 w-100"
+                      >
                         <span className="me-2">點讚</span>
                         <svg
                           width="16"
@@ -359,7 +387,10 @@ const Post = () => {
                       </button>
                     </div>
                     <div className="col px-1">
-                      <button className="btn w-100">
+                      <button
+                        type="button"
+                        className="normal-btn btn border-0 w-100"
+                      >
                         <span className="me-2">留言</span>
                         <svg
                           width="16"
@@ -379,7 +410,10 @@ const Post = () => {
                       </button>
                     </div>
                     <div className="col ps-1 pe-0">
-                      <button className="btn w-100">
+                      <button
+                        type="button"
+                        className="normal-btn btn border-0 w-100"
+                      >
                         <span className="me-2">追蹤貼文</span>
                         <svg
                           width="16"
@@ -399,7 +433,10 @@ const Post = () => {
                       </button>
                     </div>
                     <div className="col px-1">
-                      <button className="btn w-100">
+                      <button
+                        type="button"
+                        className="normal-btn btn border-0 w-100"
+                      >
                         <span className="me-2">編輯貼文</span>
                         <svg
                           width="16"

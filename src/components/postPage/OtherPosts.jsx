@@ -1,5 +1,12 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-tw';
+dayjs.extend(relativeTime);
+dayjs.locale('zh-tw');
+
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 const OtherPosts = () => {
   const [otherPosts, setOtherPosts] = useState(null);
 
@@ -30,23 +37,23 @@ const OtherPosts = () => {
 
   return (
     <div className="mt-5">
-      <h3 className="mb-7 fs-1 fw-bolder">其他可領取</h3>
+      <h3 className="mb-7 fs-1 fw-bolder">其他貼文</h3>
       {otherPosts?.map((post) => (
         <div className="bg-white rounded-3 p-5 mb-5" key={post.id}>
-          <a href="#" className="card border-0 bg-white">
+          <Link to={`/post/${post.id}`} className="card border-0 bg-white">
             <div className="row flex-column flex-lg-row-reverse">
               <div className="col-xxl-5 tet-align-center">
                 <img
                   src={post.imagesUrl}
-                  className="img-fluid rounded-3 object-fit-cover h-100 w-100"
+                  className="rounded-3 object-fit-cover h-100 w-100"
                   alt="post-4"
                   style={{
-                    minHeight: '319px',
+                    maxHeight: '300px',
                   }}
                 />
               </div>
               <div className="col-xxl-7">
-                <div className="pt-7">
+                <div className="pt-7 pt-xxl-0">
                   <div className="d-flex flex-column flex-lg-row justify-content-between">
                     <div className="d-flex align-items-center">
                       {/* <!--頭像--> */}
@@ -54,7 +61,7 @@ const OtherPosts = () => {
                         <img
                           src={post.user.avatarUrl}
                           alt="user-img"
-                          className="object-fit-cover"
+                          className="rounded-circle object-fit-cover"
                           style={{
                             width: '48px',
                             height: '48px',
@@ -65,36 +72,62 @@ const OtherPosts = () => {
                       <div className="my-5">
                         <div className="fs-5 fw-bold">{post.user.nickName}</div>
                         <div style={{ fontSize: '14px' }}>
-                          {`${post.user.pickupCity} / ${post.user.pickupDistrict}· 2hr`}
+                          {`${post.user.pickupCity} / ${
+                            post.user.pickupDistrict
+                          }· ${dayjs(post.createdPostDate).fromNow()}`}
                         </div>
                       </div>
                     </div>
                     <hr className="m-0 opacity-100 text-gray-200" />
                     {/* <!--mobile標籤區--> */}
                     <div className="d-flex d-xl-none align-items-center pt-7 mb-5 gap-2">
-                      <h5>
-                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                          熱門
-                        </span>
-                      </h5>
-                      <h5>
-                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                          仍可領取
-                        </span>
-                      </h5>
+                      {post.likeCount > 100 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            熱門
+                          </span>
+                        </h5>
+                      )}
+                      {dayjs().diff(dayjs(post.createdPostDate), 'day') <=
+                        3 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            最新
+                          </span>
+                        </h5>
+                      )}
+                      {post.food?.restQuantity > 0 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            仍可領取
+                          </span>
+                        </h5>
+                      )}
                     </div>
                     {/* <!--pc標籤區--> */}
                     <div className="d-none d-xl-flex align-items-center justify-content-end px-0 gap-2">
-                      <h5>
-                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                          熱門
-                        </span>
-                      </h5>
-                      <h5>
-                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                          仍可領取
-                        </span>
-                      </h5>
+                      {post.likeCount > 100 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            熱門
+                          </span>
+                        </h5>
+                      )}
+                      {dayjs().diff(dayjs(post.createdPostDate), 'day') <=
+                        3 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            最新
+                          </span>
+                        </h5>
+                      )}
+                      {post.food?.restQuantity > 0 && (
+                        <h5>
+                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                            仍可領取
+                          </span>
+                        </h5>
+                      )}
                     </div>
                   </div>
                   {/* <!--內文--> */}
@@ -223,7 +256,10 @@ const OtherPosts = () => {
                         </button>
                       </div>
                       <div className="col px-1">
-                        <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                        <button
+                          type="button"
+                          className="btn normal-btn border-0 w-100 p-4 d-flex align-items-center justify-content-center"
+                        >
                           <small className="me-1">點讚</small>
                           <svg
                             width="16"
@@ -243,7 +279,10 @@ const OtherPosts = () => {
                         </button>
                       </div>
                       <div className="col px-1">
-                        <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                        <button
+                          type="button"
+                          className="btn normal-btn border-0 w-100 p-4 d-flex align-items-center justify-content-center"
+                        >
                           <small className="me-1">留言</small>
                           <svg
                             width="16"
@@ -263,7 +302,10 @@ const OtherPosts = () => {
                         </button>
                       </div>
                       <div className="col ps-1">
-                        <button className="btn w-100 p-4 d-flex align-items-center justify-content-center">
+                        <button
+                          type="button"
+                          className="btn normal-btn border-0 w-100 p-4 d-flex align-items-center justify-content-center"
+                        >
                           <small className="me-1">追蹤貼文</small>
                           <svg
                             width="16"
@@ -382,7 +424,7 @@ const OtherPosts = () => {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       ))}
     </div>
