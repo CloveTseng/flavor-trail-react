@@ -4,6 +4,13 @@ import axios from 'axios';
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-tw';
+dayjs.extend(relativeTime);
+dayjs.locale('zh-tw');
+
 import RectangleCTAButton from '../components/RectangleCTAButton';
 import OtherPosts from '../components/postPage/OtherPosts';
 import { Link, useParams } from 'react-router';
@@ -11,6 +18,7 @@ import PostComments from '../components/postPage/PostComments';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [timeAgo, setTimeAgo] = useState(null);
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
@@ -23,11 +31,12 @@ const Post = () => {
         );
         console.log(res.data);
         setPost(res.data);
-        if (res.data.viewCount)
+        if (res.data.likeCount > 100)
           setPostTag((pre) => ({
             ...pre,
             hot: true,
           }));
+        setTimeAgo((pre) => dayjs(res.data.createdPostDate).fromNow());
       } catch (error) {
         console.log(error);
       }
@@ -52,6 +61,9 @@ const Post = () => {
       },
     });
   }, []);
+  useEffect(() => {
+    console.log('測試時間', timeAgo, typeof timeAgo);
+  }, [timeAgo]);
   return (
     <>
       <header>
@@ -143,6 +155,7 @@ const Post = () => {
                     />
                   </div>
                 </div>
+                {/* 多圖... */}
                 {/* <div className="d-none d-lg-flex flex-column col-lg-4">
               <div className="mb-7 w-100 h-100">
                 <img
@@ -183,6 +196,7 @@ const Post = () => {
               </div>
             </div> */}
               </div>
+              {/* 貼文 */}
               <div className="bg-white rounded-3 p-5 mb-5">
                 <div className="row mx-0 py-5 border-bottom align-items-center">
                   <div className="col-lg-8 d-flex align-items-center justify-content-between p-0">
@@ -204,7 +218,7 @@ const Post = () => {
                           fontSize: '14px',
                         }}
                       >
-                        {`${post?.user?.pickupCity} / ${post?.user?.pickupDistrict}· 2hr`}
+                        {`${post?.user?.pickupCity} / ${post?.user?.pickupDistrict}· ${timeAgo}`}
                       </div>
                     </div>
                     <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
@@ -649,94 +663,9 @@ const Post = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="bg-white rounded-3 p-5 mt-5 mb-14">
-                <div>
-                  <select
-                    className="form-select py-2 px-5"
-                    aria-label="Default select example"
-                    defaultValue={'全部留言'}
-                    style={{
-                      width: '160px',
-                      height: '40px',
-                    }}
-                  >
-                    <option value={'全部留言'}>全部留言</option>
-                    <option value={'最新排序'}>最新排序</option>
-                  </select>
-                </div>
-                
-                {comments.map((comment, index) => (
-                  <div
-                    key={comment.id}
-                    className="message-area py-7 border-bottom border-gray-200"
-                  >
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="d-flex align-items-center justify-content-between mb-5">
-                        <img
-                          className="rounded-circle object-fit-cover"
-                          style={{
-                            width: '48px',
-                            height: '48px',
-                          }}
-                          src={comment.user.avatarUrl}
-                          alt="user-img"
-                        />
-                        <div className="ms-5">
-                          <div className="fs-5 fw-bold">
-                            {comment.user.nickName}
-                          </div>
-                          <small className="text-gray-700">
-                            {`B${index + 1}・${comment.createDate}`}
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-5">{comment.comment}</div>
-                    <a href="#" className="link-success fw-bold">
-                      回覆
-                    </a>
-                  </div>
-                ))}
-                <div className="input-group mt-7">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="寫下你的留言"
-                    aria-label="寫下你的留言"
-                    aria-describedby="button-addon2"
-                  />
-                  <span
-                    className="input-group-text"
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g clipPath="url(#clip0_188_5759)">
-                        <path
-                          d="M7.27526 8.72361C7.14785 8.59643 6.996 8.49636 6.82888 8.42945L1.54221 6.30945C1.47909 6.28412 1.42523 6.24009 1.38785 6.18327C1.35047 6.12645 1.33138 6.05955 1.33312 5.99156C1.33486 5.92357 1.35736 5.85774 1.39759 5.8029C1.43783 5.74806 1.49388 5.70685 1.55821 5.68479L14.2249 1.35145C14.2839 1.33012 14.3479 1.32604 14.4092 1.33971C14.4705 1.35338 14.5266 1.38423 14.571 1.42864C14.6154 1.47305 14.6463 1.52919 14.66 1.59049C14.6736 1.65179 14.6695 1.71571 14.6482 1.77479L10.3149 14.4415C10.2928 14.5058 10.2516 14.5618 10.1968 14.6021C10.1419 14.6423 10.0761 14.6648 10.0081 14.6665C9.94011 14.6683 9.87322 14.6492 9.81639 14.6118C9.75957 14.5744 9.71554 14.5206 9.69021 14.4575L7.57021 9.16945C7.503 9.00245 7.40266 8.85079 7.27526 8.72361ZM7.27526 8.72361L14.5689 1.43145"
-                          stroke="#484848"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_188_5759">
-                          <rect width="16" height="16" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                </div>
-              </div> */}
-              <PostComments id={id} />
+              {/* 留言區 */}
+              <PostComments id={id} commentCount={post?.commentCount} />
+              {/* 其他貼文 */}
               <OtherPosts />
             </div>
             {/* <!--右邊領取區--> */}
