@@ -1,5 +1,8 @@
+// layouts > Header.jsx
 import { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsLogin } from '../redux/LoginStateSlice'; 
 
 const Header = () => {
   let lastScrollTop = useRef(0);
@@ -17,11 +20,15 @@ const Header = () => {
 
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
-  const [isAuth, setIsAuth] = useState(false);
-  const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-  });
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const dispatch = useDispatch();
+  console.log('Header', dispatch);
+  
+  // const [isAuth, setIsAuth] = useState(false);
+  // const [userData, setUserData] = useState({
+  //   email: '',
+  //   password: '',
+  // });
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef(null);
 
@@ -44,35 +51,11 @@ const Header = () => {
     '未烹飪食材',
   ];
 
-  // 模擬登入，之後刪掉
-  const simulateLogin = () => {
-    setIsAuth(true);
-    const testUserData = {
-      ...userData,
-      name: 'test@example.com',
-      password: 'test',
-    };
-    console.log(testUserData);
-  };
-
-  // // 寫來放
-  // const checkUserLogin = async () => {
-  //   try {
-  //     const response = await axios.post(`${BASE_URL}/v2/api/user/check`);
-  //     if (response.data.success) {
-  //       setIsAuth(true);
-  //     } else {
-  //       setIsAuth(false);
-  //     }
-  //   } catch (error) {
-  //     setIsAuth(false);
-  //     alert('檢查使用者登入狀態失敗：' + error.message);
-  //   }
-  // };
-
   const handleLogout = () => {
-    setIsAuth(false);
-    setUserData(null);
+    dispatch (setIsLogin({
+      uid: '',
+      isLogin: false
+    }))
     console.log('登出');
   };
 
@@ -330,7 +313,7 @@ const Header = () => {
                   </svg>
                 </a>
               </li>
-              {!isAuth ? (
+              {!isLogin ? (
                 <>
                   <li
                     className="nav-item border border-black"
@@ -342,15 +325,6 @@ const Header = () => {
                     >
                       登入/註冊
                     </NavLink>
-
-                    {/* 模拟登入按鈕 */}
-                    <a
-                      onClick={simulateLogin}
-                      href="#"
-                      className="nav-link nav-item-btn py-lg-3 px-lg-5"
-                    >
-                      模拟登入
-                    </a>
                   </li>
                 </>
               ) : (
@@ -434,7 +408,7 @@ const Header = () => {
                   <img src="/assets/images/Logo-navbar.svg" alt="logo" />
                 </a>
               </h1>
-              {!isAuth ? (
+              {!isLogin ? (
                 <>
                   <div
                     className="nav-item border border-black"
@@ -448,15 +422,6 @@ const Header = () => {
                       登入/註冊
                     </NavLink>
                   </div>
-
-                  {/* 模拟登入按鈕 */}
-                  <a
-                    onClick={simulateLogin}
-                    href="#"
-                    className="nav-link nav-item-btn py-lg-3 px-lg-5"
-                  >
-                    模拟登入
-                  </a>
                 </>
               ) : (
                 <>
