@@ -1,20 +1,26 @@
 import axios from 'axios';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputText from '../../components/formElements/InputText';
-import CityDistrictSelector from '../../components/formElements/CityDistrictSelector';
-import TextArea from '../../components/formElements/TextArea';
+import AccountSettingModalPassword from './AccountSettingModalPassword';
+import ChangePhotoModal from '../../components/account/ChangePhotoModal';
+import logo from '../../../assets/images/Logo.png';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const USER_ID = '2';
 
 function AccountSettingForm() {
+  // const [cities, setCities] = useState([]);
+  // const [districts, setDistricts] = useState([]);
+  // const [selectedCityId, setSelectedCityId] = useState('');
+  // const [isLoading, setIsLoading] = useState(false);
   const [accountData, setAccountData] = useState(null);
   const [isFormChanged, setIsFormChanged] = useState(false);
   const [initialValues, setInitialValues] = useState({});
-  const citySelectorRef = useRef(null);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const methods = useForm({
-    defaultValues: initialValues,
+    defaultValues: {},
     mode: 'onTouched',
   });
 
@@ -23,12 +29,37 @@ function AccountSettingForm() {
     handleSubmit,
     formState: { errors, isValid },
     getValues,
-    setValue,
     watch,
     reset,
   } = methods;
 
   const watchAllFields = watch();
+  const avatarUrl = watch('avatarUrl') || logo;
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/users/${USER_ID}`);
+        setAccountData(res.data);
+        setIsDataLoaded(true);
+
+        const initialData = {
+          name: res.data.name || '',
+          nickName: res.data.nickName || '',
+          email: res.data.email || '',
+          phone: res.data.phone || '',
+          pickupCity: res.data.pickupCity || '',
+          pickupDistrict: res.data.pickupDistrict || '',
+          introduce: res.data.introduce || '',
+          avatarUrl: res.data.avatarUrl || null,
+        };
+        setInitialValues(initialData);
+        reset(initialData);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const hasChanged = Object.keys(initialValues).some((key) => {
@@ -37,48 +68,68 @@ function AccountSettingForm() {
     setIsFormChanged(hasChanged);
   }, [watchAllFields]);
 
-  const onSubmit = () => {
-    alert('個人資料已修改');
+  const changeData = async (data) => {
+    try {
+      const res = await axios.patch(`${BASE_URL}/users/${USER_ID}`, data);
+      setAccountData(res.data);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/users/1`);
-        setAccountData(res.data);
+  const deletePhoto = async () => {
+    try {
+      const res = await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
+        avatarUrl: null,
+      });
+      alert('照片刪除成功');
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-        const initialData = {
-          accountName: res.data.name || '',
-          accountNickname: res.data.nickName || '',
-          accountEmail: res.data.email || '',
-          accountPhone: res.data.phone || '',
-          accountCity: res.data.pickupCity || '',
-          accountDistrict: res.data.pickupDistrict || '',
-          accountIntro: res.data.introduce || '',
-        };
-        setInitialValues(initialData);
-        reset(initialData);
-        setValue('accountIntro', initialData.accountIntro, {
-          shouldValidate: true,
-        });
+  // useEffect(() => {
+  //   const getTwCities = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const res = await axios.get(`${BASE_URL}/twCities`);
+  //       setCities(res.data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   getTwCities();
+  // }, []);
 
-        if (res.data.pickupCity) {
-          const targetCity = await (
-            await axios.get(`${BASE_URL}/twCities`)
-          ).data.find((item) => item.name === res.data.pickupCity);
-          setValue('accountCity', targetCity.id, { shouldValidate: true });
-        }
+  // useEffect(() => {
+  //   const getDistricts = async () => {
+  //     if (selectedCityId) {
+  //       setIsLoading(true);
+  //       try {
+  //         const res = await axios.get(`${BASE_URL}/twCities/${selectedCityId}`);
+  //         setDistricts(res.data.districts);
+  //       } catch (error) {
+  //         console.log(error.message);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     } else {
+  //       setDistricts([]);
+  //     }
+  //   };
+  //   getDistricts();
+  // }, [selectedCityId]);
 
-        if (citySelectorRef.current) {
-          citySelectorRef.current.handleCityChange({
-            target: { value: initialData.accountCity },
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  const onSubmit = (data) => {
+    changeData(data);
+    console.log(data);
+    alert('個人資料已修改');
+    setIsFormChanged(false);
+  };
 
   if (!accountData) {
     return <div>Loading...</div>;
@@ -87,34 +138,47 @@ function AccountSettingForm() {
   return (
     <>
       {/* 大頭照 */}
-      <div className="col-sm-3 mb-2">
-        <div className="bg-white rounded-3 text-center d-flex flex-column py-7">
-          <img
-            src="../assets/images/settings-avatar.png"
-            alt="avatar"
-            className="pb-7 px-17"
-          />
-          <div className="d-flex flex-sm-column flex-sm-column-reverse justify-content-center">
-            <div className="me-2 me-sm-0">
-              <button type="button" className="btn btn-white fw-bold h6">
-                刪除照片
-              </button>
+      <FormProvider {...methods}>
+        <div className="col-lg-3 mb-2">
+          <div className="bg-white rounded-3 text-center d-flex flex-column py-7">
+            <div className="overflow-hidden rounded-circle avatar-img m-auto mb-7">
+              <img
+                src={avatarUrl}
+                alt="avatar"
+                className="object-fit-cover"
+                id="avatarUrl"
+              />
             </div>
-            <div className="mb-sm-2">
-              <button type="button" className="btn btn-dark fw-bold h6">
-                上傳新照片
-              </button>
+            <div className="d-flex flex-sm-column flex-sm-column-reverse justify-content-center">
+              <div className="me-2 me-sm-0">
+                <button
+                  type="button"
+                  className="btn btn-white fw-bold h6"
+                  onClick={deletePhoto}
+                >
+                  刪除照片
+                </button>
+              </div>
+              <div className="mb-sm-2">
+                <button
+                  type="button"
+                  className="btn btn-dark fw-bold h6"
+                  data-bs-toggle="modal"
+                  data-bs-target="#changePhotoModal"
+                >
+                  上傳新照片
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <ChangePhotoModal />
 
-      {/* 表單 */}
-      <div className="col-sm-9">
-        <div className="row">
-          <div className="col">
-            <div>
-              <FormProvider {...methods}>
+        {/* 表單 */}
+        <div className="col-lg-9">
+          <div className="row">
+            <div className="col">
+              <div>
                 <form
                   className="bg-white rounded-top-3 p-7"
                   onSubmit={handleSubmit(onSubmit)}
@@ -123,7 +187,7 @@ function AccountSettingForm() {
                     <div className="mb-7">
                       <label
                         className="form-label h6 fw-bold text-gray-700 pb-2"
-                        htmlFor="accountName"
+                        htmlFor="name"
                       >
                         姓名
                       </label>
@@ -131,8 +195,9 @@ function AccountSettingForm() {
                         register={register}
                         errors={errors}
                         labelText="姓名"
-                        id="accountName"
+                        id="name"
                         type="text"
+                        name="name"
                         rules={{
                           required: {
                             value: true,
@@ -144,7 +209,7 @@ function AccountSettingForm() {
                     <div className="mb-7">
                       <label
                         className="form-label h6 fw-bold text-gray-700 pb-2"
-                        htmlFor="accountNickname"
+                        htmlFor="nickName"
                       >
                         暱稱
                       </label>
@@ -152,7 +217,8 @@ function AccountSettingForm() {
                         register={register}
                         errors={errors}
                         labelText="暱稱"
-                        id="accountNickname"
+                        id="nickName"
+                        name="nickName"
                         type="text"
                         rules={{
                           required: {
@@ -167,32 +233,23 @@ function AccountSettingForm() {
                     <div className="mb-7">
                       <label
                         className="form-label h6 fw-bold text-gray-700 pb-2"
-                        htmlFor="accountEmail"
+                        htmlFor="email"
                       >
                         電子郵件
                       </label>
-                      <InputText
-                        register={register}
-                        errors={errors}
-                        labelText="電子郵件"
-                        id="accountEmail"
-                        type="email"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: '信箱為必填',
-                          },
-                          pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: '信箱格式不正確',
-                          },
-                        }}
+                      <input
+                        id="email"
+                        type="text"
+                        name="email"
+                        className="form-control py-2 px-5 border-gray-200 rounded-3 lh-account text-gray-700"
+                        disabled
+                        {...register('email')}
                       />
                     </div>
                     <div className="mb-7">
                       <label
                         className="form-label h6 fw-bold text-gray-700 pb-2"
-                        htmlFor="accountPhone"
+                        htmlFor="phone"
                       >
                         聯絡電話
                       </label>
@@ -200,7 +257,8 @@ function AccountSettingForm() {
                         register={register}
                         errors={errors}
                         labelText="聯絡電話"
-                        id="accountPhone"
+                        id="phone"
+                        name="phone"
                         type="text"
                         rules={{
                           required: {
@@ -226,40 +284,59 @@ function AccountSettingForm() {
                   <div className="mb-7">
                     <label
                       className="form-label h6 fw-bold text-gray-700 pb-2"
-                      htmlFor="accountCity"
+                      htmlFor="pickupCity"
                     >
                       所在位置
                     </label>
                     <div className="d-flex gap-2">
-                      <CityDistrictSelector
-                        register={register}
-                        errors={errors}
-                        cityId="accountCity"
-                        districtId="accountDistrict"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: '請選擇縣市與地區',
-                          },
-                        }}
-                      />
+                      {isDataLoaded ? (
+                        <>
+                          <div className="col-6 col-md-auto">
+                            <select
+                              className="form-select bg-white py-2 px-5 border-gray-400 rounded-3"
+                              id="pickupCity"
+                              aria-label="Default select example"
+                              name="pickupCity"
+                            >
+                              <option disabled>請選擇城市</option>
+                              <option value="台北市">台北市</option>
+                              <option value="新北市">新北市</option>
+                              <option value="基隆市">基隆市</option>
+                            </select>
+                          </div>
+                          <div className="col-6 col-md-auto">
+                            <select
+                              className="form-select bg-white py-2 px-5 border-gray-400 rounded-3"
+                              id="pickupDistrict"
+                              aria-label="Default select example"
+                              name="pickupDistrict"
+                            >
+                              <option disabled>請選擇地區</option>
+                              <option value="信義區">信義區</option>
+                              <option value="中正區">中正區</option>
+                              <option value="南港區">南港區</option>
+                            </select>
+                          </div>
+                        </>
+                      ) : (
+                        <div>Loading...</div>
+                      )}
                     </div>
                   </div>
                   <div>
                     <label
                       className="form-label h6 fw-bold text-gray-700 pb-2"
-                      htmlFor="accountIntro"
+                      htmlFor="introduce"
                     >
                       個人介紹
                     </label>
-                    <TextArea
-                      register={register}
-                      errors={errors}
-                      labelText="個人介紹"
-                      id="accountIntro"
+                    <textarea
+                      className="form-control py-2 px-5 border-gray-400 rounded-3 bg-white lh-account"
+                      id="introduce"
+                      name="introduce"
                       rows="8"
-                      value={watch('accountIntro')}
-                    />
+                      {...register('introduce')}
+                    ></textarea>
                   </div>
                   <div className="border-top rounded-bottom-3 bg-white pt-7">
                     <div className="d-flex justify-content-end">
@@ -267,7 +344,8 @@ function AccountSettingForm() {
                         <button
                           type="button"
                           className="btn btn-white fw-bold h6"
-                          id="changePassword"
+                          data-bs-toggle="modal"
+                          data-bs-target="#passwordModalToggle"
                         >
                           變更密碼
                         </button>
@@ -285,11 +363,12 @@ function AccountSettingForm() {
                     </div>
                   </div>
                 </form>
-              </FormProvider>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </FormProvider>
+      <AccountSettingModalPassword />
     </>
   );
 }
