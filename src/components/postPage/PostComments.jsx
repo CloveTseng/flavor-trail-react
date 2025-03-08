@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const PostComments = ({ id }) => {
+const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -70,7 +70,15 @@ const PostComments = ({ id }) => {
           </div>
         ))
       )}
-      <div className="input-group mt-7">
+      {commentCount > 5 && (
+        <div className="d-flex">
+          <button type="button" className="btn border-0 ms-auto text-success">
+            更多留言
+          </button>
+          {/* <p className="px-3">更多留言</p> */}
+        </div>
+      )}
+      <div className="input-group">
         <input
           type="text"
           className="form-control"
