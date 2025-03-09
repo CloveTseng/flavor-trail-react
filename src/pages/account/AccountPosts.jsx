@@ -2,6 +2,7 @@ import axios from 'axios';
 import AccountFilter from '../../components/account/AccountFilter';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Link } from 'react-router';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -130,7 +131,14 @@ function AccountPosts() {
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                              {item.pickup.city} {item.pickup.district}
+                              <div className="d-flex flex-column flex-lg-row">
+                                <div className="text-nowrap">
+                                  {item.pickup.city}
+                                </div>
+                                <div className="text-nowrap">
+                                  {item.pickup.district}
+                                </div>
+                              </div>
                             </div>
                             <div className="d-flex align-items-center">
                               <svg
@@ -255,7 +263,10 @@ function AccountPosts() {
                         </div>
                         {/* dropdown */}
                         <div className="post-card-img my-7 text-center">
-                          <a href="#" className="img-hover position-relative">
+                          <Link
+                            to={`/post/${item.id}`}
+                            className="img-hover position-relative"
+                          >
                             <div className="card-hover bg-primary w-100 h-100 position-absolute top-0 start-0 rounded-3">
                               <svg
                                 width="40"
@@ -274,11 +285,11 @@ function AccountPosts() {
                               </div>
                             </div>
                             <img
-                              src="../assets/images/account-posts-1.jpg"
-                              alt="Property image"
-                              className="img-fluid rounded-3 object-fit-cover"
+                              src={item.imagesUrl}
+                              alt={item.food.name}
+                              className="img-fluid rounded-3 object-fit-cover mh-100"
                             />
-                          </a>
+                          </Link>
                         </div>
                         <div className="text-gray-700 text-end">
                           {formatDate(item.createdPostDate)}

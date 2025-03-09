@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 function AccountFilter({ setFilter, filter, postData }) {
   const allPostsCount = postData ? postData.length : 0;
 
@@ -25,6 +27,29 @@ function AccountFilter({ setFilter, filter, postData }) {
       }).length
     : 0;
 
+  const scrollContainerRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    const searchInput = searchInputRef.current;
+    if (container && searchInput) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            searchInput.classList.add('border-white');
+          } else {
+            searchInput.classList.remove('border-white');
+          }
+        },
+        { threshold: 0 }
+      );
+      observer.observe(searchInput);
+      return () => {
+        observer.unobserve(searchInput);
+      };
+    }
+  }, []);
   return (
     <>
       <div className="container">
@@ -32,7 +57,11 @@ function AccountFilter({ setFilter, filter, postData }) {
           我的發文
         </h2>
         <div className="posts-wrap">
-          <ul className="g-2 mt-2 mb-2 d-flex align-items-center gap-2 posts-menu">
+          <ul
+            ref={scrollContainerRef}
+            className="g-2 mt-2 mb-2 d-flex align-items-center gap-2 posts-menu 
+          d-lg-flex account-filter-overflow"
+          >
             <li className="col-2 list-group-item ps-0 w-auto">
               <button
                 type="button"
@@ -149,6 +178,7 @@ function AccountFilter({ setFilter, filter, postData }) {
             <li className="list-group-item border-0 p-0 w-100 d-flex justify-content-between">
               <form className="d-flex w-100">
                 <input
+                  ref={searchInputRef}
                   className="form-control bg-white border-white py-4 px-5 posts-rounded"
                   type="search"
                   placeholder="搜尋發文"
