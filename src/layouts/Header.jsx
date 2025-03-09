@@ -383,7 +383,7 @@ const Header = () => {
                     >
                       <li>
                         <NavLink
-                          to="/account-settings"
+                          to="/account"
                           className="dropdown-item"
                         >
                           個人設定
@@ -391,14 +391,14 @@ const Header = () => {
                       </li>
                       <li>
                         <NavLink
-                          to="/account-notifications"
+                          to="/account/notifications"
                           className="dropdown-item"
                         >
                           全部通知
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/account-posts" className="dropdown-item">
+                        <NavLink to="/account/my-posts" className="dropdown-item">
                           我的發文
                         </NavLink>
                       </li>
