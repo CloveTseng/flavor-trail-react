@@ -5,5 +5,5 @@ export const overfoodOptions = [
 
 export const meatOrVeggieOptions = [
     { id: 'isMeat', value: '葷食', label: '葷食' },
-    { id: 'isVeggie', value: '葷食', label: '素食' }
+    { id: 'isVeggie', value: '素食', label: '素食' }
 ]
