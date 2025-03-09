@@ -138,7 +138,6 @@ const Header = () => {
     setIsFoodTypeOpen(false);
   };
 
-  // 做到這！
   useEffect(() => {
     if (!isLocationOpen && !isFoodTypeOpen) return;
 
@@ -177,6 +176,22 @@ const Header = () => {
     setSearchInput(newValue);
   };
 
+  const handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  }
+
+  const toggleOffcanvas = () => {
+    if (isOffcanvasOpen) {
+      setSearchInput('');
+      setSelectedLocation('地理位置');
+      setSelectedFoodType('美食類型');
+    }
+    setIsOffcanvasOpen(!isOffcanvasOpen);
+  }
+ 
+  // 處理搜尋結果，將搜尋條件帶到 all-posts 頁面
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -203,18 +218,6 @@ const Header = () => {
     if (isOffcanvasOpen) {
       setIsOffcanvasOpen(false);
     }
-    // {
-    //   keyword: searchInput,
-    //   location:
-    //     selectedLocation === '地理位置' || selectedLocation === '全部地區'
-    //       ? null
-    //       : selectedLocation,
-    //   foodType:
-    //     selectedFoodType === '美食類型' || selectedFoodType === '全部類型'
-    //       ? null
-    //       : selectedFoodType,
-    // };
-    console.log(searchParams);
   };
 
   const handleNavLinkClick = () => {
@@ -249,7 +252,7 @@ const Header = () => {
 
           {/* <!-- Toggler for mobile --> */}
           <button
-            onClick={() => setIsOffcanvasOpen(!isOffcanvasOpen)}
+            onClick={toggleOffcanvas}
             className={`navbar-toggler navbar-toggler-custom p-10 rounded-start-3 
                 ${
                   isMobileSrolled && !isOffcanvasOpen
@@ -540,6 +543,7 @@ const Header = () => {
                   <li className="input-group rounded-3 bg-white">
                     <input
                       onChange={handleSearchInputChange}
+                      onKeyDown={handleEnterKeyPress}
                       className="form-control search-input py-2 px-5 bg-white"
                       type="text"
                       name="search"
@@ -763,6 +767,7 @@ const Header = () => {
             <li className="input-group mb-5 mb-lg-0 rounded-3 bg-white">
               <input
                 onChange={handleSearchInputChange}
+                onKeyDown={handleEnterKeyPress}
                 className="form-control search-input py-2 px-5 bg-white"
                 type="text"
                 name="search"
