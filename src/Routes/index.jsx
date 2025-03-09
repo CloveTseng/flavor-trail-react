@@ -69,15 +69,15 @@ const routes = [
           },
         ],
       },
-      {
-        path: '*',
-        element: <PageNotFound />,
-      },
     ],
   },
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '*',
+    element: <PageNotFound />,
   },
 ];
 
