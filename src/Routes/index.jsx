@@ -37,15 +37,15 @@ const routes = [
         path: 'guide-line',
         element: <GuideLine />,
       },
-      {
-        path: '*',
-        element: <PageNotFound />,
-      },
     ],
   },
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '*',
+    element: <PageNotFound />,
   },
 ];
 
