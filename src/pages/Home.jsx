@@ -17,14 +17,14 @@ const Home = () => {
       <section className="banner container">
         <div>
           <img
-            src="/assets/images/home-1.jpg"
+            src="./assets/images/home-1.jpg"
             alt="banner-img"
             className="mt-4 mt-lg-7 banner-cover"
           />
         </div>
         <div className="banner-content d-flex flex-lg-row flex-column-reverse">
           <div className="banner-logo">
-            <img src="/assets/images/Logo.png" alt="logo" />
+            <img src="./assets/images/Logo.png" alt="logo" />
           </div>
           <div className="d-flex flex-column ms-auto mb-auto align-items-end">
             <div className="slogan mt-lg-5 mt-4 fs-2 fw-bolder lh-1">
@@ -166,7 +166,7 @@ const Home = () => {
               strokeWidth="8"
             />
           </svg>
-          <img src="../assets/images/home-2.jpg" alt="awesome-img" />
+          <img src="./assets/images/home-2.jpg" alt="awesome-img" />
         </div>
         <div className="awesome-content container">
           <h2 className="fs-4 fs-lg-3 text-deco-bright-green fw-bold mb-5 mb-lg-7">
@@ -352,7 +352,7 @@ const Home = () => {
             <div className="col-lg-6">
               <div className="invite-event-img position-relative">
                 <img
-                  src="../assets/images/home_event-6.jpg"
+                  src="./assets/images/home_event-6.jpg"
                   alt="home-event-img"
                 />
                 <Link

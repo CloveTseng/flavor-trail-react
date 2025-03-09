@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import InputText from '../../components/formElements/InputText';
 import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
-import logo from '../../../assets/images/Logo.png';
+import logo from '/assets/images/Logo.png';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '2';
