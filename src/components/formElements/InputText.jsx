@@ -1,8 +1,8 @@
-const InputText = ({ register, errors, id, labelText, rules, name }) => {
+const InputText = ({ register, errors, id, labelText, rules, name, type }) => {
   return (
     <div className="w-100">
       <input
-        type="text"
+        type={type}
         id={id}
         name={name}
         className={`form-control py-2 px-5 border-gray-400 rounded-3 bg-white lh-account ${
