@@ -1,8 +1,9 @@
-// layouts > Header.jsx
+import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsLogin } from '../redux/LoginStateSlice'; 
+import { setIsLogin } from '../redux/LoginStateSlice';
+const { VITE_BASE_URL } = import.meta.env;
 
 const Header = () => {
   let lastScrollTop = useRef(0);
@@ -17,47 +18,16 @@ const Header = () => {
   const [selectedFoodType, setSelectedFoodType] = useState('美食類型');
   const locationDropdownRef = useRef(null);
   const foodTypeDropdownRef = useRef(null);
+  const [locations, setLocation] = useState([]);
+  const [foodTypes, setFoodTypes] = useState([]);
 
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
   const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const dispatch = useDispatch();
-  console.log('Header', dispatch);
-  
-  // const [isAuth, setIsAuth] = useState(false);
-  // const [userData, setUserData] = useState({
-  //   email: '',
-  //   password: '',
-  // });
+
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef(null);
-
-  // 下拉選單選項. 之後再改成從 api 取得
-  const locations = [
-    '臺北市',
-    '新北市',
-    '桃園市',
-    '臺中市',
-    '臺南市',
-    '高雄市',
-  ];
-  const foodTypes = [
-    '主食',
-    '甜點',
-    '飲料',
-    '水果',
-    '零食',
-    '熟食',
-    '未烹飪食材',
-  ];
-
-  const handleLogout = () => {
-    dispatch (setIsLogin({
-      uid: '',
-      isLogin: false
-    }))
-    console.log('登出');
-  };
 
   const toggleAccountMenu = () => {
     setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -69,18 +39,31 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target) && isAccountMenuOpen) {
+      if (
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(e.target) &&
+        isAccountMenuOpen
+      ) {
         setIsAccountMenuOpen(false);
       }
-    }
+    };
 
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-    }
+    };
   }, [isAccountMenuOpen]);
 
+  const handleLogout = () => {
+    dispatch(
+      setIsLogin({
+        uid: '',
+        isLogin: false,
+      })
+    );
+    console.log('登出');
+  };
 
   /* 向下滾動 - 隱藏 navbar & 向上滾動 - 顯示 navbar */
   useEffect(() => {
@@ -120,6 +103,19 @@ const Header = () => {
   };
 
   /* search bar 的 dropdown */
+  useEffect(() => {
+    (async () => {
+      try {
+        const foodTypeResponse = await axios.get(`${VITE_BASE_URL}/foodTypes`);
+        const locationResponse = await axios.get(`${VITE_BASE_URL}/TwCities`);
+        setFoodTypes(foodTypeResponse.data);
+        setLocation(locationResponse.data);
+      } catch (error) {
+        alert('發生錯誤，請稍後再試', error);
+      }
+    })();
+  }, []);
+
   const handleLocationClick = () => {
     setIsLocationOpen(!isLocationOpen);
     setIsFoodTypeOpen(false);
@@ -144,20 +140,28 @@ const Header = () => {
     if (!isLocationOpen && !isFoodTypeOpen) return;
 
     const handleClickOutside = (e) => {
-      if (isLocationOpen && locationDropdownRef.current && !locationDropdownRef.current.contains(e.target)) {
+      if (
+        isLocationOpen &&
+        locationDropdownRef.current &&
+        !locationDropdownRef.current.contains(e.target)
+      ) {
         setIsLocationOpen(false);
       }
 
-      if (isFoodTypeOpen && foodTypeDropdownRef.current && !foodTypeDropdownRef.current.contains(e.target)) {
+      if (
+        isFoodTypeOpen &&
+        foodTypeDropdownRef.current &&
+        !foodTypeDropdownRef.current.contains(e.target)
+      ) {
         setIsFoodTypeOpen(false);
       }
-    }
+    };
 
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-    }
+    };
   }, [isLocationOpen, isFoodTypeOpen]);
 
   /* search bar 的 搜尋欄 */
@@ -425,7 +429,10 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <div ref={accountMenuRef} className="nav-item border border-black dropdown nav-account-menu">
+                  <div
+                    ref={accountMenuRef}
+                    className="nav-item border border-black dropdown nav-account-menu"
+                  >
                     <a
                       onClick={toggleAccountMenu}
                       className="nav-link dropdown-toggle nav-dropdown-btn py-3 px-5 position-relative d-flex align-items-center"
@@ -449,8 +456,8 @@ const Header = () => {
                         <NavLink
                           to="/account-settings"
                           onClick={() => {
-                            closeAccountMenu()
-                            handleNavLinkClick()
+                            closeAccountMenu();
+                            handleNavLinkClick();
                           }}
                           className="dropdown-item"
                         >
@@ -461,8 +468,8 @@ const Header = () => {
                         <NavLink
                           to="/account-notifications"
                           onClick={() => {
-                            closeAccountMenu()
-                            handleNavLinkClick()
+                            closeAccountMenu();
+                            handleNavLinkClick();
                           }}
                           className="dropdown-item"
                         >
@@ -473,8 +480,8 @@ const Header = () => {
                         <NavLink
                           to="/account-posts"
                           onClick={() => {
-                            closeAccountMenu()
-                            handleNavLinkClick()
+                            closeAccountMenu();
+                            handleNavLinkClick();
                           }}
                           className="dropdown-item"
                         >
@@ -568,6 +575,7 @@ const Header = () => {
                         className={`dropdown-menu custom-dropdown-menu position-absolute w-100 ${
                           isLocationOpen ? 'show' : ''
                         }`}
+                        style={{ maxHeight: '50vh', overflowY: 'auto' }}
                       >
                         <li>
                           <a
@@ -582,16 +590,16 @@ const Header = () => {
                           </a>
                         </li>
                         {locations.map((location) => (
-                          <li key={location}>
+                          <li key={location.id}>
                             <a
                               onClick={(e) => {
                                 e.preventDefault();
-                                handleLocationSelect(location);
+                                handleLocationSelect(location.name);
                               }}
                               className="dropdown-item"
                               href="#"
                             >
-                              {location}
+                              {location.name}
                             </a>
                           </li>
                         ))}
@@ -644,16 +652,16 @@ const Header = () => {
                           </a>
                         </li>
                         {foodTypes.map((foodType) => (
-                          <li key={foodType}>
+                          <li key={foodType.id}>
                             <a
                               onClick={(e) => {
                                 e.preventDefault();
-                                handleFoodTypeSelect(foodType);
+                                handleFoodTypeSelect(foodType.type);
                               }}
                               className="dropdown-item"
                               href="#"
                             >
-                              {foodType}
+                              {foodType.type}
                             </a>
                           </li>
                         ))}
@@ -790,6 +798,7 @@ const Header = () => {
                   className={`dropdown-menu custom-dropdown-menu ${
                     isLocationOpen ? 'show' : ''
                   }`}
+                  style={{ maxHeight: '50vh', overflowY: 'auto' }}
                 >
                   <li>
                     <a
@@ -804,16 +813,16 @@ const Header = () => {
                     </a>
                   </li>
                   {locations.map((location) => (
-                    <li key={location}>
+                    <li key={location.id}>
                       <a
                         onClick={(e) => {
                           e.preventDefault();
-                          handleLocationSelect(location);
+                          handleLocationSelect(location.name);
                         }}
                         className="dropdown-item"
                         href="#"
                       >
-                        {location}
+                        {location.name}
                       </a>
                     </li>
                   ))}
@@ -866,16 +875,16 @@ const Header = () => {
                     </a>
                   </li>
                   {foodTypes.map((foodType) => (
-                    <li key={foodType}>
+                    <li key={foodType.id}>
                       <a
                         onClick={(e) => {
                           e.preventDefault();
-                          handleFoodTypeSelect(foodType);
+                          handleFoodTypeSelect(foodType.type);
                         }}
                         className="dropdown-item"
                         href="#"
                       >
-                        {foodType}
+                        {foodType.type}
                       </a>
                     </li>
                   ))}
