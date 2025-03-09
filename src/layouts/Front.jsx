@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 import Footer from './Footer';
-import Header from "./Header";
+import Header from './Header';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -42,6 +42,9 @@ const Front = () => {
         </NavLink>
         <NavLink className="btn btn-sm btn-outline-dark" to="/all-posts">
           所有貼文
+        </NavLink>
+        <NavLink className="btn btn-sm btn-outline-dark" to="/account">
+          我的帳戶
         </NavLink>
         <NavLink className="btn btn-sm btn-outline-dark" to="/guide-line">
           使用指南
