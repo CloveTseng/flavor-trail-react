@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 import ShareFoodModal from '../components/ShareFoodModal';
 
 const Footer = () => {
@@ -22,9 +24,9 @@ const Footer = () => {
                   <a className="mb-4 text-gray-700 fs-6">認識餘味尋蹤</a>
                   <ul className="d-flex flex-column gap-4 fs-4 fw-medium lh-xs">
                     <li>
-                      <a href="#" className="footer-nav__link">
+                      <Link to="/about-us" className="footer-nav__link">
                         關於我們
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#" className="footer-nav__link">
@@ -32,9 +34,9 @@ const Footer = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="footer-nav__link">
+                      <Link to="/event" className="footer-nav__link">
                         活動提案
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#" className="footer-nav__link">
@@ -72,14 +74,14 @@ const Footer = () => {
                   <a className="mb-4 text-gray-700 fs-6">會員中心</a>
                   <ul className="d-flex flex-column gap-4 fs-4 fw-medium lh-xs">
                     <li>
-                      <a href="login.html" className="footer-nav__link">
-                        註冊/登入
-                      </a>
+                      <Link to="/login" className="footer-nav__link">
+                        登入/註冊
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="footer-nav__link">
-                        我的帳戶
-                      </a>
+                      <Link to="/account-settings" className="footer-nav__link">
+                        我的帳號
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -94,7 +96,7 @@ const Footer = () => {
                     <ShareFoodModal />
                     <li>
                       <a href="#" className="footer-nav__link">
-                        我的收藏
+                        我的追蹤
                       </a>
                     </li>
                   </ul>

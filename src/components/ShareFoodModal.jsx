@@ -193,10 +193,10 @@ const ShareFoodModal = () => {
                               required: {
                                 value: true,
                                 message: '請最少輸入一份',
-                                minLength: {
-                                  value: 1,
-                                  message: '請最少輸入一份',
-                                },
+                              },
+                              min: {
+                                value: 0,
+                                message: '數字不能小於 0',
                               },
                             }}
                           />
@@ -315,14 +315,21 @@ const ShareFoodModal = () => {
                         placeholder="請輸入食物名稱"
                       />
                     </div>
-
-                    <TextArea
-                      register={register}
-                      errors={errors}
-                      labelText="介紹與描述"
-                      id="ReplyMessage"
-                      rows="5"
-                    />
+                    <div className="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2">
+                      <label
+                        htmlFor="ReplyMessage"
+                        className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 mt-lg-3"
+                      >
+                        介紹與描述
+                      </label>
+                      <TextArea
+                        register={register}
+                        errors={errors}
+                        labelText="介紹與描述"
+                        id="ReplyMessage"
+                        rows="5"
+                      />
+                    </div>
                   </div>
                   <div className="modal-footer px-0">
                     <button
