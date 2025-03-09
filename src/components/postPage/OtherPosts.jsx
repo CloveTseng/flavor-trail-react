@@ -11,13 +11,17 @@ const OtherPosts = ({ id }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
   const getOtherPosts = (posts, count) => {
-    let tempPosts = [...posts].filter((post) => post.id !== id);
+    let tempPosts = [...posts].filter((post) => post.id != id);
     let otherPosts = [];
+    console.log('本篇貼文', id);
+
+    console.log('更多貼文選項', tempPosts);
 
     for (let i = 0; i < count; i++) {
       let randomIndex = Math.floor(Math.random() * tempPosts.length);
       otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
     }
+    console.log('更多貼文', otherPosts);
     return otherPosts;
   };
 
@@ -33,7 +37,7 @@ const OtherPosts = ({ id }) => {
         console.log(error);
       }
     })();
-  }, []);
+  }, [id]);
 
   return (
     <div className="mt-5">
@@ -96,7 +100,8 @@ const OtherPosts = ({ id }) => {
                           </span>
                         </h5>
                       )}
-                      {post.food?.restQuantity > 0 && (
+                      {(dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
+                        post.food?.restQuantity) > 0 && (
                         <h5>
                           <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
                             仍可領取
@@ -121,7 +126,8 @@ const OtherPosts = ({ id }) => {
                           </span>
                         </h5>
                       )}
-                      {post.food?.restQuantity > 0 && (
+                      {(dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
+                        post.food?.restQuantity) > 0 && (
                         <h5>
                           <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
                             仍可領取

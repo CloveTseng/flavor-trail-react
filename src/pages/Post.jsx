@@ -13,8 +13,9 @@ dayjs.locale('zh-tw');
 
 import RectangleCTAButton from '../components/RectangleCTAButton';
 import OtherPosts from '../components/postPage/OtherPosts';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
+import FoodApplyModal from '../components/FoodApplyModal';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -22,16 +23,18 @@ const Post = () => {
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
+    expired: false,
   });
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       try {
         const res = await axios.get(
           `https://json-server-vercel-5mr9.onrender.com/posts/${id}?_expand=user`
         );
-        console.log(res.data);
-        setPost(res.data);
-        // setTimeAgo((pre) => dayjs(res.data.createdPostDate).fromNow());
+        // console.log(res.data);
+        setPost((pre) => res.data);
         setTimeAgo((pre) => res.data.createdPostDate);
         if (res.data.likeCount > 100) {
           setPostTag((pre) => ({
@@ -56,8 +59,21 @@ const Post = () => {
             latest: false,
           }));
         }
+        if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
+          setPostTag((pre) => ({
+            ...pre,
+            expired: false,
+          }));
+        } else {
+          setPostTag((pre) => ({
+            ...pre,
+            expired: true,
+          }));
+        }
       } catch (error) {
-        console.log(error);
+        // alert('貼文有誤')
+        navigate('*');
+        // console.log(error);
       }
     })();
   }, [id]);
@@ -80,9 +96,12 @@ const Post = () => {
       },
     });
   }, []);
-  useEffect(() => {
-    console.log('測試時間', dayjs(timeAgo).fromNow());
-  }, [timeAgo]);
+  // useEffect(() => {
+  //   console.log('時間', timeAgo);
+  //   console.log('測試時間', dayjs(timeAgo).fromNow());
+  //   console.log('是否最新', dayjs().diff(dayjs(timeAgo), 'day') <= 3);
+  //   console.log('是否過期', dayjs().isAfter(dayjs(post?.food?.expiryDate)));
+  // }, [timeAgo]);
   return (
     <>
       <header>
@@ -261,11 +280,13 @@ const Post = () => {
                         </span>
                       </h5>
                     )}
-                    {/* <h5>
-                      <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                        仍可領取
-                      </span>
-                    </h5> */}
+                    {postTag.expired && post?.food?.restQuantity > 0 && (
+                      <h5>
+                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                          仍可領取
+                        </span>
+                      </h5>
+                    )}
                   </div>
                 </div>
                 <div className="row mx-0 border-bottom">
@@ -281,6 +302,13 @@ const Post = () => {
                       <h5>
                         <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
                           熱門
+                        </span>
+                      </h5>
+                    )}
+                    {postTag.expired && post?.food?.restQuantity > 0 && (
+                      <h5>
+                        <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                          仍可領取
                         </span>
                       </h5>
                     )}
@@ -883,6 +911,7 @@ const Post = () => {
           </div>
         </section>
       </main>
+      <FoodApplyModal />
       <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
     </>
   );
