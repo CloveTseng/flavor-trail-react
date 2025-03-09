@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 import Footer from './Footer';
+import Header from './Header';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -30,6 +31,7 @@ const Front = () => {
 
   return (
     <>
+      <Header />
       {/* Navbar 可以放這裡 */}
       <div className="d-flex">
         <NavLink className="btn btn-sm btn-outline-dark" to="/">
