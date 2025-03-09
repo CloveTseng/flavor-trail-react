@@ -193,10 +193,10 @@ const ShareFoodModal = () => {
                               required: {
                                 value: true,
                                 message: '請最少輸入一份',
-                                minLength: {
-                                  value: 1,
-                                  message: '請最少輸入一份',
-                                },
+                              },
+                              min: {
+                                value: 0,
+                                message: '數字不能小於 0',
                               },
                             }}
                           />
