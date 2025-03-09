@@ -138,10 +138,15 @@ const Header = () => {
     setIsFoodTypeOpen(false);
   };
 
+  // 做到這！
   useEffect(() => {
     if (!isLocationOpen && !isFoodTypeOpen) return;
 
     const handleClickOutside = (e) => {
+      const isClickingDropdownItem = e.target.closest('.dropdown-item');
+
+      if (isClickingDropdownItem) return;
+
       if (
         isLocationOpen &&
         locationDropdownRef.current &&
