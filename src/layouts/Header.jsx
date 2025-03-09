@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../redux/LoginStateSlice';
 const { VITE_BASE_URL } = import.meta.env;
 
 const Header = () => {
+  const navigate = useNavigate();
+
   let lastScrollTop = useRef(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileSrolled, setIsMobileScrolled] = useState(false);
@@ -102,7 +104,7 @@ const Header = () => {
     }
   };
 
-  /* search bar 的 dropdown */
+  /* 搜尋欄 dropdown */
   useEffect(() => {
     (async () => {
       try {
@@ -164,7 +166,7 @@ const Header = () => {
     };
   }, [isLocationOpen, isFoodTypeOpen]);
 
-  /* search bar 的 搜尋欄 */
+  /* 搜尋欄 input */
   const handleSearchInputChange = (e) => {
     const newValue = e.target.value;
     setSearchInput(newValue);
@@ -173,22 +175,40 @@ const Header = () => {
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (!searchInput.trim()) {
-      alert('請輸入搜尋關鍵字');
-      return;
+    const searchParams = new URLSearchParams();
+    
+    if (searchInput.trim()) {
+      searchParams.append('keyword', searchInput.trim());
     }
 
-    const searchParams = {
-      keyword: searchInput,
-      location:
-        selectedLocation === '地理位置' || selectedLocation === '全部地區'
-          ? null
-          : selectedLocation,
-      foodType:
-        selectedFoodType === '美食類型' || selectedFoodType === '全部類型'
-          ? null
-          : selectedFoodType,
-    };
+    if (selectedLocation !== '地理位置' && selectedLocation !== '全部地區') {
+      searchParams.append('location', selectedLocation);
+    }
+
+    if (selectedFoodType !== '美食類型' && selectedFoodType !== '全部類型') {
+      searchParams.append('foodType', selectedFoodType);
+    }
+
+    navigate(`/all-posts?${searchParams.toString()}`)
+
+    if(isSearchVisible) {
+      toggleSearch();
+    }
+
+    if (isOffcanvasOpen) {
+      setIsOffcanvasOpen(false);
+    }
+    // {
+    //   keyword: searchInput,
+    //   location:
+    //     selectedLocation === '地理位置' || selectedLocation === '全部地區'
+    //       ? null
+    //       : selectedLocation,
+    //   foodType:
+    //     selectedFoodType === '美食類型' || selectedFoodType === '全部類型'
+    //       ? null
+    //       : selectedFoodType,
+    // };
     console.log(searchParams);
   };
 
