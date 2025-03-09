@@ -6,10 +6,16 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
+import { useSearchParams } from 'react-router';
 
 function AllPosts() {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+   // 添加这些代码读取 URL 参数
+   const [searchParams] = useSearchParams();
+   const urlKeyword = searchParams.get('keyword');
+   const urlLocation = searchParams.get('location');
+   const urlFoodType = searchParams.get('foodType');
   useEffect(() => {
     (async () => {
       try {
@@ -36,6 +42,23 @@ function AllPosts() {
       }
     })();
   }, []);
+
+  // 如果 URL 中有参数，则自动设置相应的筛选条件
+  useEffect(() => {
+    if (urlLocation) {
+      setActiveCity(urlLocation);
+    }
+    
+    if (urlFoodType) {
+      setActiveFood(urlFoodType);
+    }
+    
+    // 如果有关键词，可以设置一个状态
+    if (urlKeyword) {
+      // 这里可以添加一个状态来保存关键词
+      // 例如: setSearchKeyword(urlKeyword);
+    }
+  }, [urlKeyword, urlLocation, urlFoodType]);
   const filterOptions = [
     {
       name: '全部貼文',
@@ -153,9 +176,37 @@ function AllPosts() {
     setActiveCity('地理位置');
     setActiveFood('美食類型');
   };
+
+  const [searchKeyword, setSearchKeyword] = useState('');
+    
+  // 当 URL 参数变化时，更新搜索关键词
+  useEffect(() => {
+    console.log("URL 关键词:", urlKeyword);
+    if (urlKeyword) {
+      setSearchKeyword(urlKeyword);
+    } else {
+      setSearchKeyword('');
+    }
+  }, [urlKeyword]);
   // 根據 activeFilter 變化篩選貼文
   useEffect(() => {
     let tempData = [...posts]; // 預設顯示全部貼文
+
+    if (searchKeyword) {
+      // 转为小写进行不区分大小写的搜索
+  const keyword = searchKeyword.toLowerCase();
+  
+  tempData = tempData.filter(post => {
+    // 确保属性存在并转为小写
+    const title = (post.title || "").toLowerCase();
+    const content = (post.content || "").toLowerCase();
+    
+    // 判断标题或内容中是否包含关键词
+    return title.includes(keyword) || content.includes(keyword);
+  });
+  
+  console.log("关键词筛选后结果:", tempData.length);
+    }
     if (activeFilter === '熱門貼文') {
       tempData = tempData.filter((post) => post.likeCount > 100); // 篩選熱門貼文
     }
@@ -168,7 +219,7 @@ function AllPosts() {
       tempData = tempData.filter((post) => post.food?.type === activeFood);
     }
     setResult(tempData); // 更新篩選結果
-  }, [activeFilter, activeCity, activeFood, posts]);
+  }, [activeFilter, activeCity, activeFood, posts, searchKeyword]);
 
   const [likes, setLike] = useState({});
   const handleChangeLike = (id) => {
