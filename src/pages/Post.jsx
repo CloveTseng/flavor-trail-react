@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { Modal } from 'bootstrap';
 
 import Swiper from 'swiper';
 import { Pagination } from 'swiper/modules';
@@ -96,6 +97,30 @@ const Post = () => {
       },
     });
   }, []);
+
+  // foodApplyModal
+  const foodApplyRef = useRef(null);
+  const foodApplyModalRef = useRef(null);
+  const [applyInfo, setApplyInfo] = useState({
+    postId: '',
+    postTitle: '',
+    userNickname: '',
+  });
+  const openApplyModal = (post, user) => {
+    setApplyInfo((pre) => ({
+      postId: post.id,
+      postTitle: post.title,
+      postImgUrl: post.imagesUrl,
+      userNickname: user,
+    }));
+    foodApplyRef.current.show();
+  };
+  useEffect(() => {
+    foodApplyRef.current = new Modal(foodApplyModalRef.current);
+    // console.log(foodApplyRef);
+  }, []);
+
+  // 測試
   // useEffect(() => {
   //   console.log('時間', timeAgo);
   //   console.log('測試時間', dayjs(timeAgo).fromNow());
@@ -576,6 +601,7 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
+                      onClick={() => openApplyModal(post, 'oreo')}
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -758,6 +784,7 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
+                    onClick={() => openApplyModal(post, 'oreo')}
                   >
                     <span className="me-2">我要領取</span>
                     <svg
@@ -911,7 +938,10 @@ const Post = () => {
           </div>
         </section>
       </main>
-      <FoodApplyModal />
+      <FoodApplyModal
+        foodApplyModalRef={foodApplyModalRef}
+        applyInfo={applyInfo}
+      />
       <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
     </>
   );
