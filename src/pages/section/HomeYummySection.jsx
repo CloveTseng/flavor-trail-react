@@ -97,10 +97,10 @@ const HomeYummySection = () => {
                   <picture>
                     <source
                       media="(min-width:992px)"
-                      srcSet="../assets/images/deco/arrow-pink-1.png"
+                      srcSet="./assets/images/deco/arrow-pink-1.png"
                     />
                     <img
-                      src="../assets/images/deco/arrow-pink-2.png"
+                      src="./assets/images/deco/arrow-pink-2.png"
                       className="d-block pe-7 pe-lg-0 pt-lg-16"
                       alt="deco-arrow"
                     />

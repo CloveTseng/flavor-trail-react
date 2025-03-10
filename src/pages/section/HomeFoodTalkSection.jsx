@@ -99,7 +99,7 @@ const HomeFoodTalkSection = () => {
                   >
                     <div className="foodtalk-back show w-100 h-100 position-absolute top-0 left-0">
                       <img
-                        src="../assets/images/deco/talk-pink.svg"
+                        src="./assets/images/deco/talk-pink.svg"
                         alt="talk-pink"
                       />
                     </div>
@@ -156,7 +156,7 @@ const HomeFoodTalkSection = () => {
               </h2>
             </div>
             <img
-              src="../assets/images/deco/talk-green.svg"
+              src="./assets/images/deco/talk-green.svg"
               alt="talk-green"
               className="position-absolute talk-talk"
             />
