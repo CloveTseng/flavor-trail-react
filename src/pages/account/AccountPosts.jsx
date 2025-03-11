@@ -20,6 +20,7 @@ function formatDate(dateString) {
 function AccountPosts() {
   const [postData, setPostData] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   useEffect(() => {
     const getPostData = async () => {
@@ -70,6 +71,9 @@ function AccountPosts() {
     }
     return false;
   });
+  const handleOpenDeleteModal = (postId) => {
+    setSelectedPostId(postId);
+  };
 
   return (
     <>
@@ -274,7 +278,7 @@ function AccountPosts() {
                           </ul>
                         </div>
                         <ShareFoodModal />
-                        <DeletePostModal />
+                        <DeletePostModal postId={item.id} />
                         {/* dropdown */}
                         <div className="post-card-img my-7 text-center">
                           <Link

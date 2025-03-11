@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const DeletePostModal = () => {
+const DeletePostModal = ({ postId }) => {
   const deletePost = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/posts/`);
+      const res = await axios.delete(`${BASE_URL}/posts/${postId}`);
       alert('貼文刪除成功');
       window.location.reload();
     } catch (error) {
@@ -36,7 +36,7 @@ const DeletePostModal = () => {
               <button
                 type="button"
                 className="btn btn-white"
-                onClick={deletePost}
+                onClick={() => deletePost()}
               >
                 確認刪除貼文
               </button>
