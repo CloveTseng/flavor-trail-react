@@ -1,3 +1,5 @@
+import axios from 'axios';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
@@ -11,8 +13,9 @@ import TimePicker from './formElements/TimePicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ShareFoodModal = () => {
-  const [startDate, setStartDate] = useState(null);
   const methods = useForm({
     defaultValues: {
       title: '',
@@ -42,14 +45,37 @@ const ShareFoodModal = () => {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    setValue,
+    getValues,
   } = methods;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    alert('表單已送出');
+  const onSubmit = async (data) => {
+    const { food, expiryDate, ...rest } = data;
+    const { ...submitData } = food;
+    const formattedExpiryDate = dayjs(expiryDate).format('YYYY-MM-DD');
+    const createdPostDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+    try {
+      const post = await axios.post(`${BASE_URL}/posts`, {
+        ...rest,
+        food: {
+          ...submitData,
+          expiryDate: formattedExpiryDate,
+        },
+        pickup: {
+          ...data.pickup,
+        },
+        createdPostDate,
+      });
+      alert('表單已送出');
+    } catch (error) {
+      console.log(error.message);
+    }
     reset();
   };
-
+  const handleDateChange = (date) => {
+    setValue('expiryDate', date);
+  };
   return (
     <>
       <FormProvider {...methods}>
@@ -225,8 +251,8 @@ const ShareFoodModal = () => {
                           </div>
                           <DatePicker
                             id="exp"
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
+                            selected={getValues('expiryDate')}
+                            onChange={handleDateChange}
                             name="food.expiryDate"
                             dateFormat="yyyy/MM/dd"
                             className="form-select border-gray-400 py-2 px-5 rounded-3 bg-white"
