@@ -165,6 +165,26 @@ function AllPosts() {
   const [foodType, setFoodType] = useState([]);
   const [activeFood, setActiveFood] = useState('美食類型');
   const [result, setResult] = useState([]);
+    // 定義 getPosts 函式
+    const getPosts = async () => {
+      setLoading(true);
+      try {
+        const resPosts = await axios.get(
+          'https://json-server-vercel-5mr9.onrender.com/posts'
+        );
+        setPosts(resPosts.data);
+        setResult(resPosts.data);
+        setLoading(false);
+        console.log(resPosts);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    useEffect(() => {
+      getPosts();
+    }, []);
   const override = {
     height: '100vh',
     position: 'fixed',
@@ -180,24 +200,7 @@ function AllPosts() {
     alignItems: 'center',
   };
   const [loading, setLoading] = useState(false);
-  // 定義 getPosts 函式
-  const getPosts = async () => {
-    setLoading(true);
-    try {
-      const resPosts = await axios.get(
-        'https://json-server-vercel-5mr9.onrender.com/posts'
-      );
-      setPosts(resPosts.data);
-      console.log(resPosts);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getPosts();
-  }, []);
+
   useEffect(() => {
     (async () => {
       try {
