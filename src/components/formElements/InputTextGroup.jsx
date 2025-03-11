@@ -1,6 +1,14 @@
 import InputText from './InputText';
 
-const InputTextGroup = ({ register, errors, labelText, id, type, rules }) => {
+const InputTextGroup = ({
+  register,
+  errors,
+  labelText,
+  id,
+  type,
+  rules,
+  name,
+}) => {
   return (
     <>
       <div className="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2">
@@ -14,6 +22,7 @@ const InputTextGroup = ({ register, errors, labelText, id, type, rules }) => {
           register={register}
           errors={errors}
           id={id}
+          name={name}
           labelText={labelText}
           rules={rules}
           type={type}
