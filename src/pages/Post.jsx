@@ -18,6 +18,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
 import { useSelector } from 'react-redux';
+import FullScreenLoading from '../components/FullScreenLoading';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -27,11 +28,13 @@ const Post = () => {
     hot: false,
     expired: false,
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const { identity } = useSelector((state) => state.loginSlice);
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
           `https://json-server-vercel-5mr9.onrender.com/posts/${id}?_expand=user`
@@ -76,6 +79,8 @@ const Post = () => {
       } catch (error) {
         navigate('*');
         // console.log(error);
+      } finally {
+        setLoading(false);
       }
     })();
   }, [id]);
@@ -777,7 +782,14 @@ const Post = () => {
             </div>
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
-              <div className="bg-white rounded-3 p-5 mb-3 sticky-top">
+              <div
+                className="bg-white rounded-3 p-5 mb-3"
+                style={{
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: '900',
+                }}
+              >
                 {/* <!--份數統計--> */}
                 <div className="row gx-0">
                   <div className="col text-center border-end">
@@ -955,6 +967,7 @@ const Post = () => {
           </div>
         </section>
       </main>
+      {loading && <FullScreenLoading />}
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
