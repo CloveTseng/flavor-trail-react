@@ -4,12 +4,21 @@ import { useFormContext } from 'react-hook-form';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-function CityDistrictSelector({ register, errors, cityId, districtId, rules }) {
+function CityDistrictSelector({
+  register,
+  errors,
+  cityId,
+  districtId,
+  rules,
+  initialCityId,
+  initialDistrict,
+}) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { setValue } = useFormContext();
+  const [defaultDistrictSet, setDefaultDistrictSet] = useState(false);
 
   useEffect(() => {
     const getTwCities = async () => {
@@ -25,6 +34,12 @@ function CityDistrictSelector({ register, errors, cityId, districtId, rules }) {
     };
     getTwCities();
   }, []);
+
+  useEffect(() => {
+    if (initialCityId && initialDistrict !== selectedCityId) {
+      setSelectedCityId(initialCityId);
+    }
+  }, [initialCityId]);
 
   useEffect(() => {
     const getDistricts = async () => {
@@ -45,6 +60,18 @@ function CityDistrictSelector({ register, errors, cityId, districtId, rules }) {
     getDistricts();
   }, [selectedCityId]);
 
+  useEffect(() => {
+    if (districts.length > 0 && initialDistrict && !defaultDistrictSet) {
+      const foundDistrict = districts.find(
+        (district) => district.name === initialDistrict
+      );
+      if (foundDistrict) {
+        setValue(districtId, foundDistrict.name, { shouldValidate: true });
+      }
+      setDefaultDistrictSet(true);
+    }
+  }, [districts]);
+
   const handleCityChange = (e) => {
     const selectedId = e.target.value;
     setSelectedCityId(selectedId);
@@ -63,6 +90,7 @@ function CityDistrictSelector({ register, errors, cityId, districtId, rules }) {
           {...register(cityId, rules)}
           onChange={handleCityChange}
           disabled={isLoading}
+          defaultValue={initialCityId}
         >
           <option value="" disabled selected>
             請選擇縣市
