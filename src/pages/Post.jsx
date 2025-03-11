@@ -114,7 +114,7 @@ const Post = () => {
   });
   const openApplyModal = (post, user) => {
     if (!isLogin) {
-      alert('迷路的巡者唷！您尚未登入唷！');
+      alert('迷路的尋者唷！您尚未登入唷！');
       return;
     }
     setApplyInfo((pre) => ({

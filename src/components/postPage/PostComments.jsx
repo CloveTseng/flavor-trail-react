@@ -1,8 +1,40 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import dayjs from 'dayjs';
 
+const { VITE_BASE_URL } = import.meta.env;
 const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
+  const [newComments, setNewComments] = useState(null);
+  const { id: postId } = useParams();
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    return LoginPerson[0].userId;
+  };
+
+  const createComment = async (type = 'normal') => {
+    if (!isLogin) {
+      alert('迷路的尋者唷！您尚未登入唷');
+      return;
+    }
+    try {
+      const res = await axios.post(`${VITE_BASE_URL}/comments`, {
+        postId,
+        userId: getUserId(uid),
+        type,
+        comment: newComments,
+        createDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      });
+      console.log(res);
+      setNewComments('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -83,14 +115,16 @@ const PostComments = ({ id, commentCount }) => {
           type="text"
           className="form-control"
           placeholder="寫下你的留言"
-          aria-label="寫下你的留言"
-          aria-describedby="button-addon2"
+          value={newComments || ''}
+          onChange={(e) => setNewComments(e.target.value)}
         />
-        <span
+        <button
+          type="button"
           className="input-group-text"
           style={{
             cursor: 'pointer',
           }}
+          onClick={() => createComment()}
         >
           <svg
             width="16"
@@ -114,7 +148,7 @@ const PostComments = ({ id, commentCount }) => {
               </clipPath>
             </defs>
           </svg>
-        </span>
+        </button>
       </div>
     </div>
   );
