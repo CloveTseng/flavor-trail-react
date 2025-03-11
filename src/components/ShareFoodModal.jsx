@@ -24,7 +24,7 @@ const ShareFoodModal = () => {
         name: '',
         type: '',
         saveMethod: '',
-        totalQuantity: '',
+        totalQuantity: 0,
         expiryDate: '',
         isPastBestBefore: '',
         dietType: '',
@@ -36,6 +36,7 @@ const ShareFoodModal = () => {
         address: '',
       },
       imagesUrl: [],
+      userId: '1',
     },
     mode: 'onTouched',
   });
