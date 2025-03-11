@@ -17,6 +17,7 @@ import OtherPosts from '../components/postPage/OtherPosts';
 import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
+import { useSelector } from 'react-redux';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -27,7 +28,8 @@ const Post = () => {
     expired: false,
   });
   const navigate = useNavigate();
-
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
   useEffect(() => {
     (async () => {
       try {
@@ -72,7 +74,6 @@ const Post = () => {
           }));
         }
       } catch (error) {
-        // alert('貼文有誤')
         navigate('*');
         // console.log(error);
       }
@@ -107,6 +108,10 @@ const Post = () => {
     userNickname: '',
   });
   const openApplyModal = (post, user) => {
+    if (!isLogin) {
+      alert('迷路的巡者唷！您尚未登入唷！');
+      return;
+    }
     setApplyInfo((pre) => ({
       postId: post.id,
       postTitle: post.title,
@@ -115,18 +120,24 @@ const Post = () => {
     }));
     foodApplyRef.current.show();
   };
+
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    return LoginPerson[0].userId;
+  };
+
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
     // console.log(foodApplyRef);
   }, []);
 
-  // 測試
-  // useEffect(() => {
-  //   console.log('時間', timeAgo);
-  //   console.log('測試時間', dayjs(timeAgo).fromNow());
-  //   console.log('是否最新', dayjs().diff(dayjs(timeAgo), 'day') <= 3);
-  //   console.log('是否過期', dayjs().isAfter(dayjs(post?.food?.expiryDate)));
-  // }, [timeAgo]);
+  //redux測試
+  useEffect(() => {
+    console.log(isLogin);
+    if (isLogin) {
+      console.log(getUserId(uid));
+    }
+  }, [isLogin]);
   return (
     <>
       <header>
@@ -485,7 +496,11 @@ const Post = () => {
                         </svg>
                       </button>
                     </div>
-                    <div className="col px-1">
+                    <div
+                      className={`col px-1 ${
+                        !isLogin || getUserId(uid) != post?.id ? 'd-none' : ''
+                      }`}
+                    >
                       <button
                         type="button"
                         className="normal-btn btn border-0 w-100"
@@ -602,6 +617,7 @@ const Post = () => {
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
                       onClick={() => openApplyModal(post, 'oreo')}
+                      disabled={isLogin && post?.id == getUserId(uid)}
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -785,6 +801,7 @@ const Post = () => {
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
                     onClick={() => openApplyModal(post, 'oreo')}
+                    disabled={isLogin && post?.id == getUserId(uid)}
                   >
                     <span className="me-2">我要領取</span>
                     <svg
