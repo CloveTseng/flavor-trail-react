@@ -50,10 +50,11 @@ const ShareFoodModal = () => {
   } = methods;
 
   const onSubmit = async (data) => {
-    const { food, expiryDate, ...rest } = data;
+    const { food, expiryDate, imagesUrl, ...rest } = data;
     const { ...submitData } = food;
     const formattedExpiryDate = dayjs(expiryDate).format('YYYY-MM-DD');
     const createdPostDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
 
     try {
       const post = await axios.post(`${BASE_URL}/posts`, {
@@ -66,6 +67,7 @@ const ShareFoodModal = () => {
           ...data.pickup,
         },
         createdPostDate,
+        imagesUrl: imagesUrlArray,
       });
       alert('表單已送出');
     } catch (error) {
