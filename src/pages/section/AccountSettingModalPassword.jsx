@@ -77,7 +77,7 @@ function AccountSettingModalPassword() {
               >
                 取消
               </button>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-dark fw-bold h6">
                 變更
               </button>
             </div>

@@ -7,7 +7,7 @@ import ChangePhotoModal from '../../components/account/ChangePhotoModal';
 import logo from '/assets/images/Logo.png';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const USER_ID = '2';
+const USER_ID = '1';
 
 function AccountSettingForm() {
   // const [cities, setCities] = useState([]);
