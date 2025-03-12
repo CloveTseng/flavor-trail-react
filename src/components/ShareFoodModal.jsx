@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { useForm, FormProvider } from 'react-hook-form';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
 import CityDistrictSelector from './formElements/CityDistrictSelector';
@@ -18,6 +18,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ShareFoodModal = () => {
   const methods = useForm({
     defaultValues: {
+      redeemCode: '',
       title: '',
       content: '',
       food: {
@@ -25,6 +26,7 @@ const ShareFoodModal = () => {
         type: '',
         saveMethod: '',
         totalQuantity: 0,
+        restQuantity: 0,
         expiryDate: '',
         isPastBestBefore: '',
         dietType: '',
@@ -36,7 +38,10 @@ const ShareFoodModal = () => {
         address: '',
       },
       imagesUrl: [],
-      userId: '1',
+      viewCount: 1,
+      commentCount: 0,
+      likeCount: 0,
+      userId: 1,
     },
     mode: 'onTouched',
   });
@@ -52,17 +57,21 @@ const ShareFoodModal = () => {
 
   const onSubmit = async (data) => {
     const { food, expiryDate, imagesUrl, ...rest } = data;
-    const { ...submitData } = food;
+    const { totalQuantity, ...submitData } = food;
     const formattedExpiryDate = dayjs(expiryDate).format('YYYY-MM-DD');
     const createdPostDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    const uid = nanoid(6);
     const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
 
     try {
-      const post = await axios.post(`${BASE_URL}/posts`, {
+      await axios.post(`${BASE_URL}/posts`, {
         ...rest,
+        redeemCode: uid,
         food: {
           ...submitData,
           expiryDate: formattedExpiryDate,
+          totalQuantity: Number(totalQuantity),
+          restQuantity: Number(totalQuantity),
         },
         pickup: {
           ...data.pickup,

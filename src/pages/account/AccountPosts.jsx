@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
+import CopyUid from '../../components/CopyUid';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -44,6 +45,17 @@ function AccountPosts() {
     return diffDays > 30;
   };
 
+  const handleOpenDeleteModal = (postId) => {
+    setSelectedPostId(postId);
+  };
+
+  const handleDeleteSuccess = () => {
+    setPostData((prevPosts) =>
+      prevPosts.filter((post) => post.id !== selectedPostId)
+    );
+    setSelectedPostId(null);
+  };
+
   if (!postData) {
     return <div>Loading...</div>;
   }
@@ -71,9 +83,6 @@ function AccountPosts() {
     }
     return false;
   });
-  const handleOpenDeleteModal = (postId) => {
-    setSelectedPostId(postId);
-  };
 
   return (
     <>
@@ -107,7 +116,11 @@ function AccountPosts() {
                             </div>
                           </div>
                           <div className="pt-7">
-                            <h2 className="fs-3 mb-5">{item.title}</h2>
+                            <div className="d-flex align-items-end mb-5">
+                              <h2 className="fs-3">{item.title}</h2>
+                              <CopyUid uid={item.redeemCode} />
+                            </div>
+
                             <p className="text-gray-700 multiline-ellipsis mb-5">
                               {item.content}
                             </p>
@@ -271,6 +284,7 @@ function AccountPosts() {
                                 href="#"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deletePostModal"
+                                onClick={() => handleOpenDeleteModal(item.id)}
                               >
                                 刪除貼文
                               </a>
@@ -278,7 +292,7 @@ function AccountPosts() {
                           </ul>
                         </div>
                         <ShareFoodModal />
-                        <DeletePostModal postId={item.id} />
+
                         {/* dropdown */}
                         <div className="post-card-img my-7 text-center">
                           <Link
@@ -321,6 +335,10 @@ function AccountPosts() {
           </ul>
         </div>
       </div>
+      <DeletePostModal
+        postId={selectedPostId}
+        onDeleteSuccess={handleDeleteSuccess}
+      />
     </>
   );
 }
