@@ -12,6 +12,8 @@ function CityDistrictSelector({
   rules,
   initialCityId,
   initialDistrict,
+  cityName,
+  districtName,
 }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);

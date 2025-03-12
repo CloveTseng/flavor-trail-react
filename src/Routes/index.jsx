@@ -48,7 +48,7 @@ const routes = [
         element: <Account />,
         children: [
           {
-            index: true,
+            path: 'setting',
             element: <AccountSetting />,
           },
           {

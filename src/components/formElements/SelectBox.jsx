@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { get } from 'lodash';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -12,6 +13,7 @@ const SelectBox = ({
   apiEndpoint,
   optionLabelKey,
   optionValueKey,
+  name,
 }) => {
   const [options, setOptions] = useState([]);
 
@@ -32,11 +34,11 @@ const SelectBox = ({
       <div className="flex-grow-1 ms-lg-7">
         <select
           id={id}
-          name={id}
+          name={name}
           className={`form-select border-gray-400 py-2 px-5 rounded-3 bg-white ${
-            errors?.[id] && 'is-invalid'
+            get(errors, name) && 'is-invalid'
           }`}
-          {...register(id, rules)}
+          {...register(name, rules)}
         >
           <option value="" disabled selected>
             請選擇{labelText}
@@ -47,8 +49,8 @@ const SelectBox = ({
             </option>
           ))}
         </select>
-        {errors[id] && (
-          <div className="invalid-feedback">{errors?.[id]?.message}</div>
+        {get(errors, name) && (
+          <div className="invalid-feedback">{get(errors, name)?.message}</div>
         )}
       </div>
     </>

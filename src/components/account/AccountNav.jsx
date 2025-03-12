@@ -11,12 +11,12 @@ function AccountNav() {
           <ul className="navbar-nav d-lg-flex d-none justify-content-between mb-14">
             <li
               className={`nav-item ${
-                location.pathname.endsWith('/account') ? 'active' : ''
+                location.pathname.endsWith('/setting') ? 'active' : ''
               }`}
             >
               <NavLink
                 className="d-flex align-items-center px-5 py-6 gap-5 fw-bold"
-                to="/account"
+                to="/account/setting"
               >
                 <svg
                   width="16"

@@ -1,4 +1,14 @@
-const RadioGroup = ({ register, errors, labelText, id, rules, options }) => {
+import { get } from 'lodash';
+
+const RadioGroup = ({
+  register,
+  errors,
+  labelText,
+  id,
+  rules,
+  options,
+  name,
+}) => {
   return (
     <div className="mb-7">
       <div className="share-food-modal d-lg-flex align-items-lg-center">
@@ -16,17 +26,21 @@ const RadioGroup = ({ register, errors, labelText, id, rules, options }) => {
             className="form-check ms-0 align-items-center ms-lg-7"
           >
             <input
-              className={`form-check-input ${errors[id] && 'is-invalid'}`}
+              className={`form-check-input ${
+                get(errors, name) && 'is-invalid'
+              }`}
               type="radio"
               id={item.id}
               value={item.value}
-              {...register(id, rules)}
+              {...register(name, rules)}
             />
             <label className="form-check-label text-nowrap" htmlFor={item.id}>
               {item.label}
             </label>
-            {errors[id] && (
-              <div className="invalid-feedback">{errors?.[id]?.message}</div>
+            {get(errors, name) && (
+              <div className="invalid-feedback">
+                {get(errors, name)?.message}
+              </div>
             )}
           </div>
         ))}

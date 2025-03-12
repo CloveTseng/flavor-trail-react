@@ -180,7 +180,7 @@ const Header = () => {
     if (e.key === 'Enter') {
       handleSearch(e);
     }
-  }
+  };
 
   const toggleOffcanvas = () => {
     if (isOffcanvasOpen) {
@@ -189,14 +189,14 @@ const Header = () => {
       setSelectedFoodType('美食類型');
     }
     setIsOffcanvasOpen(!isOffcanvasOpen);
-  }
- 
+  };
+
   // 處理搜尋結果，將搜尋條件帶到 all-posts 頁面
   const handleSearch = (e) => {
     e.preventDefault();
 
     const searchParams = new URLSearchParams();
-    
+
     if (searchInput.trim()) {
       searchParams.append('keyword', searchInput.trim());
     }
@@ -209,9 +209,9 @@ const Header = () => {
       searchParams.append('foodType', selectedFoodType);
     }
 
-    navigate(`/all-posts?${searchParams.toString()}`)
+    navigate(`/all-posts?${searchParams.toString()}`);
 
-    if(isSearchVisible) {
+    if (isSearchVisible) {
       toggleSearch();
     }
 
@@ -383,7 +383,7 @@ const Header = () => {
                     >
                       <li>
                         <NavLink
-                          to="/account"
+                          to="/account/setting"
                           className="dropdown-item"
                         >
                           個人設定
@@ -398,7 +398,10 @@ const Header = () => {
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/account/my-posts" className="dropdown-item">
+                        <NavLink
+                          to="/account/my-posts"
+                          className="dropdown-item"
+                        >
                           我的發文
                         </NavLink>
                       </li>

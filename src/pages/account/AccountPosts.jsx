@@ -3,6 +3,8 @@ import AccountFilter from '../../components/account/AccountFilter';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router';
+import ShareFoodModal from '../../components/ShareFoodModal';
+import DeletePostModal from '../../components/account/DeletePostModal';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -18,6 +20,7 @@ function formatDate(dateString) {
 function AccountPosts() {
   const [postData, setPostData] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   useEffect(() => {
     const getPostData = async () => {
@@ -68,6 +71,9 @@ function AccountPosts() {
     }
     return false;
   });
+  const handleOpenDeleteModal = (postId) => {
+    setSelectedPostId(postId);
+  };
 
   return (
     <>
@@ -250,17 +256,29 @@ function AccountPosts() {
                           </a>
                           <ul className="dropdown-menu">
                             <li>
-                              <a className="dropdown-item" href="#">
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#shareFoodModal"
+                              >
                                 編輯貼文
                               </a>
                             </li>
                             <li>
-                              <a className="dropdown-item" href="#">
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deletePostModal"
+                              >
                                 刪除貼文
                               </a>
                             </li>
                           </ul>
                         </div>
+                        <ShareFoodModal />
+                        <DeletePostModal postId={item.id} />
                         {/* dropdown */}
                         <div className="post-card-img my-7 text-center">
                           <Link
