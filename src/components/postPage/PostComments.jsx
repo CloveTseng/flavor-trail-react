@@ -16,9 +16,24 @@ const PostComments = ({ id, commentCount }) => {
     return LoginPerson[0].userId;
   };
 
+  const getComments = async () => {
+    try {
+      const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
+      // console.log(res.data);
+      setComments(res.data.filter((comment) => comment.postId == id));
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
   const createComment = async (type = 'normal') => {
     if (!isLogin) {
       alert('迷路的尋者唷！您尚未登入唷');
+      return;
+    }
+
+    if (newComments === '') {
+      alert('親愛的尋者唷！說點啥！');
       return;
     }
     try {
@@ -31,23 +46,14 @@ const PostComments = ({ id, commentCount }) => {
       });
       console.log(res);
       setNewComments('');
+      getComments();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/comments?_expand=user'
-        );
-        // console.log(res.data);
-        setComments(res.data.filter((comment) => comment.postId == id));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getComments();
   }, [id]);
 
   return (
@@ -84,11 +90,11 @@ const PostComments = ({ id, commentCount }) => {
                     width: '48px',
                     height: '48px',
                   }}
-                  src={comment.user.avatarUrl}
+                  src={comment?.user?.avatarUrl}
                   alt="user-img"
                 />
                 <div className="ms-5">
-                  <div className="fs-5 fw-bold">{comment.user.nickName}</div>
+                  <div className="fs-5 fw-bold">{comment?.user?.nickName}</div>
                   <small className="text-gray-700">
                     {`B${index + 1}・${comment.createDate}`}
                   </small>
