@@ -90,46 +90,6 @@ function AccountFilter({ setFilter, filter, postData }) {
             <li className="col-2 list-group-item border-0 p-0 w-auto">
               <button
                 type="button"
-                onClick={() => setFilter('expired')}
-                className={`btn py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center ${
-                  filter === 'expired' ? 'btn-primary' : 'btn-light'
-                }`}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13.3327 4L5.99935 11.3333L2.66602 8"
-                    stroke={filter === 'expired' ? 'white' : '#484848'}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-
-                <span
-                  className={`fs-6 ms-2 pe-12  ${
-                    filter === 'expired' ? '' : 'text-gray-700'
-                  }`}
-                >
-                  已過期
-                </span>
-                <span
-                  className={`badge text-primary rounded-circle fw-medium ${
-                    filter === 'expired' ? 'bg-white' : 'bg-bedge-color'
-                  }`}
-                >
-                  {expiredPostsCount}
-                </span>
-              </button>
-            </li>
-            <li className="col-2 list-group-item border-0 p-0 w-auto">
-              <button
-                type="button"
                 onClick={() => setFilter('notExpired')}
                 className={`btn py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center ${
                   filter === 'notExpired' ? 'btn-primary' : 'btn-light'
@@ -142,21 +102,13 @@ function AccountFilter({ setFilter, filter, postData }) {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clipPath="url(#clip0_228_3113)">
-                    <path
-                      d="M8.00065 1.33337V4.00004M10.8007 5.20004L12.734 3.26671M12.0007 8.00004H14.6673M10.8007 10.8L12.734 12.7334M8.00065 12V14.6667M3.26732 12.7334L5.20065 10.8M1.33398 8.00004H4.00065M3.26732 3.26671L5.20065 5.20004"
-                      stroke={filter === 'notExpired' ? 'white' : '#484848'}
-                      strokeOpacity="0.533333"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_228_3113">
-                      <rect width="16" height="16" fill="white" />
-                    </clipPath>
-                  </defs>
+                  <path
+                    d="M13.3327 4L5.99935 11.3333L2.66602 8"
+                    stroke={filter === 'notExpired' ? 'white' : '#484848'}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
 
                 <span
@@ -175,6 +127,55 @@ function AccountFilter({ setFilter, filter, postData }) {
                 </span>
               </button>
             </li>
+            <li className="col-2 list-group-item border-0 p-0 w-auto">
+              <button
+                type="button"
+                onClick={() => setFilter('expired')}
+                className={`btn py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center ${
+                  filter === 'expired' ? 'btn-primary' : 'btn-light'
+                }`}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clipPath="url(#clip0_228_3113)">
+                    <path
+                      d="M8.00065 1.33337V4.00004M10.8007 5.20004L12.734 3.26671M12.0007 8.00004H14.6673M10.8007 10.8L12.734 12.7334M8.00065 12V14.6667M3.26732 12.7334L5.20065 10.8M1.33398 8.00004H4.00065M3.26732 3.26671L5.20065 5.20004"
+                      stroke={filter === 'expired' ? 'white' : '#484848'}
+                      strokeOpacity="0.533333"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_228_3113">
+                      <rect width="16" height="16" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+
+                <span
+                  className={`fs-6 ms-2 pe-12  ${
+                    filter === 'expired' ? '' : 'text-gray-700'
+                  }`}
+                >
+                  已過期
+                </span>
+                <span
+                  className={`badge text-primary rounded-circle fw-medium ${
+                    filter === 'expired' ? 'bg-white' : 'bg-bedge-color'
+                  }`}
+                >
+                  {expiredPostsCount}
+                </span>
+              </button>
+            </li>
+
             <li className="list-group-item border-0 p-0 w-100 d-flex justify-content-between">
               <form className="d-flex w-100">
                 <input
