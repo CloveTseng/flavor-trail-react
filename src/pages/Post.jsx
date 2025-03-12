@@ -19,6 +19,9 @@ import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
 import { useSelector } from 'react-redux';
 import FullScreenLoading from '../components/FullScreenLoading';
+
+const { VITE_BASE_URL } = import.meta.env;
+
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -37,7 +40,7 @@ const Post = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `https://json-server-vercel-5mr9.onrender.com/posts/${id}?_expand=user`
+          `${VITE_BASE_URL}/posts/${id}?_expand=user`
         );
         // console.log(res.data);
         setPost((pre) => res.data);
@@ -112,7 +115,7 @@ const Post = () => {
     postTitle: '',
     userNickname: '',
   });
-  const openApplyModal = (post, user) => {
+  const openApplyModal = (post, userNickname) => {
     if (!isLogin) {
       alert('迷路的尋者唷！您尚未登入唷！');
       return;
@@ -121,7 +124,7 @@ const Post = () => {
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
-      userNickname: user,
+      userNickname,
     }));
     foodApplyRef.current.show();
   };
@@ -131,18 +134,31 @@ const Post = () => {
     return LoginPerson[0].userId;
   };
 
+  const [userNickname, setUserNickname] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
+        // console.log(res);
+        setUserNickname(res.data.nickName);
+      } catch (error) {
+        // console.log(error);
+      }
+    })();
+  }, [uid]);
+
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
     // console.log(foodApplyRef);
   }, []);
 
   //redux測試
-  useEffect(() => {
-    console.log(isLogin);
-    if (isLogin) {
-      console.log(getUserId(uid));
-    }
-  }, [isLogin]);
+  // useEffect(() => {
+  //   console.log(isLogin);
+  //   if (isLogin) {
+  //     console.log(getUserId(uid));
+  //   }
+  // }, [isLogin]);
   return (
     <>
       <header>
@@ -621,8 +637,8 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
-                      onClick={() => openApplyModal(post, 'oreo')}
-                      disabled={isLogin && post?.id == getUserId(uid)}
+                      onClick={() => openApplyModal(post, userNickname)}
+                      disabled={isLogin && post?.user?.id == getUserId(uid)}
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -812,8 +828,8 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
-                    onClick={() => openApplyModal(post, 'oreo')}
-                    disabled={isLogin && post?.id == getUserId(uid)}
+                    onClick={() => openApplyModal(post, userNickname)}
+                    disabled={isLogin && post?.user?.id == getUserId(uid)}
                   >
                     <span className="me-2">我要領取</span>
                     <svg
