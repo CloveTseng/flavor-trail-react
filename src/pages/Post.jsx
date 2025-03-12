@@ -638,7 +638,11 @@ const Post = () => {
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
                       onClick={() => openApplyModal(post, userNickname)}
-                      disabled={isLogin && post?.user?.id == getUserId(uid)}
+                      disabled={
+                        (isLogin && post?.user?.id == getUserId(uid)) ||
+                        post?.food?.restQuantity === 0 ||
+                        !postTag.expired
+                      }
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -829,7 +833,11 @@ const Post = () => {
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
                     onClick={() => openApplyModal(post, userNickname)}
-                    disabled={isLogin && post?.user?.id == getUserId(uid)}
+                    disabled={
+                      (isLogin && post?.user?.id == getUserId(uid)) ||
+                      post?.food?.restQuantity === 0 ||
+                      !postTag.expired
+                    }
                   >
                     <span className="me-2">我要領取</span>
                     <svg
