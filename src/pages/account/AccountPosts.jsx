@@ -67,6 +67,9 @@ function AccountPosts() {
           setFilter={setFilter}
           filter={filter}
           postData={postData}
+          title="我的發文"
+          placeholder="搜尋發文"
+          filterOptions={['all', 'notExpired', 'expired']}
         />
         <div>目前沒有貼文。</div>
       </>
@@ -90,6 +93,9 @@ function AccountPosts() {
         setFilter={setFilter}
         filter={filter}
         postData={postData}
+        title="我的發文"
+        placeholder="搜尋發文"
+        filterOptions={['all', 'notExpired', 'expired']}
       />
       <div className="notificationCard mb-19">
         <div className="container">
