@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CopyUid = ({ uid }) => {
+const CopyUid = ({ uid, disabled }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -12,11 +12,22 @@ const CopyUid = ({ uid }) => {
       console.error('複製失敗', error);
     }
   };
+
+  const handleClick = () => {
+    if (!disabled) {
+      handleCopy();
+    }
+  };
+
+  const disabledImg = disabled
+    ? '/assets/images/icon/x.svg'
+    : '/assets/images/icon/copy.svg';
+  const copyUidClass = `px-2 text-end d-inline-flex align-items-center ${
+    disabled ? 'text-gray-400 cursor-default' : 'cursor-pointer'
+  }`;
+
   return (
-    <span
-      onClick={handleCopy}
-      className="px-2 text-end cursor-pointer d-inline-flex align-items-center"
-    >
+    <span onClick={handleClick} className={copyUidClass}>
       {copied ? (
         <>
           <img
@@ -28,8 +39,14 @@ const CopyUid = ({ uid }) => {
         </>
       ) : (
         <>
-          <img src="/assets/images/icon/copy.svg" alt="copy" className="px-1" />
-          <span className="text-gray-700 px-1 ">複製領取碼</span>
+          <img
+            src={disabledImg}
+            alt={disabled ? '無法複製' : '複製'}
+            className="px-1"
+          />
+          <span className="text-gray-700 px-1 ">
+            {disabled ? '複製碼已過期' : '複製領取碼'}
+          </span>
         </>
       )}
     </span>

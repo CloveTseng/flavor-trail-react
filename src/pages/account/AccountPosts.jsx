@@ -118,7 +118,10 @@ function AccountPosts() {
                           <div className="pt-7">
                             <div className="d-flex align-items-end mb-5">
                               <h2 className="fs-3">{item.title}</h2>
-                              <CopyUid uid={item.redeemCode} />
+                              <CopyUid
+                                uid={item.redeemCode}
+                                disabled={expired}
+                              />
                             </div>
 
                             <p className="text-gray-700 multiline-ellipsis mb-5">
