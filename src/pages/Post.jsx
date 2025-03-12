@@ -152,6 +152,18 @@ const Post = () => {
     // console.log(foodApplyRef);
   }, []);
 
+  // 判斷滾動
+  const [isScroll, setIsScroll] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScroll(window.scrollY >= 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.addEventListener('scroll', handleScroll);
+  }, []);
+
   //redux測試
   // useEffect(() => {
   //   console.log(isLogin);
@@ -803,12 +815,9 @@ const Post = () => {
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
               <div
-                className="bg-white rounded-3 p-5 mb-3"
-                style={{
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: '900',
-                }}
+                className={`bg-white rounded-3 p-5 mb-3 ${
+                  isScroll ? 'sticky-top' : ''
+                }`}
               >
                 {/* <!--份數統計--> */}
                 <div className="row gx-0">
