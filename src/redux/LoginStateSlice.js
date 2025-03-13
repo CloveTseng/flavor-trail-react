@@ -1,13 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//demo預設帳號狀態
 const identity = [
   {
+    //法坨地頭蛇
     userId: 1,
-    uid: 'vDJJ4XDu8BQnTSbpRueedfOKVWg2'
+    uid: 'vDJJ4XDu8BQnTSbpRueedfOKVWg2',
+    foodApplications: [
+      {
+        id: 7,
+        postId: 2,
+        status: "待回覆",
+      },
+      {
+        id: 8,
+        postId: 12,
+        status: "已同意",
+      },
+      {
+        id: 9,
+        postId: 9,
+        status: "已同意",
+      },
+    ]
   },
   {
+    //美食橘貓咩嚕
     userId: 16,
-    uid: 'QTMKlCfcFndoHtjRDThP0hcAiCl1'
+    uid: 'QTMKlCfcFndoHtjRDThP0hcAiCl1',
+    foodApplications: [
+      {
+        id: 1,
+        postId: 15,
+        status: "已同意",
+      },
+    ]
   },
 ]
 
@@ -33,10 +60,23 @@ const LoginStateSlice = createSlice({
         uid: '',
         isLogin: false
       };
-    }
+    },
+    addFoodApplication: (state) => {
+      const { userId, postId } = action.payload;
+      state.identity.map(data => {
+        if (data.userId === userId) {
+          data.foodApplications.push({
+            postId,
+            status: "待回覆",
+          })
+        }
+
+        return data
+      })
+    },
   }
 })
 
 
 export default LoginStateSlice.reducer;
-export const { setIsLogin, setLogout } = LoginStateSlice.actions;
+export const { setIsLogin, setLogout, addFoodApplication } = LoginStateSlice.actions;
