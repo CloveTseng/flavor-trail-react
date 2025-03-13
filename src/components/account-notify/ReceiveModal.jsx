@@ -12,15 +12,18 @@ function ReceiveModal({ app, onClose }) {
   const redeemCode = app.post.redeemCode;
 
   const [isCorrectCode, setIsCorrectCode] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [showCodeHintPC, setShowCodeHintPC] = useState(false);
-  const [showCodeHintPhone, setShowCodeHintPhone] = useState(false);
+  const [showCodeHint, setShowCodeHint] = useState(false);
+  const [isCodeVerified, setIsCodeVerified] = useState(false);
 
   const {
     register,
     watch,
     formState: { errors },
-  } = useForm({ defaultValues: { getCodePC: '' }, mode: 'onTouched' });
+    setValue,
+  } = useForm({
+    defaultValues: { getCodePC: '', getCodePhone: '' },
+    mode: 'onTouched',
+  });
 
   const getCodePCValue = watch('getCodePC');
   const getCodePhoneValue = watch('getCodePhone');
@@ -28,35 +31,30 @@ function ReceiveModal({ app, onClose }) {
   const handleCheckCode = () => {
     const codePC = getCodePCValue;
     const codePhone = getCodePhoneValue;
-    if (!codePC && !codePhone) return;
+    if (!codePC && !codePhone) {
+      setIsCorrectCode(null);
+      return;
+    }
     const correct = codePC === redeemCode || codePhone === redeemCode;
     setIsCorrectCode(correct);
+
     if (correct) {
-      isModalVisible(true);
-      setTimeout(() => {
-        setIsModalVisible(false);
-      }, 1000);
+      setIsCodeVerified(true);
+      setShowCodeHint(false);
+      setValue('getCodePC', redeemCode);
+      setValue('getCodePhone', redeemCode);
     }
   };
-  const handleFocusPC = () => {
-    setShowCodeHintPC(true);
-  };
 
-  const handleFocusPhone = () => {
-    setShowCodeHintPhone(true);
+  const handleFocus = () => {
+    setShowCodeHint(true);
   };
 
   useEffect(() => {
-    if (getCodePCValue) {
-      setShowCodeHintPC(false);
+    if (getCodePCValue || getCodePhoneValue) {
+      setShowCodeHint(false);
     }
-  }, [getCodePCValue]);
-
-  useEffect(() => {
-    if (getCodePhoneValue) {
-      setShowCodeHintPhone(false);
-    }
-  }, [getCodePhoneValue]);
+  }, [getCodePCValue, getCodePhoneValue]);
 
   return (
     <>
@@ -146,16 +144,9 @@ function ReceiveModal({ app, onClose }) {
                       id="getCodePC"
                       name="getCodePC"
                       type="text"
-                      onFocus={handleFocusPC}
+                      onFocus={handleFocus}
+                      disabled={isCodeVerified}
                     />
-                    {showCodeHintPC && (
-                      <div
-                        id="passwordHelpBlock"
-                        className="form-text text-start ps-1 position-absolute"
-                      >
-                        請向發文者索取領取碼
-                      </div>
-                    )}
                     {isCorrectCode === false && (
                       <p className="text-sm text-danger">領取碼不正確</p>
                     )}
@@ -165,9 +156,9 @@ function ReceiveModal({ app, onClose }) {
                     className="btn btn-primary text-nowrap py-4"
                     id="orderNowPC"
                     onClick={handleCheckCode}
-                    disabled={!getCodePCValue}
+                    disabled={!getCodePCValue || isCodeVerified}
                   >
-                    馬上領取
+                    {isCodeVerified ? '已領取' : '馬上領取'}
                   </button>
                 </form>
               </div>
@@ -186,9 +177,9 @@ function ReceiveModal({ app, onClose }) {
                   data-bs-target="#offcanvasWithBothOptions"
                   aria-controls="offcanvasWithBothOptions"
                   onClick={handleCheckCode}
-                  disabled={!getCodePhoneValue}
+                  disabled={!getCodePhoneValue || isCodeVerified}
                 >
-                  馬上領取
+                  {isCodeVerified ? '已領取' : '馬上領取'}
                 </button>
               </div>
 
@@ -223,7 +214,8 @@ function ReceiveModal({ app, onClose }) {
                       name="getCodePhone"
                       type="text"
                       {...register('getCodePhone')}
-                      onFocus={handleFocusPhone}
+                      onFocus={handleFocus}
+                      disabled={isCodeVerified}
                     />
                     <div>
                       <button
@@ -231,20 +223,12 @@ function ReceiveModal({ app, onClose }) {
                         className="btn btn-primary fw-bold h6 text-nowrap"
                         id="giveUpBtn"
                         onClick={handleCheckCode}
-                        disabled={!getCodePhoneValue}
+                        disabled={!getCodePhoneValue || isCodeVerified}
                       >
-                        確定
+                        {isCodeVerified ? '已領取' : '確定'}
                       </button>
                     </div>
                   </div>
-                  {showCodeHintPhone && (
-                    <div
-                      id="passwordHelpBlock"
-                      className="form-text text-start ps-1"
-                    >
-                      請向發文者索取領取碼
-                    </div>
-                  )}
                   {isCorrectCode === false && (
                     <p className="text-sm text-danger">領取碼不正確</p>
                   )}
