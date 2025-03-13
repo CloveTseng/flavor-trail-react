@@ -36,15 +36,15 @@ function AccountNotifications() {
   const getBackgroundColorClass = (status) => {
     if (status === '已同意') {
       return 'bg-white';
-    } else if (status === '已取消') {
-      return 'bg-gray-400';
-    } else {
+    } else if (status === '待回覆') {
       return 'bg-unchecked';
+    } else {
+      return ' bg-gray-400';
     }
   };
 
   if (!appData) {
-    return <div>Loading...</div>;
+    return <div>目前沒有通知。</div>;
   }
 
   if (appData.length === 0) {
@@ -58,7 +58,7 @@ function AccountNotifications() {
           placeholder="搜尋通知"
           filterOptions={['all', 'apply', 'receive', 'comment']}
         />
-        <div>目前沒有通知。</div>
+        <div className="ms-10">Loading...</div>
       </>
     );
   }
@@ -143,48 +143,6 @@ function AccountNotifications() {
               </li>
             </>
           ))}
-          <li className="col-12 px-0">
-            <a
-              href="postPage.html"
-              className="notify-cover row align-items-center position-relative stretched-link p-7 bg-white border-bottom border-gray-400 mx-4"
-            >
-              <div className="notify-back w-100 h-100 position-absolute">
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 40 40"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M40 0L10 6.69388L17.6562 12.5714L0 27.2653C0 27.2653 4.58333 28.6946 8.4375 31.8367C12.2917 34.9788 14.8958 40 14.8958 40L28.4375 21.2245L34.5312 29.7143L40 0Z"
-                    fill="#fff"
-                  />
-                </svg>
-                <div className="fs-4 fw-medium text-white mt-7 mt-lg-0 ms-lg-7">
-                  查看更多
-                </div>
-              </div>
-              <div className="col-6 col-lg-1 order-lg-1 mb-5 mb-lg-0 px-0">
-                <p className="bg-primary fs-6 text-white px-2 py-1 d-inline rounded-3 align-middle text-nowrap">
-                  評價通知
-                </p>
-              </div>
-              <div className="col-6 col-lg-2 order-lg-3 text-end mb-6 mb-lg-0 px-0">
-                <time dateTime="2024-08-01" className="text-gray-700">
-                  2024/08/01
-                </time>
-              </div>
-              <div className="col-12 col-lg-9 order-lg-2 ps-lg-6 px-0">
-                <h6 className="text-primary fw-bold mb-2">[已留言]</h6>
-                <h4 className="fw-bold text-gray-900 mb-2">餘味尋蹤</h4>
-                <p className="fs-6 text-gray-700 mb-0">
-                  法國地頭蛇
-                  ,感謝你參與我們的食物分享活動。領取者已經對你分享的食物進行了評論!請前往貼文查看他們的反饋,了解他們對食物的評價和建議...
-                </p>
-              </div>
-            </a>
-          </li>
         </ul>
       </section>
       <ApplyModal />
