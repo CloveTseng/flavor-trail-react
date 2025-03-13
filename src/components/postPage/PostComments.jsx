@@ -1,21 +1,59 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import dayjs from 'dayjs';
 
+const { VITE_BASE_URL } = import.meta.env;
 const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
+  const [newComments, setNewComments] = useState(null);
+  const { id: postId } = useParams();
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    return LoginPerson[0].userId;
+  };
+
+  const getComments = async () => {
+    try {
+      const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
+      // console.log(res.data);
+      setComments(res.data.filter((comment) => comment.postId == id));
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
+  const createComment = async (type = 'normal') => {
+    if (!isLogin) {
+      alert('迷路的尋者唷！您尚未登入唷');
+      return;
+    }
+
+    if (newComments === '') {
+      alert('親愛的尋者唷！說點啥！');
+      return;
+    }
+    try {
+      const res = await axios.post(`${VITE_BASE_URL}/comments`, {
+        postId,
+        userId: getUserId(uid),
+        type,
+        comment: newComments,
+        createDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      });
+      console.log(res);
+      setNewComments('');
+      getComments();
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/comments?_expand=user'
-        );
-        // console.log(res.data);
-        setComments(res.data.filter((comment) => comment.postId == id));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getComments();
   }, [id]);
 
   return (
@@ -52,11 +90,11 @@ const PostComments = ({ id, commentCount }) => {
                     width: '48px',
                     height: '48px',
                   }}
-                  src={comment.user.avatarUrl}
+                  src={comment?.user?.avatarUrl}
                   alt="user-img"
                 />
                 <div className="ms-5">
-                  <div className="fs-5 fw-bold">{comment.user.nickName}</div>
+                  <div className="fs-5 fw-bold">{comment?.user?.nickName}</div>
                   <small className="text-gray-700">
                     {`B${index + 1}・${comment.createDate}`}
                   </small>
@@ -83,14 +121,16 @@ const PostComments = ({ id, commentCount }) => {
           type="text"
           className="form-control"
           placeholder="寫下你的留言"
-          aria-label="寫下你的留言"
-          aria-describedby="button-addon2"
+          value={newComments || ''}
+          onChange={(e) => setNewComments(e.target.value)}
         />
-        <span
+        <button
+          type="button"
           className="input-group-text"
           style={{
             cursor: 'pointer',
           }}
+          onClick={() => createComment()}
         >
           <svg
             width="16"
@@ -114,7 +154,7 @@ const PostComments = ({ id, commentCount }) => {
               </clipPath>
             </defs>
           </svg>
-        </span>
+        </button>
       </div>
     </div>
   );
