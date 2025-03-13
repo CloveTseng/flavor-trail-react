@@ -38,14 +38,17 @@ const Post = () => {
 
   const [hasApplication, setHasApplication] = useState(false);
   const checkFoodApplications = (userId, postId) => {
+    console.log('check:', userId, postId);
     const currentUser = identity.filter((user) => user.userId === userId);
+
     if (currentUser.length === 0) {
       return;
     }
 
-    const findApplicationsIndex = currentUser.foodApplications.findIndex(
+    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
       (application) => application.postId == postId
     );
+    // console.log('目前使用者申請：', findApplicationsIndex);
     if (findApplicationsIndex !== -1) {
       setHasApplication(true);
     }
@@ -100,43 +103,13 @@ const Post = () => {
         );
         // console.log(res.data);
         setPost((pre) => res.data);
-        setTimeAgo((pre) => res.data.createdPostDate);
-        handlePostTag(res.data.likeCount, timeAgo, res.data.food.expiryDate);
+        // setTimeAgo((pre) => res.data.createdPostDate);
+        handlePostTag(
+          res.data.likeCount,
+          res.data.createdPostDate,
+          res.data.food.expiryDate
+        );
         checkFoodApplications(getUserId(uid), res.data.id);
-        // if (res.data.likeCount > 100) {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     hot: true,
-        //   }));
-        // } else {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     hot: false,
-        //   }));
-        // }
-
-        // if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     latest: true,
-        //   }));
-        // } else {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     latest: false,
-        //   }));
-        // }
-        // if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     expired: false,
-        //   }));
-        // } else {
-        //   setPostTag((pre) => ({
-        //     ...pre,
-        //     expired: true,
-        //   }));
-        // }
       } catch (error) {
         navigate('*');
         // console.log(error);
@@ -176,6 +149,11 @@ const Post = () => {
   const openApplyModal = (post) => {
     if (!isLogin) {
       alert('迷路的尋者唷！您尚未登入唷！');
+      return;
+    }
+
+    if (hasApplication) {
+      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
       return;
     }
     setApplyInfo((pre) => ({
@@ -386,7 +364,7 @@ const Post = () => {
                       >
                         {`${post?.user?.pickupCity} / ${
                           post?.user?.pickupDistrict
-                        }· ${dayjs(timeAgo).fromNow()}`}
+                        }· ${dayjs(post?.createdPostDate).fromNow()}`}
                       </div>
                     </div>
                     <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
@@ -712,8 +690,7 @@ const Post = () => {
                       disabled={
                         (isLogin && post?.user?.id == getUserId(uid)) ||
                         post?.food?.restQuantity === 0 ||
-                        !postTag.expired ||
-                        hasApplication
+                        !postTag.expired
                       }
                     >
                       <span className="me-2">我要領取</span>
@@ -905,8 +882,7 @@ const Post = () => {
                     disabled={
                       (isLogin && post?.user?.id == getUserId(uid)) ||
                       post?.food?.restQuantity === 0 ||
-                      !postTag.expired ||
-                      hasApplication
+                      !postTag.expired
                     }
                   >
                     <span className="me-2">我要領取</span>
