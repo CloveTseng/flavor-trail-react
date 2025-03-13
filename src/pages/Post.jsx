@@ -115,7 +115,7 @@ const Post = () => {
     postTitle: '',
     userNickname: '',
   });
-  const openApplyModal = (post, userNickname) => {
+  const openApplyModal = (post) => {
     if (!isLogin) {
       alert('迷路的尋者唷！您尚未登入唷！');
       return;
@@ -124,6 +124,7 @@ const Post = () => {
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
+      userId: getUserId(uid),
       userNickname,
     }));
     foodApplyRef.current.show();
@@ -649,7 +650,7 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
-                      onClick={() => openApplyModal(post, userNickname)}
+                      onClick={() => openApplyModal(post)}
                       disabled={
                         (isLogin && post?.user?.id == getUserId(uid)) ||
                         post?.food?.restQuantity === 0 ||
@@ -841,7 +842,7 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
-                    onClick={() => openApplyModal(post, userNickname)}
+                    onClick={() => openApplyModal(post)}
                     disabled={
                       (isLogin && post?.user?.id == getUserId(uid)) ||
                       post?.food?.restQuantity === 0 ||
