@@ -6,7 +6,7 @@ const identity = [
     uid: 'vDJJ4XDu8BQnTSbpRueedfOKVWg2'
   },
   {
-    userId: 21,
+    userId: 16,
     uid: 'QTMKlCfcFndoHtjRDThP0hcAiCl1'
   },
 ]
@@ -27,10 +27,16 @@ const LoginStateSlice = createSlice({
         uid,
         isLogin
       };
+    },
+    setLogout: (state) => {
+      state.loginStatus = {
+        uid: '',
+        isLogin: false
+      };
     }
   }
 })
 
 
 export default LoginStateSlice.reducer;
-export const { setIsLogin } = LoginStateSlice.actions;
+export const { setIsLogin, setLogout } = LoginStateSlice.actions;
