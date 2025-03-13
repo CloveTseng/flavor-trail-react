@@ -35,6 +35,62 @@ const Post = () => {
   const navigate = useNavigate();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const { identity } = useSelector((state) => state.loginSlice);
+
+  const [hasApplication, setHasApplication] = useState(false);
+  const checkFoodApplications = (userId, postId) => {
+    const currentUser = identity.filter((user) => user.userId === userId);
+    if (currentUser.length === 0) {
+      return;
+    }
+
+    const findApplicationsIndex = currentUser.foodApplications.findIndex(
+      (application) => application.postId == postId
+    );
+    if (findApplicationsIndex !== -1) {
+      setHasApplication(true);
+    }
+  };
+
+  const handlePostTag = (likeCount, timeAgo, expiryDate) => {
+    //熱門Tag
+    if (likeCount > 100) {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: false,
+      }));
+    }
+
+    //最新
+    if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: false,
+      }));
+    }
+
+    //是否過期
+    if (dayjs().isAfter(dayjs(expiryDate))) {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: false,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: true,
+      }));
+    }
+  };
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -45,40 +101,42 @@ const Post = () => {
         // console.log(res.data);
         setPost((pre) => res.data);
         setTimeAgo((pre) => res.data.createdPostDate);
-        if (res.data.likeCount > 100) {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: false,
-          }));
-        }
+        handlePostTag(res.data.likeCount, timeAgo, res.data.food.expiryDate);
+        checkFoodApplications(getUserId(uid), res.data.id);
+        // if (res.data.likeCount > 100) {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     hot: true,
+        //   }));
+        // } else {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     hot: false,
+        //   }));
+        // }
 
-        if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: false,
-          }));
-        }
-        if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: false,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: true,
-          }));
-        }
+        // if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     latest: true,
+        //   }));
+        // } else {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     latest: false,
+        //   }));
+        // }
+        // if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     expired: false,
+        //   }));
+        // } else {
+        //   setPostTag((pre) => ({
+        //     ...pre,
+        //     expired: true,
+        //   }));
+        // }
       } catch (error) {
         navigate('*');
         // console.log(error);
@@ -165,13 +223,13 @@ const Post = () => {
     return () => window.addEventListener('scroll', handleScroll);
   }, []);
 
-  //redux測試
-  // useEffect(() => {
-  //   console.log(isLogin);
-  //   if (isLogin) {
-  //     console.log(getUserId(uid));
-  //   }
-  // }, [isLogin]);
+  // redux測試;
+  useEffect(() => {
+    console.log(isLogin);
+    if (isLogin) {
+      console.log('登入者id:', getUserId(uid));
+    }
+  }, [isLogin]);
   return (
     <>
       <header>
@@ -654,7 +712,8 @@ const Post = () => {
                       disabled={
                         (isLogin && post?.user?.id == getUserId(uid)) ||
                         post?.food?.restQuantity === 0 ||
-                        !postTag.expired
+                        !postTag.expired ||
+                        hasApplication
                       }
                     >
                       <span className="me-2">我要領取</span>
@@ -846,7 +905,8 @@ const Post = () => {
                     disabled={
                       (isLogin && post?.user?.id == getUserId(uid)) ||
                       post?.food?.restQuantity === 0 ||
-                      !postTag.expired
+                      !postTag.expired ||
+                      hasApplication
                     }
                   >
                     <span className="me-2">我要領取</span>

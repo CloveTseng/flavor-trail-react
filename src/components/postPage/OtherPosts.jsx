@@ -13,15 +13,15 @@ const OtherPosts = ({ id }) => {
   const getOtherPosts = (posts, count) => {
     let tempPosts = [...posts].filter((post) => post.id != id);
     let otherPosts = [];
-    console.log('本篇貼文', id);
+    // console.log('本篇貼文', id);
 
-    console.log('更多貼文選項', tempPosts);
+    // console.log('更多貼文選項', tempPosts);
 
     for (let i = 0; i < count; i++) {
       let randomIndex = Math.floor(Math.random() * tempPosts.length);
       otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
     }
-    console.log('更多貼文', otherPosts);
+    // console.log('更多貼文', otherPosts);
     return otherPosts;
   };
 
@@ -34,7 +34,7 @@ const OtherPosts = ({ id }) => {
         // console.log(res);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     })();
   }, [id]);
