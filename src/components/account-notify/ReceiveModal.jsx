@@ -1,4 +1,63 @@
-function ReceiveModal() {
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import InputText from '../formElements/InputText';
+import { Link } from 'react-router';
+
+function ReceiveModal({ app, onClose }) {
+  if (!app) return null;
+
+  const title = app.post.title;
+  const replyMessage = app.replyMessage;
+  const postId = app.post.id;
+  const redeemCode = app.post.redeemCode;
+
+  const [isCorrectCode, setIsCorrectCode] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showCodeHintPC, setShowCodeHintPC] = useState(false);
+  const [showCodeHintPhone, setShowCodeHintPhone] = useState(false);
+
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useForm({ defaultValues: { getCodePC: '' }, mode: 'onTouched' });
+
+  const getCodePCValue = watch('getCodePC');
+  const getCodePhoneValue = watch('getCodePhone');
+
+  const handleCheckCode = () => {
+    const codePC = getCodePCValue;
+    const codePhone = getCodePhoneValue;
+    if (!codePC && !codePhone) return;
+    const correct = codePC === redeemCode || codePhone === redeemCode;
+    setIsCorrectCode(correct);
+    if (correct) {
+      isModalVisible(true);
+      setTimeout(() => {
+        setIsModalVisible(false);
+      }, 1000);
+    }
+  };
+  const handleFocusPC = () => {
+    setShowCodeHintPC(true);
+  };
+
+  const handleFocusPhone = () => {
+    setShowCodeHintPhone(true);
+  };
+
+  useEffect(() => {
+    if (getCodePCValue) {
+      setShowCodeHintPC(false);
+    }
+  }, [getCodePCValue]);
+
+  useEffect(() => {
+    if (getCodePhoneValue) {
+      setShowCodeHintPhone(false);
+    }
+  }, [getCodePhoneValue]);
+
   return (
     <>
       <div
@@ -7,55 +66,62 @@ function ReceiveModal() {
         tabIndex="-1"
         aria-labelledby="notifyModalLabel"
         aria-hidden="true"
+        onClick={onClose}
       >
-        <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
+        <div
+          className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="modal-content bg-white">
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
               <h1 className="modal-title fw-bolder lh-xs" id="ModalToggleLabel">
                 領取通知
               </h1>
               <img
-                src="../assets/images/icon/x.svg"
+                src="/assets/images/icon/x.svg"
                 alt=""
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"
-                aria-label="Close"
+                onClick={onClose}
               />
             </div>
             <div className="modal-body p-lg-7 py-7 px-4">
-              <a href="#" alt="" className="d-block mb-7">
-                <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
-                  <div className="d-flex align-items-center">
-                    <img
-                      src="../assets/images/post-1.jpg"
-                      alt=""
-                      className="nofify-modal-img rounded-1"
-                    />
-                    <h5 className="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">
-                      奢華午餐，尋找飢餓的你！
-                    </h5>
-                  </div>
-                  <div className="p-2 me-sm-4">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 12L10 8L6 4"
-                        stroke="#484848"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+              {postId && (
+                <Link to={`/post/${postId}`} alt="" className="d-block mb-7">
+                  <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0 bg-gray-200">
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={app.post.imagesUrl}
+                        alt=""
+                        className="nofify-modal-img rounded-1"
                       />
-                    </svg>
+                      <h5 className="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">
+                        {title}
+                      </h5>
+                    </div>
+                    <div className="p-2 me-sm-4">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6 12L10 8L6 4"
+                          stroke="#484848"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-              </a>
+                </Link>
+              )}
+
               <div className="d-flex align-items-center mb-7">
-                <img src="../assets/images/icon/path.svg" alt="" />
+                <img src="/assets/images/icon/path.svg" alt="" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2 d-block d-md-inline">
                   我已經準備好囉～
                   <span className="d-block d-md-inline">
@@ -63,18 +129,7 @@ function ReceiveModal() {
                   </span>
                 </h4>
               </div>
-              <h6 className="fw-bold mb-2">Logi:</h6>
-              <p className="text-gray-700 d-inline-block">
-                嗨！感謝你對我的食物分享活動感興趣，你所預訂的食物可以領取了！
-                <br />
-                領取時間：今天下午2點至4點
-                <br />
-                領取地點：台北市信義區XXXXXXX
-                <br />
-                聯繫方式：0912345678
-                <br />
-                請記得帶上你的環保餐具，享受這美味的食物！如果有任何問題，請隨時聯繫我～～
-              </p>
+              <p className="text-gray-700 d-inline-block">{replyMessage}</p>
             </div>
             {/* <!-- 電腦版 - 馬上領取 --> */}
             <div className="modal-footer p-7 d-sm-block d-none">
@@ -82,31 +137,39 @@ function ReceiveModal() {
                 <button type="button" className="btn btn-white" id="giveUpBtn">
                   放棄領取
                 </button>
-                <div className="d-flex">
+                <form className="d-flex align-items-center mb-2">
                   <div className="me-2">
-                    <input
-                      type="text"
-                      className="form-control-sm form-control p-5 border-gray-400 rounded-3 bg-white lh-account"
+                    <InputText
+                      register={register}
+                      errors={errors}
+                      labelText="領取碼"
                       id="getCodePC"
-                      placeholder="請輸入領取碼"
+                      name="getCodePC"
+                      type="text"
+                      onFocus={handleFocusPC}
                     />
-                    <div
-                      id="passwordHelpBlock"
-                      className="form-text text-start ps-1"
-                    >
-                      請向發文者索取領取碼
-                    </div>
+                    {showCodeHintPC && (
+                      <div
+                        id="passwordHelpBlock"
+                        className="form-text text-start ps-1 position-absolute"
+                      >
+                        請向發文者索取領取碼
+                      </div>
+                    )}
+                    {isCorrectCode === false && (
+                      <p className="text-sm text-danger">領取碼不正確</p>
+                    )}
                   </div>
                   <button
                     type="button"
                     className="btn btn-primary text-nowrap py-4"
                     id="orderNowPC"
-                    data-bs-dismiss="modal"
-                    disabled
+                    onClick={handleCheckCode}
+                    disabled={!getCodePCValue}
                   >
                     馬上領取
                   </button>
-                </div>
+                </form>
               </div>
             </div>
             {/* <!-- 手機版 - 馬上領取 --> */}
@@ -122,6 +185,8 @@ function ReceiveModal() {
                   data-bs-toggle="offcanvas"
                   data-bs-target="#offcanvasWithBothOptions"
                   aria-controls="offcanvasWithBothOptions"
+                  onClick={handleCheckCode}
+                  disabled={!getCodePhoneValue}
                 >
                   馬上領取
                 </button>
@@ -145,34 +210,44 @@ function ReceiveModal() {
                     type="button"
                     className="btn-close"
                     data-bs-dismiss="offcanvas"
-                    aria-label="Close"
+                    onClick={onClose}
                   ></button>
                 </div>
                 <div className="pt-2 px-4 pb-7">
                   <div className="d-flex">
-                    <input
-                      type="text"
-                      className="form-control py-4 px-5 border-gray-400 rounded-3 bg-white lh-account me-2"
+                    <InputText
+                      register={register}
+                      errors={errors}
+                      labelText="領取碼"
                       id="getCodePhone"
-                      placeholder="輸入領取號碼"
+                      name="getCodePhone"
+                      type="text"
+                      {...register('getCodePhone')}
+                      onFocus={handleFocusPhone}
                     />
                     <div>
                       <button
                         type="button"
                         className="btn btn-primary fw-bold h6 text-nowrap"
                         id="giveUpBtn"
-                        disabled
+                        onClick={handleCheckCode}
+                        disabled={!getCodePhoneValue}
                       >
                         確定
                       </button>
                     </div>
                   </div>
-                  <div
-                    id="passwordHelpBlock"
-                    className="form-text text-start ps-1"
-                  >
-                    請向發文者索取領取碼
-                  </div>
+                  {showCodeHintPhone && (
+                    <div
+                      id="passwordHelpBlock"
+                      className="form-text text-start ps-1"
+                    >
+                      請向發文者索取領取碼
+                    </div>
+                  )}
+                  {isCorrectCode === false && (
+                    <p className="text-sm text-danger">領取碼不正確</p>
+                  )}
                 </div>
               </div>
             </div>

@@ -19,6 +19,8 @@ function AccountNotifications() {
   const [appData, setAppData] = useState([]);
   const [filter, setFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState(undefined);
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     const getAppData = async () => {
@@ -83,6 +85,19 @@ function AccountNotifications() {
 
   const filteredAppCount = filteredAppData.length;
 
+  const handleNotifyClick = (app) => {
+    setSelectedApp(app);
+    if (app.type === '申請通知') {
+      setModalType('apply');
+    } else if (app.type === '領取通知') {
+      setModalType('receive');
+    }
+  };
+
+  const handleModalClose = () => {
+    setModalType(null);
+  };
+
   return (
     <>
       <AccountFilter
@@ -109,7 +124,14 @@ function AccountNotifications() {
                       app.status
                     )}`}
                     data-bs-toggle="modal"
-                    data-bs-target="#notifyApplyModal"
+                    data-bs-target={
+                      app.type === '申請通知'
+                        ? '#notifyApplyModal'
+                        : app.type === '領取通知'
+                        ? '#notifyClaimModal'
+                        : ''
+                    }
+                    onClick={() => handleNotifyClick(app)}
                   >
                     <div className="notify-back w-100 h-100 position-absolute">
                       <svg
@@ -162,8 +184,12 @@ function AccountNotifications() {
           )}
         </ul>
       </section>
-      <ApplyModal />
-      <ReceiveModal />
+      {modalType === 'apply' && (
+        <ApplyModal app={selectedApp} onClose={handleModalClose} />
+      )}
+      {modalType === 'receive' && (
+        <ReceiveModal app={selectedApp} onClose={handleModalClose} />
+      )}
     </>
   );
 }
