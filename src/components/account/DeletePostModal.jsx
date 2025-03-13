@@ -1,15 +1,23 @@
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { useRef } from 'react';
+import { Modal } from 'bootstrap';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const DeletePostModal = ({ postId }) => {
+const DeletePostModal = ({ postId, onDeleteSuccess }) => {
+  const modalRef = useRef(null);
+
   const deletePost = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/posts/${postId}`);
+      await axios.delete(`${BASE_URL}/posts/${postId}`);
       alert('貼文刪除成功');
-      window.location.reload();
+      const modalInstance = Modal.getInstance(modalRef.current);
+      modalInstance.hide();
+      onDeleteSuccess();
     } catch (error) {
       console.log(error.message);
+      alert('刪除失敗，請稍後再試');
     }
   };
 
@@ -21,6 +29,7 @@ const DeletePostModal = ({ postId }) => {
         tabIndex="-1"
         aria-labelledby="deletePostModalLabel"
         aria-hidden="true"
+        ref={modalRef}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -36,7 +45,7 @@ const DeletePostModal = ({ postId }) => {
               <button
                 type="button"
                 className="btn btn-white"
-                onClick={() => deletePost()}
+                onClick={deletePost}
               >
                 確認刪除貼文
               </button>
@@ -53,6 +62,11 @@ const DeletePostModal = ({ postId }) => {
       </div>
     </>
   );
+};
+
+DeletePostModal.propTypes = {
+  postId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onDeleteSuccess: PropTypes.func.isRequired,
 };
 
 export default DeletePostModal;
