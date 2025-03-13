@@ -17,6 +17,11 @@ import OtherPosts from '../components/postPage/OtherPosts';
 import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
+import { useSelector } from 'react-redux';
+import FullScreenLoading from '../components/FullScreenLoading';
+
+const { VITE_BASE_URL } = import.meta.env;
+
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -26,13 +31,16 @@ const Post = () => {
     hot: false,
     expired: false,
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
-          `https://json-server-vercel-5mr9.onrender.com/posts/${id}?_expand=user`
+          `${VITE_BASE_URL}/posts/${id}?_expand=user`
         );
         // console.log(res.data);
         setPost((pre) => res.data);
@@ -72,9 +80,10 @@ const Post = () => {
           }));
         }
       } catch (error) {
-        // alert('貼文有誤')
         navigate('*');
         // console.log(error);
+      } finally {
+        setLoading(false);
       }
     })();
   }, [id]);
@@ -106,27 +115,62 @@ const Post = () => {
     postTitle: '',
     userNickname: '',
   });
-  const openApplyModal = (post, user) => {
+  const openApplyModal = (post, userNickname) => {
+    if (!isLogin) {
+      alert('迷路的尋者唷！您尚未登入唷！');
+      return;
+    }
     setApplyInfo((pre) => ({
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
-      userNickname: user,
+      userNickname,
     }));
     foodApplyRef.current.show();
   };
+
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    return LoginPerson[0].userId;
+  };
+
+  const [userNickname, setUserNickname] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
+        // console.log(res);
+        setUserNickname(res.data.nickName);
+      } catch (error) {
+        // console.log(error);
+      }
+    })();
+  }, [uid]);
+
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
     // console.log(foodApplyRef);
   }, []);
 
-  // 測試
+  // 判斷滾動
+  const [isScroll, setIsScroll] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScroll(window.scrollY >= 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.addEventListener('scroll', handleScroll);
+  }, []);
+
+  //redux測試
   // useEffect(() => {
-  //   console.log('時間', timeAgo);
-  //   console.log('測試時間', dayjs(timeAgo).fromNow());
-  //   console.log('是否最新', dayjs().diff(dayjs(timeAgo), 'day') <= 3);
-  //   console.log('是否過期', dayjs().isAfter(dayjs(post?.food?.expiryDate)));
-  // }, [timeAgo]);
+  //   console.log(isLogin);
+  //   if (isLogin) {
+  //     console.log(getUserId(uid));
+  //   }
+  // }, [isLogin]);
   return (
     <>
       <header>
@@ -485,7 +529,11 @@ const Post = () => {
                         </svg>
                       </button>
                     </div>
-                    <div className="col px-1">
+                    <div
+                      className={`col px-1 ${
+                        !isLogin || getUserId(uid) != post?.id ? 'd-none' : ''
+                      }`}
+                    >
                       <button
                         type="button"
                         className="normal-btn btn border-0 w-100"
@@ -601,7 +649,12 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
-                      onClick={() => openApplyModal(post, 'oreo')}
+                      onClick={() => openApplyModal(post, userNickname)}
+                      disabled={
+                        (isLogin && post?.user?.id == getUserId(uid)) ||
+                        post?.food?.restQuantity === 0 ||
+                        !postTag.expired
+                      }
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -761,7 +814,11 @@ const Post = () => {
             </div>
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
-              <div className="bg-white rounded-3 p-5 mb-3 sticky-top">
+              <div
+                className={`bg-white rounded-3 p-5 mb-3 ${
+                  isScroll ? 'sticky-top' : ''
+                }`}
+              >
                 {/* <!--份數統計--> */}
                 <div className="row gx-0">
                   <div className="col text-center border-end">
@@ -784,7 +841,12 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
-                    onClick={() => openApplyModal(post, 'oreo')}
+                    onClick={() => openApplyModal(post, userNickname)}
+                    disabled={
+                      (isLogin && post?.user?.id == getUserId(uid)) ||
+                      post?.food?.restQuantity === 0 ||
+                      !postTag.expired
+                    }
                   >
                     <span className="me-2">我要領取</span>
                     <svg
@@ -938,6 +1000,7 @@ const Post = () => {
           </div>
         </section>
       </main>
+      {loading && <FullScreenLoading />}
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
