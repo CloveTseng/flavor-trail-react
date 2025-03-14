@@ -427,7 +427,7 @@ const Post = () => {
                     <h4 className="fs-3 fw-bold">{post?.title}</h4>
                   </div>
                   <div className="row pb-5">
-                    <p>{post?.content}</p>
+                    <p className="px-0">{post?.content}</p>
                   </div>
                   <div className="row w-auto d-inline justify-content-start pb-7">
                     <div className="col d-inline ps-0">
