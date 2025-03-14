@@ -26,21 +26,21 @@ function AccountFilterStatus({
             >
               已同意
             </li>
-            <li
+            {/* <li
               className={`notify-status__list-item py-3 px-2 px-lg-7 flex-grow-1 flex-lg-grow-0 rounded-3 ${
                 statusFilter === '處理中' ? 'bg-primary text-white' : ''
               }`}
               onClick={() => handleStatusFilter('處理中')}
             >
               處理中
-            </li>
+            </li> */}
             <li
               className={`notify-status__list-item py-3 px-2 px-lg-7 flex-grow-1 flex-lg-grow-0 rounded-3 ${
-                statusFilter === '待回覆' ? 'bg-primary text-white' : ''
+                statusFilter === '待處理' ? 'bg-primary text-white' : ''
               }`}
-              onClick={() => handleStatusFilter('待回覆')}
+              onClick={() => handleStatusFilter('待處理')}
             >
-              待回覆
+              待處理
             </li>
             <li
               className={`notify-status__list-item py-3 px-2 px-lg-7 flex-grow-1 flex-lg-grow-0 rounded-3 ${

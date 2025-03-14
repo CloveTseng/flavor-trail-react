@@ -1,19 +1,29 @@
-import { useEffect, useState } from 'react';
+import * as bootstrap from 'bootstrap';
+import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import InputText from '../formElements/InputText';
 import { Link } from 'react-router';
+import InputText from '../formElements/InputText';
 
-function ReceiveModal({ app, onClose }) {
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const ReceiveModal = ({ app, onClose }) => {
   if (!app) return null;
+  const popoverRefPC = useRef(null);
+  const popoverRefPhone = useRef(null);
+  const isProcessingRef = useRef(false);
 
   const title = app.post.title;
   const replyMessage = app.replyMessage;
   const postId = app.post.id;
   const redeemCode = app.post.redeemCode;
+  const appId = app.id;
 
   const [isCorrectCode, setIsCorrectCode] = useState(null);
   const [showCodeHint, setShowCodeHint] = useState(false);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [cancelClickCountPC, setCancelClickCountPC] = useState(0);
+  const [cancelClickCountPhone, setCancelClickCountPhone] = useState(0);
 
   const {
     register,
@@ -24,6 +34,48 @@ function ReceiveModal({ app, onClose }) {
     defaultValues: { getCodePC: '', getCodePhone: '' },
     mode: 'onTouched',
   });
+
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const changeAPPStatus = async () => {
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
+    try {
+      await axios.patch(`${BASE_URL}/applications/${appId}`, {
+        status: '已取消',
+      });
+      alert('已放棄此筆領取，若需恢復，請重新提交『我要領取』');
+      refreshPage();
+    } catch (error) {
+      alert('操作失敗，請稍候再試');
+    } finally {
+      onClose();
+    }
+  };
+
+  const handleCancelClickPC = () => {
+    setCancelClickCountPC((prevCount) => {
+      const newCount = prevCount + 1;
+      if (newCount === 2) {
+        setCancelClickCountPC(0);
+        changeAPPStatus();
+      }
+      return newCount;
+    });
+  };
+
+  const handleCancelClickPhone = () => {
+    setCancelClickCountPhone((prevCount) => {
+      const newCount = prevCount + 1;
+      if (newCount === 2) {
+        setCancelClickCountPhone(0);
+        changeAPPStatus();
+      }
+      return newCount;
+    });
+  };
 
   const getCodePCValue = watch('getCodePC');
   const getCodePhoneValue = watch('getCodePhone');
@@ -55,6 +107,26 @@ function ReceiveModal({ app, onClose }) {
       setShowCodeHint(false);
     }
   }, [getCodePCValue, getCodePhoneValue]);
+
+  useEffect(() => {
+    let popoverPC = null;
+    let popoverPhone = null;
+
+    if (popoverRefPC.current) {
+      popoverPC = new bootstrap.Popover(popoverRefPC.current, {
+        trigger: 'focus',
+      });
+    }
+    if (popoverRefPhone.current) {
+      popoverPhone = new bootstrap.Popover(popoverRefPhone.current, {
+        trigger: 'focus',
+      });
+    }
+    return () => {
+      popoverPC?.dispose();
+      popoverPhone?.dispose();
+    };
+  }, []);
 
   return (
     <>
@@ -132,7 +204,17 @@ function ReceiveModal({ app, onClose }) {
             {/* <!-- 電腦版 - 馬上領取 --> */}
             <div className="modal-footer p-7 d-sm-block d-none">
               <div className="d-flex justify-content-between">
-                <button type="button" className="btn btn-white" id="giveUpBtn">
+                <button
+                  ref={popoverRefPC}
+                  type="button"
+                  className="btn btn-white"
+                  id="cancelApplyPopoverPC"
+                  data-bs-toggle="popover"
+                  title="確認放棄領取？"
+                  data-bs-custom-class="custom-popover"
+                  data-bs-content="放棄後若需領取，需再次提交『我要領取』"
+                  onClick={handleCancelClickPC}
+                >
                   放棄領取
                 </button>
                 <form className="d-flex align-items-center mb-2">
@@ -166,7 +248,17 @@ function ReceiveModal({ app, onClose }) {
             {/* <!-- 手機版 - 馬上領取 --> */}
             <div className="d-sm-none border-top text-end">
               <div className="my-7 mx-4">
-                <button type="button" className="btn btn-white" id="giveUpBtn">
+                <button
+                  ref={popoverRefPhone}
+                  type="button"
+                  className="btn btn-white"
+                  id="cancelApplyPopoverPhone"
+                  data-bs-toggle="popover"
+                  title="確認放棄領取？"
+                  data-bs-custom-class="custom-popover"
+                  data-bs-content="放棄後若需領取，需再次提交『我要領取』"
+                  onClick={handleCancelClickPhone}
+                >
                   放棄領取
                 </button>
                 <button
@@ -240,5 +332,5 @@ function ReceiveModal({ app, onClose }) {
       </div>
     </>
   );
-}
+};
 export default ReceiveModal;

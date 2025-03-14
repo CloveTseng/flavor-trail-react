@@ -42,7 +42,7 @@ function AccountNotifications() {
     } else if (status === '待回覆') {
       return 'bg-unchecked';
     } else {
-      return ' bg-gray-400';
+      return 'bg-bedge-color';
     }
   };
 
