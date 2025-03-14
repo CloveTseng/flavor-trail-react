@@ -25,7 +25,7 @@ const { VITE_BASE_URL } = import.meta.env;
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [timeAgo, setTimeAgo] = useState(null);
+  // const [timeAgo, setTimeAgo] = useState(null);
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
@@ -48,9 +48,11 @@ const Post = () => {
     const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
       (application) => application.postId == postId
     );
-    // console.log('目前使用者申請：', findApplicationsIndex);
+    console.log('目前使用者申請：', currentUser);
     if (findApplicationsIndex !== -1) {
       setHasApplication(true);
+    } else {
+      setHasApplication(false);
     }
   };
 
@@ -109,7 +111,9 @@ const Post = () => {
           res.data.createdPostDate,
           res.data.food.expiryDate
         );
-        checkFoodApplications(getUserId(uid), res.data.id);
+        if (isLogin) {
+          checkFoodApplications(getUserId(uid), res.data.id);
+        }
       } catch (error) {
         navigate('*');
         // console.log(error);
@@ -1041,6 +1045,7 @@ const Post = () => {
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
+        checkFoodApplications={checkFoodApplications}
       />
       <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
     </>

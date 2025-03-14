@@ -6,7 +6,11 @@ import { Link } from 'react-router';
 
 const { VITE_BASE_URL } = import.meta.env;
 
-const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
+const FoodApplyModal = ({
+  foodApplyModalRef,
+  applyInfo,
+  checkFoodApplications,
+}) => {
   const { postId, postTitle, postImgUrl, userId, userNickname } = applyInfo;
   const [message, setMessage] = useState(
     '我看到你分享的貼文，感覺非常美味！我想要領取一些，請問我可以過去拿嗎？非常感謝你的分享！😊'
@@ -29,6 +33,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
       });
       console.log(res);
       alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
+      checkFoodApplications(userId, postId);
     } catch (error) {
       console.log(error);
     } finally {
