@@ -246,7 +246,7 @@ const Header = () => {
               className="navbar-brand d-flex py-lg-0 d-lg-block d-none"
               to="/"
             >
-              <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+              <img src="./assets/images/Logo-navbar.svg" alt="logo" />
             </NavLink>
           </h1>
 
@@ -440,7 +440,7 @@ const Header = () => {
             <div className="offcanvas-header d-flex justify-content-between mb-12">
               <h1 className="offcanvas-title" id="offcanvasNavLabel">
                 <a href="index.html">
-                  <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+                  <img src="./assets/images/Logo-navbar.svg" alt="logo" />
                 </a>
               </h1>
               {!isLogin ? (
@@ -764,7 +764,7 @@ const Header = () => {
             className="navbar-brand d-flex align-items-center me-4"
             href="index.html"
           >
-            <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+            <img src="./assets/images/Logo-navbar.svg" alt="logo" />
           </a>
           <ul className="search-form d-flex py-7 gap-2 ms-auto me-2 flex-grow-1 justify-content-end">
             <li className="input-group mb-5 mb-lg-0 rounded-3 bg-white">
