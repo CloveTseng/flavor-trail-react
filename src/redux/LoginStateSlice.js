@@ -61,18 +61,17 @@ const LoginStateSlice = createSlice({
         isLogin: false
       };
     },
-    addFoodApplication: (state) => {
+    addFoodApplication: (state, action) => {
       const { userId, postId } = action.payload;
-      state.identity.map(data => {
-        if (data.userId === userId) {
+      state.identity.forEach(data => {
+        if (data.userId == userId) {
           data.foodApplications.push({
             postId,
             status: "待回覆",
           })
         }
-
-        return data
       })
+      // console.log('add結果', state);
     },
   }
 })

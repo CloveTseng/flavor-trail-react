@@ -21,11 +21,12 @@ import { useSelector } from 'react-redux';
 import FullScreenLoading from '../components/FullScreenLoading';
 
 const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
 
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [timeAgo, setTimeAgo] = useState(null);
+  // const [timeAgo, setTimeAgo] = useState(null);
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
@@ -35,6 +36,67 @@ const Post = () => {
   const navigate = useNavigate();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const { identity } = useSelector((state) => state.loginSlice);
+
+  const [hasApplication, setHasApplication] = useState(false);
+  const checkFoodApplications = (userId, postId) => {
+    console.log('check:', userId, postId);
+    const currentUser = identity.filter((user) => user.userId === userId);
+
+    if (currentUser.length === 0) {
+      return;
+    }
+
+    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
+      (application) => application.postId == postId
+    );
+    console.log('目前使用者申請：', currentUser);
+    if (findApplicationsIndex !== -1) {
+      setHasApplication(true);
+    } else {
+      setHasApplication(false);
+    }
+  };
+
+  const handlePostTag = (likeCount, timeAgo, expiryDate) => {
+    //熱門Tag
+    if (likeCount > 100) {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: false,
+      }));
+    }
+
+    //最新
+    if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: false,
+      }));
+    }
+
+    //是否過期
+    if (dayjs().isAfter(dayjs(expiryDate))) {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: false,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: true,
+      }));
+    }
+  };
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -44,41 +106,12 @@ const Post = () => {
         );
         // console.log(res.data);
         setPost((pre) => res.data);
-        setTimeAgo((pre) => res.data.createdPostDate);
-        if (res.data.likeCount > 100) {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: false,
-          }));
-        }
-
-        if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: false,
-          }));
-        }
-        if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: false,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: true,
-          }));
-        }
+        // setTimeAgo((pre) => res.data.createdPostDate);
+        handlePostTag(
+          res.data.likeCount,
+          res.data.createdPostDate,
+          res.data.food.expiryDate
+        );
       } catch (error) {
         navigate('*');
         // console.log(error);
@@ -115,15 +148,21 @@ const Post = () => {
     postTitle: '',
     userNickname: '',
   });
-  const openApplyModal = (post, userNickname) => {
+  const openApplyModal = (post) => {
     if (!isLogin) {
       alert('迷路的尋者唷！您尚未登入唷！');
+      return;
+    }
+
+    if (hasApplication) {
+      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
       return;
     }
     setApplyInfo((pre) => ({
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
+      userId: getUserId(uid),
       userNickname,
     }));
     foodApplyRef.current.show();
@@ -164,13 +203,15 @@ const Post = () => {
     return () => window.addEventListener('scroll', handleScroll);
   }, []);
 
-  //redux測試
-  // useEffect(() => {
-  //   console.log(isLogin);
-  //   if (isLogin) {
-  //     console.log(getUserId(uid));
-  //   }
-  // }, [isLogin]);
+  // redux
+  useEffect(() => {
+    console.log(isLogin);
+    if (isLogin) {
+      // console.log('登入者id:', getUserId(uid));
+      // console.log('身份資料:', identity);
+      checkFoodApplications(getUserId(uid), id);
+    }
+  }, [isLogin, identity]);
   return (
     <>
       <header>
@@ -310,7 +351,7 @@ const Post = () => {
                     <div className="d-flex me-5">
                       <img
                         className="rounded-circle object-fit-cover"
-                        src={post?.user?.avatarUrl}
+                        src={post?.user?.avatarUrl || logoUrl}
                         alt="user-img"
                         style={{
                           width: '48px',
@@ -327,7 +368,7 @@ const Post = () => {
                       >
                         {`${post?.user?.pickupCity} / ${
                           post?.user?.pickupDistrict
-                        }· ${dayjs(timeAgo).fromNow()}`}
+                        }· ${dayjs(post?.createdPostDate).fromNow()}`}
                       </div>
                     </div>
                     <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
@@ -386,7 +427,7 @@ const Post = () => {
                     <h4 className="fs-3 fw-bold">{post?.title}</h4>
                   </div>
                   <div className="row pb-5">
-                    <p>{post?.content}</p>
+                    <p className="px-0">{post?.content}</p>
                   </div>
                   <div className="row w-auto d-inline justify-content-start pb-7">
                     <div className="col d-inline ps-0">
@@ -531,7 +572,9 @@ const Post = () => {
                     </div>
                     <div
                       className={`col px-1 ${
-                        !isLogin || getUserId(uid) != post?.id ? 'd-none' : ''
+                        !isLogin || getUserId(uid) != post?.user?.id
+                          ? 'd-none'
+                          : ''
                       }`}
                     >
                       <button
@@ -649,7 +692,7 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
-                      onClick={() => openApplyModal(post, userNickname)}
+                      onClick={() => openApplyModal(post)}
                       disabled={
                         (isLogin && post?.user?.id == getUserId(uid)) ||
                         post?.food?.restQuantity === 0 ||
@@ -841,7 +884,7 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
-                    onClick={() => openApplyModal(post, userNickname)}
+                    onClick={() => openApplyModal(post)}
                     disabled={
                       (isLogin && post?.user?.id == getUserId(uid)) ||
                       post?.food?.restQuantity === 0 ||
