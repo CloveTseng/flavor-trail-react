@@ -111,9 +111,6 @@ const Post = () => {
           res.data.createdPostDate,
           res.data.food.expiryDate
         );
-        if (isLogin) {
-          checkFoodApplications(getUserId(uid), res.data.id);
-        }
       } catch (error) {
         navigate('*');
         // console.log(error);
@@ -205,13 +202,15 @@ const Post = () => {
     return () => window.addEventListener('scroll', handleScroll);
   }, []);
 
-  // redux測試;
+  // redux
   useEffect(() => {
     console.log(isLogin);
     if (isLogin) {
-      console.log('登入者id:', getUserId(uid));
+      // console.log('登入者id:', getUserId(uid));
+      // console.log('身份資料:', identity);
+      checkFoodApplications(getUserId(uid), post.id);
     }
-  }, [isLogin]);
+  }, [isLogin, identity]);
   return (
     <>
       <header>
@@ -1045,7 +1044,6 @@ const Post = () => {
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
-        checkFoodApplications={checkFoodApplications}
       />
       <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
     </>

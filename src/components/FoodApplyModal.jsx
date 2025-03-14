@@ -2,19 +2,18 @@ import axios from 'axios';
 import { Modal } from 'bootstrap';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
+import { addFoodApplication } from '../redux/LoginStateSlice';
 
 const { VITE_BASE_URL } = import.meta.env;
 
-const FoodApplyModal = ({
-  foodApplyModalRef,
-  applyInfo,
-  checkFoodApplications,
-}) => {
+const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
   const { postId, postTitle, postImgUrl, userId, userNickname } = applyInfo;
   const [message, setMessage] = useState(
     '我看到你分享的貼文，感覺非常美味！我想要領取一些，請問我可以過去拿嗎？非常感謝你的分享！😊'
   );
+  const dispatch = useDispatch();
 
   const closeApplyModal = () => {
     const foodModal = Modal.getInstance(foodApplyModalRef.current);
@@ -32,8 +31,13 @@ const FoodApplyModal = ({
         created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
       console.log(res);
+      dispatch(
+        addFoodApplication({
+          userId,
+          postId,
+        })
+      );
       alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
-      checkFoodApplications(userId, postId);
     } catch (error) {
       console.log(error);
     } finally {
