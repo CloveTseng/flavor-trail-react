@@ -208,7 +208,7 @@ const Post = () => {
     if (isLogin) {
       // console.log('登入者id:', getUserId(uid));
       // console.log('身份資料:', identity);
-      checkFoodApplications(getUserId(uid), post.id);
+      checkFoodApplications(getUserId(uid), id);
     }
   }, [isLogin, identity]);
   return (
@@ -571,7 +571,9 @@ const Post = () => {
                     </div>
                     <div
                       className={`col px-1 ${
-                        !isLogin || getUserId(uid) != post?.id ? 'd-none' : ''
+                        !isLogin || getUserId(uid) != post?.user?.id
+                          ? 'd-none'
+                          : ''
                       }`}
                     >
                       <button

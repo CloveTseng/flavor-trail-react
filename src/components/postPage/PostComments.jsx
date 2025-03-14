@@ -110,10 +110,9 @@ const PostComments = ({ id, commentCount }) => {
       )}
       {commentCount > 5 && (
         <div className="d-flex">
-          <button type="button" className="btn border-0 ms-auto text-success">
+          <button type="button" className="btn border-0 ms-auto text-gray-700">
             更多留言
           </button>
-          {/* <p className="px-3">更多留言</p> */}
         </div>
       )}
       <div className="input-group">
