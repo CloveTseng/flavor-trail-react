@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import dayjs from 'dayjs';
 
 const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
 const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
   const [newComments, setNewComments] = useState(null);
@@ -90,7 +91,7 @@ const PostComments = ({ id, commentCount }) => {
                     width: '48px',
                     height: '48px',
                   }}
-                  src={comment?.user?.avatarUrl}
+                  src={comment?.user?.avatarUrl || logoUrl}
                   alt="user-img"
                 />
                 <div className="ms-5">

@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import FullScreenLoading from '../components/FullScreenLoading';
 
 const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
 
 const Post = () => {
   const { id } = useParams();
@@ -350,7 +351,7 @@ const Post = () => {
                     <div className="d-flex me-5">
                       <img
                         className="rounded-circle object-fit-cover"
-                        src={post?.user?.avatarUrl}
+                        src={post?.user?.avatarUrl || logoUrl}
                         alt="user-img"
                         style={{
                           width: '48px',

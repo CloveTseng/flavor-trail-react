@@ -7,6 +7,10 @@ dayjs.locale('zh-tw');
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+
+const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
+
 const OtherPosts = ({ id }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
@@ -28,9 +32,7 @@ const OtherPosts = ({ id }) => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/posts?_expand=user'
-        );
+        const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
         // console.log(res);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
@@ -63,7 +65,7 @@ const OtherPosts = ({ id }) => {
                       {/* <!--頭像--> */}
                       <div className="pe-5 mb-1">
                         <img
-                          src={post.user.avatarUrl}
+                          src={post.user?.avatarUrl || logoUrl}
                           alt="user-img"
                           className="rounded-circle object-fit-cover"
                           style={{
