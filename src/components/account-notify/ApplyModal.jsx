@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import ApplyReplyModal from './ApplyReplyModal';
 
@@ -103,4 +104,18 @@ function ApplyModal({ app, onClose }) {
     </>
   );
 }
+ApplyModal.propTypes = {
+  app: PropTypes.shape({
+    post: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      imagesUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    user: PropTypes.shape({
+      nickName: PropTypes.string.isRequired,
+    }).isRequired,
+    message: PropTypes.string.isRequired,
+  }),
+  onClose: PropTypes.func.isRequired,
+};
 export default ApplyModal;
