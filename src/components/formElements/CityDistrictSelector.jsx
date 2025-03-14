@@ -37,7 +37,7 @@ function CityDistrictSelector({
   }, []);
 
   useEffect(() => {
-    if (initialCityId && initialDistrict !== selectedCityId) {
+    if (initialCityId && initialCityId !== selectedCityId) {
       setSelectedCityId(initialCityId);
     }
   }, [initialCityId]);
@@ -62,7 +62,12 @@ function CityDistrictSelector({
   }, [selectedCityId]);
 
   useEffect(() => {
-    if (districts.length > 0 && initialDistrict && !defaultDistrictSet) {
+    if (
+      selectedCityId &&
+      districts.length > 0 &&
+      initialDistrict &&
+      !defaultDistrictSet
+    ) {
       const foundDistrict = districts.find(
         (district) => district.name === initialDistrict
       );
@@ -71,7 +76,7 @@ function CityDistrictSelector({
       }
       setDefaultDistrictSet(true);
     }
-  }, [districts]);
+  }, [selectedCityId, districts]);
 
   const handleCityChange = (e) => {
     const selectedId = e.target.value;

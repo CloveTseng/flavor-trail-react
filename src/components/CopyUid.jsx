@@ -31,7 +31,7 @@ const CopyUid = ({ uid, disabled }) => {
       {copied ? (
         <>
           <img
-            src="/assets/images/icon/check.svg"
+            src="./assets/images/icon/check.svg"
             alt="copy"
             className="px-1"
           />

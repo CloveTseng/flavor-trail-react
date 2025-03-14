@@ -15,7 +15,7 @@ function ApplyReplyModal() {
                 回覆申請通知
               </h1>
               <img
-                src="../assets/images/icon/x.svg"
+                src="./assets/images/icon/x.svg"
                 alt=""
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"

@@ -190,7 +190,7 @@ function AccountFilter({
                 />
               </form>
               <img
-                src="../assets/images/icon/search.svg"
+                src="./assets/images/icon/search.svg"
                 alt=""
                 className="bg-white rounded-end pe-5 "
               />
