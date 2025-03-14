@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,21 +10,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ReceiveModal = ({ app, onClose }) => {
   if (!app) return null;
-  const popoverRefPC = useRef(null);
-  const popoverRefPhone = useRef(null);
-  const isProcessingRef = useRef(false);
-
-  const title = app.post.title;
-  const replyMessage = app.replyMessage;
-  const postId = app.post.id;
-  const redeemCode = app.post.redeemCode;
-  const appId = app.id;
-
-  const [isCorrectCode, setIsCorrectCode] = useState(null);
-  const [showCodeHint, setShowCodeHint] = useState(false);
-  const [isCodeVerified, setIsCodeVerified] = useState(false);
-  const [cancelClickCountPC, setCancelClickCountPC] = useState(0);
-  const [cancelClickCountPhone, setCancelClickCountPhone] = useState(0);
 
   const {
     register,
@@ -35,21 +21,39 @@ const ReceiveModal = ({ app, onClose }) => {
     mode: 'onTouched',
   });
 
+  const popoverRefPC = useRef(null);
+  const title = app.post.title;
+  const replyMessage = app.replyMessage;
+  const postId = app.post.id;
+  const redeemCode = app.post.redeemCode;
+  const appId = app.id;
+
+  const popoverRefPhone = useRef(null);
+  const isProcessingRef = useRef(false);
+
+  const [showCodeHint, setShowCodeHint] = useState(false);
+
+  const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [cancelClickCountPC, setCancelClickCountPC] = useState(0);
+  const [cancelClickCountPhone, setCancelClickCountPhone] = useState(0);
+  const [isCorrectCode, setIsCorrectCode] = useState(null);
+
   const refreshPage = () => {
     window.location.reload();
   };
 
   const changeAPPStatus = async () => {
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
+    if (isProcessingRef.current.current) return;
+    isProcessingRef.current.current = true;
     try {
       await axios.patch(`${BASE_URL}/applications/${appId}`, {
         status: '已取消',
       });
       alert('已放棄此筆領取，若需恢復，請重新提交『我要領取』');
       refreshPage();
-    } catch (error) {
+    } catch (errors) {
       alert('操作失敗，請稍候再試');
+      console.log(errors);
     } finally {
       onClose();
     }
@@ -112,13 +116,13 @@ const ReceiveModal = ({ app, onClose }) => {
     let popoverPC = null;
     let popoverPhone = null;
 
-    if (popoverRefPC.current) {
-      popoverPC = new bootstrap.Popover(popoverRefPC.current, {
+    if (popoverRefPC.current.current) {
+      popoverPC = new bootstrap.Popover(popoverRefPC.current.current, {
         trigger: 'focus',
       });
     }
-    if (popoverRefPhone.current) {
-      popoverPhone = new bootstrap.Popover(popoverRefPhone.current, {
+    if (popoverRefPhone.current.current) {
+      popoverPhone = new bootstrap.Popover(popoverRefPhone.current.current, {
         trigger: 'focus',
       });
     }
@@ -148,8 +152,7 @@ const ReceiveModal = ({ app, onClose }) => {
                 領取通知
               </h1>
               <img
-                src="/assets/images/icon/x.svg"
-                alt=""
+                src="./assets/images/icon/x.svg"
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"
                 onClick={onClose}
@@ -157,12 +160,11 @@ const ReceiveModal = ({ app, onClose }) => {
             </div>
             <div className="modal-body p-lg-7 py-7 px-4">
               {postId && (
-                <Link to={`/post/${postId}`} alt="" className="d-block mb-7">
+                <Link to={`/post/${postId}`} className="d-block mb-7">
                   <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0 bg-gray-200">
                     <div className="d-flex align-items-center">
                       <img
                         src={app.post.imagesUrl}
-                        alt=""
                         className="nofify-modal-img rounded-1"
                       />
                       <h5 className="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">
@@ -191,7 +193,7 @@ const ReceiveModal = ({ app, onClose }) => {
               )}
 
               <div className="d-flex align-items-center mb-7">
-                <img src="/assets/images/icon/path.svg" alt="" />
+                <img src="./assets/images/icon/path.svg" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2 d-block d-md-inline">
                   我已經準備好囉～
                   <span className="d-block d-md-inline">
@@ -332,5 +334,18 @@ const ReceiveModal = ({ app, onClose }) => {
       </div>
     </>
   );
+};
+ReceiveModal.propTypes = {
+  app: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    replyMessage: PropTypes.string.isRequired,
+    post: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      imagesUrl: PropTypes.string.isRequired,
+      redeemCode: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 export default ReceiveModal;

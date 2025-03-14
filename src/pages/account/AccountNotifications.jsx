@@ -22,6 +22,7 @@ function AccountNotifications() {
   const [selectedApp, setSelectedApp] = useState(null);
   const [modalType, setModalType] = useState(null);
 
+  console.log(appData);
   useEffect(() => {
     const getAppData = async () => {
       try {
@@ -86,6 +87,7 @@ function AccountNotifications() {
   const filteredAppCount = filteredAppData.length;
 
   const handleNotifyClick = (app) => {
+    setModalType(null);
     setSelectedApp(app);
     if (app.type === '申請通知') {
       setModalType('apply');

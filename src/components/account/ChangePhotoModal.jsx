@@ -7,13 +7,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '2';
 
 const ChangePhotoModal = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm({
+  const { register, handleSubmit, watch, reset } = useForm({
     mode: 'onChange',
   });
 

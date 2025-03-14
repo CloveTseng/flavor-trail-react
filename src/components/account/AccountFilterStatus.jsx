@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 function AccountFilterStatus({
   setStatusFilter,
   statusFilter,
@@ -26,14 +27,6 @@ function AccountFilterStatus({
             >
               已同意
             </li>
-            {/* <li
-              className={`notify-status__list-item py-3 px-2 px-lg-7 flex-grow-1 flex-lg-grow-0 rounded-3 ${
-                statusFilter === '處理中' ? 'bg-primary text-white' : ''
-              }`}
-              onClick={() => handleStatusFilter('處理中')}
-            >
-              處理中
-            </li> */}
             <li
               className={`notify-status__list-item py-3 px-2 px-lg-7 flex-grow-1 flex-lg-grow-0 rounded-3 ${
                 statusFilter === '待處理' ? 'bg-primary text-white' : ''
@@ -82,4 +75,9 @@ function AccountFilterStatus({
     </div>
   );
 }
+AccountFilterStatus.propTypes = {
+  setStatusFilter: PropTypes.func.isRequired,
+  statusFilter: PropTypes.string,
+  filteredAppCount: PropTypes.number.isRequired,
+};
 export default AccountFilterStatus;

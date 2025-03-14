@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import ApplyReplyModal from './ApplyReplyModal';
 
@@ -25,7 +26,7 @@ function ApplyModal({ app, onClose }) {
                 申請通知
               </h1>
               <img
-                src="/assets/images/icon/x.svg"
+                src="./assets/images/icon/x.svg"
                 alt=""
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"
@@ -69,7 +70,7 @@ function ApplyModal({ app, onClose }) {
               )}
 
               <div className="d-flex align-items-center mb-7">
-                <img src="assets/images/icon/path.svg" alt="" />
+                <img src="./assets/images/icon/path.svg" alt="" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2">
                   我喜歡你的食物，我想要領取！
                 </h4>
@@ -103,4 +104,18 @@ function ApplyModal({ app, onClose }) {
     </>
   );
 }
+ApplyModal.propTypes = {
+  app: PropTypes.shape({
+    post: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      imagesUrl: PropTypes.string.isRequired,
+    }).isRequired,
+    user: PropTypes.shape({
+      nickName: PropTypes.string.isRequired,
+    }).isRequired,
+    message: PropTypes.string.isRequired,
+  }),
+  onClose: PropTypes.func.isRequired,
+};
 export default ApplyModal;

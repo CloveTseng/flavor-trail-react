@@ -58,7 +58,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
               我要領取
             </h1>
             <img
-              src="../assets/images/icon/x.svg"
+              src="./assets/images/icon/x.svg"
               alt=""
               className="ms-auto pointer p-2"
               onClick={closeApplyModal}
@@ -97,7 +97,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
               </div>
             </Link>
             <div className="d-flex align-items-center mb-7">
-              <img src="../assets/images/icon/path.svg" alt="" />
+              <img src="./assets/images/icon/path.svg" alt="" />
               <h4 className="fw-bold fs-5 fs-lg-4 ps-2">
                 我喜歡你的食物，我想要領取！
               </h4>
