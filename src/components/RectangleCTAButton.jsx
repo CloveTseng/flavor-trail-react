@@ -1,24 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const RectangleCTAButton = ({ page, title }) => {
-  const [scroller, setScroller] = useState(0);
+  const lastScrollTop = useRef(0);
+  const [scrollerToTop, setScrollerToTop] = useState(false);
   useEffect(() => {
     function handleCtaRectangleBtnScroll() {
-      setScroller((pre) => (pre = window.scrollY));
+      const currentPosition = window.scrollY;
+      if (currentPosition > lastScrollTop.current) {
+        setScrollerToTop(false);
+      } else {
+        setScrollerToTop(true);
+      }
+      lastScrollTop.current = currentPosition;
     }
 
     window.addEventListener('scroll', handleCtaRectangleBtnScroll);
 
     return () =>
       window.removeEventListener('scroll', handleCtaRectangleBtnScroll);
-  }, [window.scrollY]);
+  }, []);
   return (
     <div className="CTA-rectangle d-lg-none d-block mt-10">
       <a
         href="#"
         className={`CTA-rectangle-btn d-flex align-items-center justify-content-center 
         gap-5 py-5 px-7 rounded-3 fs-4 fw-medium ${
-          scroller === 0 || scroller < 40 ? '' : 'scrolled-navbar-toggler'
+          scrollerToTop ? '' : 'scrolled-navbar-toggler'
         }`}
       >
         {/* <!-- 根據不同頁面更換 icon --> */}

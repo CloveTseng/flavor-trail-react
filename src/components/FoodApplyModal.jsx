@@ -1,11 +1,49 @@
+import axios from 'axios';
+import { Modal } from 'bootstrap';
+import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
+import { addFoodApplication } from '../redux/LoginStateSlice';
+
+const { VITE_BASE_URL } = import.meta.env;
 
 const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
-  const { postId, postTitle, postImgUrl, userNickname } = applyInfo;
+  const { postId, postTitle, postImgUrl, userId, userNickname } = applyInfo;
   const [message, setMessage] = useState(
     '我看到你分享的貼文，感覺非常美味！我想要領取一些，請問我可以過去拿嗎？非常感謝你的分享！😊'
   );
+  const dispatch = useDispatch();
+
+  const closeApplyModal = () => {
+    const foodModal = Modal.getInstance(foodApplyModalRef.current);
+    foodModal.hide();
+  };
+
+  const applyFood = async () => {
+    try {
+      const res = await axios.post(`${VITE_BASE_URL}/applications`, {
+        postId,
+        userId,
+        type: '申請通知',
+        message,
+        status: '待回覆',
+        created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      });
+      console.log(res);
+      dispatch(
+        addFoodApplication({
+          userId,
+          postId,
+        })
+      );
+      alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      closeApplyModal();
+    }
+  };
   return (
     <div
       className="modal fade notify"
@@ -23,8 +61,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
               src="../assets/images/icon/x.svg"
               alt=""
               className="ms-auto pointer p-2"
-              data-bs-dismiss="modal"
-              aria-label="Close"
+              onClick={closeApplyModal}
             />
           </div>
           <div className="modal-body p-lg-7 py-7 px-4">
@@ -78,12 +115,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
             />
           </div>
           <div className="modal-footer py-7 p-lg-7">
-            <button
-              type="button"
-              className="btn"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" className="btn" onClick={closeApplyModal}>
               取消
             </button>
             <button
@@ -91,6 +123,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
               data-bs-target="#notifyApplyModal2"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
+              onClick={applyFood}
             >
               確認
             </button>
