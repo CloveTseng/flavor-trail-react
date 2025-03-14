@@ -43,8 +43,8 @@ const ReceiveModal = ({ app, onClose }) => {
   };
 
   const changeAPPStatus = async () => {
-    if (isProcessingRef.current.current) return;
-    isProcessingRef.current.current = true;
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
     try {
       await axios.patch(`${BASE_URL}/applications/${appId}`, {
         status: '已取消',
@@ -116,13 +116,13 @@ const ReceiveModal = ({ app, onClose }) => {
     let popoverPC = null;
     let popoverPhone = null;
 
-    if (popoverRefPC.current.current) {
-      popoverPC = new bootstrap.Popover(popoverRefPC.current.current, {
+    if (popoverRefPC.current) {
+      popoverPC = new bootstrap.Popover(popoverRefPC.current, {
         trigger: 'focus',
       });
     }
-    if (popoverRefPhone.current.current) {
-      popoverPhone = new bootstrap.Popover(popoverRefPhone.current.current, {
+    if (popoverRefPhone.current) {
+      popoverPhone = new bootstrap.Popover(popoverRefPhone.current, {
         trigger: 'focus',
       });
     }
