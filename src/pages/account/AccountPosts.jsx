@@ -3,6 +3,9 @@ import AccountFilter from '../../components/account/AccountFilter';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router';
+import ShareFoodModal from '../../components/ShareFoodModal';
+import DeletePostModal from '../../components/account/DeletePostModal';
+import CopyUid from '../../components/CopyUid';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -18,6 +21,7 @@ function formatDate(dateString) {
 function AccountPosts() {
   const [postData, setPostData] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   useEffect(() => {
     const getPostData = async () => {
@@ -41,6 +45,17 @@ function AccountPosts() {
     return diffDays > 30;
   };
 
+  const handleOpenDeleteModal = (postId) => {
+    setSelectedPostId(postId);
+  };
+
+  const handleDeleteSuccess = () => {
+    setPostData((prevPosts) =>
+      prevPosts.filter((post) => post.id !== selectedPostId)
+    );
+    setSelectedPostId(null);
+  };
+
   if (!postData) {
     return <div>Loading...</div>;
   }
@@ -52,8 +67,11 @@ function AccountPosts() {
           setFilter={setFilter}
           filter={filter}
           postData={postData}
+          title="我的發文"
+          placeholder="搜尋發文"
+          filterOptions={['all', 'notExpired', 'expired']}
         />
-        <div>目前沒有貼文。</div>
+        <div className="ms-10">目前沒有貼文。</div>
       </>
     );
   }
@@ -75,6 +93,9 @@ function AccountPosts() {
         setFilter={setFilter}
         filter={filter}
         postData={postData}
+        title="我的發文"
+        placeholder="搜尋發文"
+        filterOptions={['all', 'notExpired', 'expired']}
       />
       <div className="notificationCard mb-19">
         <div className="container">
@@ -101,7 +122,14 @@ function AccountPosts() {
                             </div>
                           </div>
                           <div className="pt-7">
-                            <h2 className="fs-3 mb-5">{item.title}</h2>
+                            <div className="d-flex align-items-end mb-5">
+                              <h2 className="fs-3">{item.title}</h2>
+                              <CopyUid
+                                uid={item.redeemCode}
+                                disabled={expired}
+                              />
+                            </div>
+
                             <p className="text-gray-700 multiline-ellipsis mb-5">
                               {item.content}
                             </p>
@@ -250,17 +278,30 @@ function AccountPosts() {
                           </a>
                           <ul className="dropdown-menu">
                             <li>
-                              <a className="dropdown-item" href="#">
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#shareFoodModal"
+                              >
                                 編輯貼文
                               </a>
                             </li>
                             <li>
-                              <a className="dropdown-item" href="#">
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deletePostModal"
+                                onClick={() => handleOpenDeleteModal(item.id)}
+                              >
                                 刪除貼文
                               </a>
                             </li>
                           </ul>
                         </div>
+                        <ShareFoodModal />
+
                         {/* dropdown */}
                         <div className="post-card-img my-7 text-center">
                           <Link
@@ -303,6 +344,10 @@ function AccountPosts() {
           </ul>
         </div>
       </div>
+      <DeletePostModal
+        postId={selectedPostId}
+        onDeleteSuccess={handleDeleteSuccess}
+      />
     </>
   );
 }

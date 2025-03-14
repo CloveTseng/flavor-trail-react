@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 import { useForm, FormProvider } from 'react-hook-form';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
 import CityDistrictSelector from './formElements/CityDistrictSelector';
@@ -11,25 +13,35 @@ import TimePicker from './formElements/TimePicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const ShareFoodModal = () => {
-  const [startDate, setStartDate] = useState(null);
   const methods = useForm({
     defaultValues: {
-      InputTitle: '',
-      InputFood: '',
-      FoodType: '',
-      SaveMethod: '',
-      FoodNum: '',
-      exp: '',
-      city: '',
-      district: '',
-      overfood: '',
-      MeatOrVeggie: '',
-      pickUpCity: '',
-      inputAddress: '',
-      TimePicker: '',
-      UpdatePhoto: '',
-      ReplyMessage: '',
+      redeemCode: '',
+      title: '',
+      content: '',
+      food: {
+        name: '',
+        type: '',
+        saveMethod: '',
+        totalQuantity: 0,
+        restQuantity: 0,
+        expiryDate: '',
+        isPastBestBefore: '',
+        dietType: '',
+      },
+      pickup: {
+        city: '',
+        district: '',
+        time: '',
+        address: '',
+      },
+      imagesUrl: [],
+      viewCount: 1,
+      commentCount: 0,
+      likeCount: 0,
+      userId: 1,
     },
     mode: 'onTouched',
   });
@@ -39,14 +51,43 @@ const ShareFoodModal = () => {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    setValue,
+    getValues,
   } = methods;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    alert('表單已送出');
+  const onSubmit = async (data) => {
+    const { food, expiryDate, imagesUrl, ...rest } = data;
+    const { totalQuantity, ...submitData } = food;
+    const formattedExpiryDate = dayjs(expiryDate).format('YYYY-MM-DD');
+    const createdPostDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    const uid = nanoid(6);
+    const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
+
+    try {
+      await axios.post(`${BASE_URL}/posts`, {
+        ...rest,
+        redeemCode: uid,
+        food: {
+          ...submitData,
+          expiryDate: formattedExpiryDate,
+          totalQuantity: Number(totalQuantity),
+          restQuantity: Number(totalQuantity),
+        },
+        pickup: {
+          ...data.pickup,
+        },
+        createdPostDate,
+        imagesUrl: imagesUrlArray,
+      });
+      alert('表單已送出');
+    } catch (error) {
+      console.log(error.message);
+    }
     reset();
   };
-
+  const handleDateChange = (date) => {
+    setValue('expiryDate', date);
+  };
   return (
     <>
       <FormProvider {...methods}>
@@ -67,7 +108,7 @@ const ShareFoodModal = () => {
                   分享美味
                 </h1>
                 <img
-                  src="../assets/images/icon/x.svg"
+                  src="./assets/images/icon/x.svg"
                   alt=""
                   className="ms-auto pointer"
                   data-bs-dismiss="modal"
@@ -89,6 +130,7 @@ const ShareFoodModal = () => {
                       errors={errors}
                       labelText="貼文標題"
                       id="InputTitle"
+                      name="title"
                       type="text"
                       rules={{
                         required: {
@@ -103,6 +145,7 @@ const ShareFoodModal = () => {
                       errors={errors}
                       labelText="食物名稱"
                       id="InputFood"
+                      name="food.name"
                       type="text"
                       rules={{
                         required: {
@@ -128,6 +171,7 @@ const ShareFoodModal = () => {
                             errors={errors}
                             labelText="食物類型"
                             id="FoodType"
+                            name="food.type"
                             apiEndpoint="/foodTypes"
                             optionLabelKey="type"
                             optionValueKey="value"
@@ -147,7 +191,7 @@ const ShareFoodModal = () => {
                         <div className="share-food-modal d-lg-flex">
                           <div className="me-lg-7 mb-2">
                             <label
-                              htmlFor="FoodType"
+                              htmlFor="SaveMethod"
                               className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
                             >
                               保存方式
@@ -158,6 +202,7 @@ const ShareFoodModal = () => {
                             errors={errors}
                             labelText="保存方式"
                             id="SaveMethod"
+                            name="food.saveMethod"
                             apiEndpoint="/saveMethod"
                             optionLabelKey="type"
                             optionValueKey="value"
@@ -188,6 +233,7 @@ const ShareFoodModal = () => {
                             errors={errors}
                             labelText="食物份數"
                             id="FoodNum"
+                            name="food.totalQuantity"
                             type="number"
                             rules={{
                               required: {
@@ -217,9 +263,9 @@ const ShareFoodModal = () => {
                           </div>
                           <DatePicker
                             id="exp"
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            name="exp"
+                            selected={getValues('expiryDate')}
+                            onChange={handleDateChange}
+                            name="food.expiryDate"
                             dateFormat="yyyy/MM/dd"
                             className="form-select border-gray-400 py-2 px-5 rounded-3 bg-white"
                             placeholderText="請選擇有效期限"
@@ -235,6 +281,7 @@ const ShareFoodModal = () => {
                         errors={errors}
                         labelText="是否已過期"
                         id="overfood"
+                        name="food.isPastBestBefore"
                         options={overfoodOptions}
                         rules={{
                           required: { value: true, message: '請至少選擇一項' },
@@ -248,6 +295,7 @@ const ShareFoodModal = () => {
                         errors={errors}
                         labelText="葷食/素食"
                         id="MeatOrVeggie"
+                        name="food.dietType"
                         options={meatOrVeggieOptions}
                         rules={{
                           required: { value: true, message: '請至少選擇一項' },
@@ -268,6 +316,8 @@ const ShareFoodModal = () => {
                         errors={errors}
                         cityId="city"
                         districtId="district"
+                        cityName="pickup.city"
+                        districtName="pickup.city"
                         rules={{
                           required: {
                             value: true,
@@ -279,6 +329,7 @@ const ShareFoodModal = () => {
                         register={register}
                         errors={errors}
                         id="inputAddress"
+                        name="pickup.address"
                         labelText="地址"
                         rules={{
                           required: {
@@ -308,11 +359,19 @@ const ShareFoodModal = () => {
                       >
                         上傳圖片
                       </label>
-                      <input
-                        type="file"
-                        className="form-control bg-white py-2 px-5 border-gray-400 rounded-3"
+                      <InputText
+                        register={register}
+                        errors={errors}
+                        labelText="圖片網址，https://images.unsplash.com/photo-15689013"
                         id="UpdatePhoto"
-                        placeholder="請輸入食物名稱"
+                        name="imagesUrl"
+                        type="text"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: '請輸入圖片網址',
+                          },
+                        }}
                       />
                     </div>
                     <div className="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2">
@@ -327,7 +386,14 @@ const ShareFoodModal = () => {
                         errors={errors}
                         labelText="介紹與描述"
                         id="ReplyMessage"
+                        name="content"
                         rows="5"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: '請輸入食物介紹',
+                          },
+                        }}
                       />
                     </div>
                   </div>

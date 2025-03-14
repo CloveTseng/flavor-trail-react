@@ -7,7 +7,7 @@ import ChangePhotoModal from '../../components/account/ChangePhotoModal';
 import logo from '/assets/images/Logo.png';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const USER_ID = '2';
+const USER_ID = '1';
 
 function AccountSettingForm() {
   // const [cities, setCities] = useState([]);
@@ -80,7 +80,7 @@ function AccountSettingForm() {
 
   const deletePhoto = async () => {
     try {
-      const res = await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
+      await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
         avatarUrl: null,
       });
       alert('照片刪除成功');
@@ -299,9 +299,20 @@ function AccountSettingForm() {
                               name="pickupCity"
                             >
                               <option disabled>請選擇城市</option>
-                              <option value="台北市">台北市</option>
+                              <option value="臺北市">臺北市</option>
+                              <option value="臺北市">基隆市</option>
                               <option value="新北市">新北市</option>
-                              <option value="基隆市">基隆市</option>
+                              <option value="宜蘭縣">宜蘭縣</option>
+                              <option value="連江縣">連江縣</option>
+                              <option value="新竹市">新竹市</option>
+                              <option value="新竹縣">新竹縣</option>
+                              <option value="苗栗縣">苗栗縣</option>
+                              <option value="臺中市">臺中市</option>
+                              <option value="彰化縣">彰化縣</option>
+                              <option value="南投縣">南投縣</option>
+                              <option value="嘉義市">嘉義市</option>
+                              <option value="嘉義縣">嘉義縣</option>
+                              <option value="南投縣">南投縣</option>
                             </select>
                           </div>
                           <div className="col-6 col-md-auto">
@@ -315,6 +326,15 @@ function AccountSettingForm() {
                               <option value="信義區">信義區</option>
                               <option value="中正區">中正區</option>
                               <option value="南港區">南港區</option>
+                              <option value="大同區">大同區</option>
+                              <option value="中山區">中山區</option>
+                              <option value="松山區">松山區</option>
+                              <option value="大安區">大安區</option>
+                              <option value="萬華區">萬華區</option>
+                              <option value="士林區">士林區</option>
+                              <option value="北投區">北投區</option>
+                              <option value="內湖區">內湖區</option>
+                              <option value="文山區">文山區</option>
                             </select>
                           </div>
                         </>

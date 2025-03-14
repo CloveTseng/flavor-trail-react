@@ -17,64 +17,106 @@ import OtherPosts from '../components/postPage/OtherPosts';
 import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
+import { useSelector } from 'react-redux';
+import FullScreenLoading from '../components/FullScreenLoading';
+
+const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
+
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [timeAgo, setTimeAgo] = useState(null);
+  // const [timeAgo, setTimeAgo] = useState(null);
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
     expired: false,
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
 
+  const [hasApplication, setHasApplication] = useState(false);
+  const checkFoodApplications = (userId, postId) => {
+    console.log('check:', userId, postId);
+    const currentUser = identity.filter((user) => user.userId === userId);
+
+    if (currentUser.length === 0) {
+      return;
+    }
+
+    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
+      (application) => application.postId == postId
+    );
+    console.log('目前使用者申請：', currentUser);
+    if (findApplicationsIndex !== -1) {
+      setHasApplication(true);
+    } else {
+      setHasApplication(false);
+    }
+  };
+
+  const handlePostTag = (likeCount, timeAgo, expiryDate) => {
+    //熱門Tag
+    if (likeCount > 100) {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        hot: false,
+      }));
+    }
+
+    //最新
+    if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: true,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        latest: false,
+      }));
+    }
+
+    //是否過期
+    if (dayjs().isAfter(dayjs(expiryDate))) {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: false,
+      }));
+    } else {
+      setPostTag((pre) => ({
+        ...pre,
+        expired: true,
+      }));
+    }
+  };
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
-          `https://json-server-vercel-5mr9.onrender.com/posts/${id}?_expand=user`
+          `${VITE_BASE_URL}/posts/${id}?_expand=user`
         );
         // console.log(res.data);
         setPost((pre) => res.data);
-        setTimeAgo((pre) => res.data.createdPostDate);
-        if (res.data.likeCount > 100) {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            hot: false,
-          }));
-        }
-
-        if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: true,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            latest: false,
-          }));
-        }
-        if (dayjs().isAfter(dayjs(res.data.food.expiryDate))) {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: false,
-          }));
-        } else {
-          setPostTag((pre) => ({
-            ...pre,
-            expired: true,
-          }));
-        }
+        // setTimeAgo((pre) => res.data.createdPostDate);
+        handlePostTag(
+          res.data.likeCount,
+          res.data.createdPostDate,
+          res.data.food.expiryDate
+        );
       } catch (error) {
-        // alert('貼文有誤')
         navigate('*');
         // console.log(error);
+      } finally {
+        setLoading(false);
       }
     })();
   }, [id]);
@@ -106,27 +148,70 @@ const Post = () => {
     postTitle: '',
     userNickname: '',
   });
-  const openApplyModal = (post, user) => {
+  const openApplyModal = (post) => {
+    if (!isLogin) {
+      alert('迷路的尋者唷！您尚未登入唷！');
+      return;
+    }
+
+    if (hasApplication) {
+      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
+      return;
+    }
     setApplyInfo((pre) => ({
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
-      userNickname: user,
+      userId: getUserId(uid),
+      userNickname,
     }));
     foodApplyRef.current.show();
   };
+
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    return LoginPerson[0].userId;
+  };
+
+  const [userNickname, setUserNickname] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
+        // console.log(res);
+        setUserNickname(res.data.nickName);
+      } catch (error) {
+        // console.log(error);
+      }
+    })();
+  }, [uid]);
+
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
     // console.log(foodApplyRef);
   }, []);
 
-  // 測試
-  // useEffect(() => {
-  //   console.log('時間', timeAgo);
-  //   console.log('測試時間', dayjs(timeAgo).fromNow());
-  //   console.log('是否最新', dayjs().diff(dayjs(timeAgo), 'day') <= 3);
-  //   console.log('是否過期', dayjs().isAfter(dayjs(post?.food?.expiryDate)));
-  // }, [timeAgo]);
+  // 判斷滾動
+  const [isScroll, setIsScroll] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScroll(window.scrollY >= 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.addEventListener('scroll', handleScroll);
+  }, []);
+
+  // redux
+  useEffect(() => {
+    console.log(isLogin);
+    if (isLogin) {
+      // console.log('登入者id:', getUserId(uid));
+      // console.log('身份資料:', identity);
+      checkFoodApplications(getUserId(uid), id);
+    }
+  }, [isLogin, identity]);
   return (
     <>
       <header>
@@ -266,7 +351,7 @@ const Post = () => {
                     <div className="d-flex me-5">
                       <img
                         className="rounded-circle object-fit-cover"
-                        src={post?.user?.avatarUrl}
+                        src={post?.user?.avatarUrl || logoUrl}
                         alt="user-img"
                         style={{
                           width: '48px',
@@ -283,7 +368,7 @@ const Post = () => {
                       >
                         {`${post?.user?.pickupCity} / ${
                           post?.user?.pickupDistrict
-                        }· ${dayjs(timeAgo).fromNow()}`}
+                        }· ${dayjs(post?.createdPostDate).fromNow()}`}
                       </div>
                     </div>
                     <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
@@ -342,7 +427,7 @@ const Post = () => {
                     <h4 className="fs-3 fw-bold">{post?.title}</h4>
                   </div>
                   <div className="row pb-5">
-                    <p>{post?.content}</p>
+                    <p className="px-0">{post?.content}</p>
                   </div>
                   <div className="row w-auto d-inline justify-content-start pb-7">
                     <div className="col d-inline ps-0">
@@ -485,7 +570,13 @@ const Post = () => {
                         </svg>
                       </button>
                     </div>
-                    <div className="col px-1">
+                    <div
+                      className={`col px-1 ${
+                        !isLogin || getUserId(uid) != post?.user?.id
+                          ? 'd-none'
+                          : ''
+                      }`}
+                    >
                       <button
                         type="button"
                         className="normal-btn btn border-0 w-100"
@@ -601,7 +692,12 @@ const Post = () => {
                     <button
                       type="button"
                       className="btn btn-dark d-flex align-items-center justify-content-center"
-                      onClick={() => openApplyModal(post, 'oreo')}
+                      onClick={() => openApplyModal(post)}
+                      disabled={
+                        (isLogin && post?.user?.id == getUserId(uid)) ||
+                        post?.food?.restQuantity === 0 ||
+                        !postTag.expired
+                      }
                     >
                       <span className="me-2">我要領取</span>
                       <svg
@@ -761,7 +857,11 @@ const Post = () => {
             </div>
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
-              <div className="bg-white rounded-3 p-5 mb-3 sticky-top">
+              <div
+                className={`bg-white rounded-3 p-5 mb-3 ${
+                  isScroll ? 'sticky-top' : ''
+                }`}
+              >
                 {/* <!--份數統計--> */}
                 <div className="row gx-0">
                   <div className="col text-center border-end">
@@ -784,7 +884,12 @@ const Post = () => {
                   <button
                     type="button"
                     className="btn btn-dark d-flex align-items-center justify-content-center"
-                    onClick={() => openApplyModal(post, 'oreo')}
+                    onClick={() => openApplyModal(post)}
+                    disabled={
+                      (isLogin && post?.user?.id == getUserId(uid)) ||
+                      post?.food?.restQuantity === 0 ||
+                      !postTag.expired
+                    }
                   >
                     <span className="me-2">我要領取</span>
                     <svg
@@ -938,6 +1043,7 @@ const Post = () => {
           </div>
         </section>
       </main>
+      {loading && <FullScreenLoading />}
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}

@@ -180,7 +180,7 @@ const Header = () => {
     if (e.key === 'Enter') {
       handleSearch(e);
     }
-  }
+  };
 
   const toggleOffcanvas = () => {
     if (isOffcanvasOpen) {
@@ -189,14 +189,14 @@ const Header = () => {
       setSelectedFoodType('美食類型');
     }
     setIsOffcanvasOpen(!isOffcanvasOpen);
-  }
- 
+  };
+
   // 處理搜尋結果，將搜尋條件帶到 all-posts 頁面
   const handleSearch = (e) => {
     e.preventDefault();
 
     const searchParams = new URLSearchParams();
-    
+
     if (searchInput.trim()) {
       searchParams.append('keyword', searchInput.trim());
     }
@@ -209,9 +209,9 @@ const Header = () => {
       searchParams.append('foodType', selectedFoodType);
     }
 
-    navigate(`/all-posts?${searchParams.toString()}`)
+    navigate(`/all-posts?${searchParams.toString()}`);
 
-    if(isSearchVisible) {
+    if (isSearchVisible) {
       toggleSearch();
     }
 
@@ -246,7 +246,7 @@ const Header = () => {
               className="navbar-brand d-flex py-lg-0 d-lg-block d-none"
               to="/"
             >
-              <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+              <img src="./assets/images/Logo-navbar.svg" alt="logo" />
             </NavLink>
           </h1>
 
@@ -383,7 +383,7 @@ const Header = () => {
                     >
                       <li>
                         <NavLink
-                          to="/account"
+                          to="/account/setting"
                           className="dropdown-item"
                         >
                           個人設定
@@ -398,7 +398,10 @@ const Header = () => {
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/account/my-posts" className="dropdown-item">
+                        <NavLink
+                          to="/account/my-posts"
+                          className="dropdown-item"
+                        >
                           我的發文
                         </NavLink>
                       </li>
@@ -437,7 +440,7 @@ const Header = () => {
             <div className="offcanvas-header d-flex justify-content-between mb-12">
               <h1 className="offcanvas-title" id="offcanvasNavLabel">
                 <a href="index.html">
-                  <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+                  <img src="./assets/images/Logo-navbar.svg" alt="logo" />
                 </a>
               </h1>
               {!isLogin ? (
@@ -761,7 +764,7 @@ const Header = () => {
             className="navbar-brand d-flex align-items-center me-4"
             href="index.html"
           >
-            <img src="/assets/images/Logo-navbar.svg" alt="logo" />
+            <img src="./assets/images/Logo-navbar.svg" alt="logo" />
           </a>
           <ul className="search-form d-flex py-7 gap-2 ms-auto me-2 flex-grow-1 justify-content-end">
             <li className="input-group mb-5 mb-lg-0 rounded-3 bg-white">

@@ -5,6 +5,10 @@
     }
   }
 
+  .post-card-img {
+    height: 300px;
+  }
+
   .spinner-border {
     width: 24px;
     height: 24px;
@@ -39,13 +43,14 @@
   }
 
   .nomoral-btn {
-    &:hover{
+    &:hover {
       border: 1px solid transparent;
       background: $gray-200;
     }
   }
+
   .nomoral-sm-btn {
-    &:hover{
+    &:hover {
       border: 1px solid transparent;
     }
   }
@@ -53,7 +58,14 @@
   .scrollbar-max-height {
     max-height: 307px;
   }
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  .not-allowed {
+    cursor: not-allowed;
+    background: $gray-400 !important;
+    border-color: $gray-400 !important;
   }
 }

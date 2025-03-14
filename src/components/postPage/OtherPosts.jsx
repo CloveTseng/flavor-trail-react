@@ -7,34 +7,36 @@ dayjs.locale('zh-tw');
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+
+const { VITE_BASE_URL } = import.meta.env;
+const logoUrl = './assets/images/Logo.png';
+
 const OtherPosts = ({ id }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
   const getOtherPosts = (posts, count) => {
     let tempPosts = [...posts].filter((post) => post.id != id);
     let otherPosts = [];
-    console.log('本篇貼文', id);
+    // console.log('本篇貼文', id);
 
-    console.log('更多貼文選項', tempPosts);
+    // console.log('更多貼文選項', tempPosts);
 
     for (let i = 0; i < count; i++) {
       let randomIndex = Math.floor(Math.random() * tempPosts.length);
       otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
     }
-    console.log('更多貼文', otherPosts);
+    // console.log('更多貼文', otherPosts);
     return otherPosts;
   };
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/posts?_expand=user'
-        );
+        const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
         // console.log(res);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     })();
   }, [id]);
@@ -63,7 +65,7 @@ const OtherPosts = ({ id }) => {
                       {/* <!--頭像--> */}
                       <div className="pe-5 mb-1">
                         <img
-                          src={post.user.avatarUrl}
+                          src={post.user?.avatarUrl || logoUrl}
                           alt="user-img"
                           className="rounded-circle object-fit-cover"
                           style={{
