@@ -411,6 +411,8 @@ const Home = () => {
         title={'分享美味'}
         startTriggerRef={startTriggerRef}
         endTriggerRef={endTriggerRef}
+        startPosition={'top 20%'}
+        endPosition={'bottom 60%'}
       />
     </>
   );
