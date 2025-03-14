@@ -79,7 +79,7 @@ const Footer = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/account-settings" className="footer-nav__link">
+                      <Link to="/account/setting" className="footer-nav__link">
                         我的帳號
                       </Link>
                     </li>
