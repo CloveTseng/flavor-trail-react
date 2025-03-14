@@ -20,8 +20,8 @@ const CopyUid = ({ uid, disabled }) => {
   };
 
   const disabledImg = disabled
-    ? '/assets/images/icon/x.svg'
-    : '/assets/images/icon/copy.svg';
+    ? './assets/images/icon/x.svg'
+    : './assets/images/icon/copy.svg';
   const copyUidClass = `px-2 text-end d-inline-flex align-items-center ${
     disabled ? 'text-gray-400 cursor-default' : 'cursor-pointer'
   }`;
