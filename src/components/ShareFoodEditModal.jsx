@@ -111,7 +111,7 @@ const ShareFoodEditModal = ({
                   編輯美味
                 </h1>
                 <img
-                  src='../assets/images/icon/x.svg'
+                  src='./assets/images/icon/x.svg'
                   alt=''
                   className='ms-auto pointer'
                   data-bs-dismiss='modal'
