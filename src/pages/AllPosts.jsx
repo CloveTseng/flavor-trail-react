@@ -1,7 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { Modal } from 'bootstrap';
 import ShareFoodModal from '../components/ShareFoodModal';
+import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CircleCTAButton from '../components/CircleCTAButton';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -9,63 +12,89 @@ import PacmanLoader from 'react-spinners/PacmanLoader';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
-
 function AllPosts() {
   const defaultValues = {
+    redeemCode: '',
     title: '',
-    food: {
-      dietType: '',
-      expiryDate: null,
-      isPastBestBefore: false,
-      name: '',
-      restQuantity: '',
-      saveMethod: '',
-      totalQuantity: '',
-      type: '',
-    },
-    FoodType: '',
-    SaveMethod: '',
-    FoodNum: '',
-    exp: '',
-    city: '',
-    district: '',
-    overfood: '',
-    MeatOrVeggie: '',
-    pickUpCity: '',
-    inputAddress: '',
-    TimePicker: '',
-    UpdatePhoto: '',
     content: '',
+    food: {
+      name: '',
+      type: '',
+      saveMethod: '',
+      totalQuantity: 0,
+      restQuantity: 0,
+      expiryDate: '',
+      isPastBestBefore: '',
+      dietType: '',
+    },
+    pickup: {
+      city: '',
+      district: '',
+      time: '',
+      address: '',
+    },
+    imagesUrl: [],
+    viewCount: 1,
+    commentCount: 0,
+    likeCount: 0,
+    userId: 1,
   };
-
+  const [posts, setPosts] = useState([]);
+  const [city, setCity] = useState([]);
+  const [foodType, setFoodType] = useState([]);
+  const [activeFilter, setActiveFilter] = useState('全部貼文');
+  const [activeCity, setActiveCity] = useState('地理位置');
+  const [activeFood, setActiveFood] = useState('美食類型');
+  const [result, setResult] = useState([]);
   const [tempPost, setTempPost] = useState(defaultValues);
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  // 🟢 點擊新增貼文按鈕
-  // const handleAddPost = () => {
-  //   setTempPost(defaultValues);     // 設定為空表單
-  //   setIsEditMode(false);           // 設定為新增模式
-  // };
-
-  // 🟢 點擊編輯貼文按鈕 (傳入貼文 ID)
-  const handleEditPost = async (postId) => {
-    try {
-      const { data } = await axios.get(
-        `https://json-server-vercel-5mr9.onrender.com/posts/${postId}`
-      );
-      console.log(data);
-      setTempPost(data || defaultValues); // 🟢 確保資料結構正確
-      setIsEditMode(true); // 設定為編輯模式
-    } catch (error) {
-      console.error('取得貼文資料失敗:', error);
-      setTempPost(defaultValues);
-    }
+  const [loading, setLoading] = useState(false);
+  const [likes, setLike] = useState({});
+  const [follows, setFollows] = useState({});
+  // 添加這些代碼讀取 URL 參數
+  const [searchParams] = useSearchParams();
+  const urlKeyword = searchParams.get('keyword');
+  const urlLocation = searchParams.get('location');
+  const urlFoodType = searchParams.get('foodType');
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const { identity } = useSelector((state) => state.loginSlice);
+  const getUserId = (uid) => {
+    let LoginPerson = identity.filter((person) => person.uid === uid);
+    // If LoginPerson is not empty, return the userId from the first element.
+    // If it is empty, return null.
+    return LoginPerson.length > 0 ? LoginPerson[0].userId : null;
   };
+  useEffect(() => {
+    if (isLogin) {
+      console.log('登入者id:', getUserId(uid));
+    }
+  }, [isLogin, identity]);
+
+  // 如果 URL 中有參數，則自動設置相應的篩選條件
+  useEffect(() => {
+    handleClearFilter();
+    if (urlLocation) {
+      setActiveCity(urlLocation);
+    }
+
+    if (urlFoodType) {
+      setActiveFood(urlFoodType);
+    }
+  }, [urlKeyword, urlLocation, urlFoodType]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  // 當 URL 參數變化時，更新搜尋關鍵字
+  useEffect(() => {
+    console.log('URL 关键词:', urlKeyword);
+    handleClearFilter();
+    if (urlKeyword) {
+      setSearchKeyword(urlKeyword);
+    } else {
+      setSearchKeyword('');
+    }
+  }, [urlKeyword]);
+
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
-  const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState([]);
-
   const filterOptions = [
     {
       name: '全部貼文',
@@ -159,32 +188,6 @@ function AllPosts() {
       ),
     },
   ];
-  const [activeFilter, setActiveFilter] = useState('全部貼文');
-  const [city, setCity] = useState([]);
-  const [activeCity, setActiveCity] = useState('地理位置');
-  const [foodType, setFoodType] = useState([]);
-  const [activeFood, setActiveFood] = useState('美食類型');
-  const [result, setResult] = useState([]);
-    // 定義 getPosts 函式
-    const getPosts = async () => {
-      setLoading(true);
-      try {
-        const resPosts = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/posts'
-        );
-        setPosts(resPosts.data);
-        setResult(resPosts.data);
-        setLoading(false);
-        console.log(resPosts);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    useEffect(() => {
-      getPosts();
-    }, []);
   const override = {
     height: '100vh',
     position: 'fixed',
@@ -199,19 +202,37 @@ function AllPosts() {
     justifyContent: 'center',
     alignItems: 'center',
   };
-  const [loading, setLoading] = useState(false);
 
+  // 定義 getPosts 函式
+  const getPosts = async () => {
+    setLoading(true);
+    try {
+      const resPosts = await axios.get(
+        'https://json-server-vercel-5mr9.onrender.com/posts?_expand=user'
+      );
+      setPosts(resPosts.data);
+      setResult(resPosts.data);
+      setLoading(false);
+      console.log('貼文資料:', resPosts.data);
+    } catch (error) {
+      alert(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getPosts();
+  }, []);
   useEffect(() => {
     (async () => {
       try {
-        const resUsers = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/users'
+        const resCity = await axios.get(
+          'https://json-server-vercel-5mr9.onrender.com/twCities'
         );
-        setUsers(resUsers.data);
+        setCity(resCity.data);
         setLoading(false);
-        console.log(resUsers);
       } catch (error) {
-        console.log(error);
+        alert(error);
       } finally {
         setLoading(false);
       }
@@ -225,33 +246,84 @@ function AllPosts() {
         );
         setFoodType(resFoodTypes.data);
         setLoading(false);
-        console.log(resFoodTypes.data);
       } catch (error) {
-        console.log(error);
+        alert(error);
       } finally {
         setLoading(false);
       }
     })();
   }, []);
+  // 根據 activeFilter 變化篩選貼文
   useEffect(() => {
-    (async () => {
-      try {
-        const resCity = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/twCities'
-        );
-        setCity(resCity.data);
-        setLoading(false);
-        console.log(resCity.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    let tempData = [...posts]; // 預設顯示全部貼文
+    if (searchKeyword) {
+      // 轉為小寫進行不區分大小寫的搜尋
+      const keyword = searchKeyword.toLowerCase();
+
+      tempData = tempData.filter((post) => {
+        // 確保屬性存在並轉為小寫
+        const title = (post.title || '').toLowerCase();
+        const content = (post.content || '').toLowerCase();
+
+        // 判斷標題或內容中是否包含關鍵字
+        return title.includes(keyword) || content.includes(keyword);
+      });
+
+      console.log('关键词筛选后结果:', tempData.length);
+    }
+    if (activeFilter === '熱門貼文') {
+      tempData = tempData.filter((post) => post.likeCount > 100); // 篩選熱門貼文
+    }
+    if (activeFilter === '最新貼文') {
+      const now = dayjs();
+      const tempDataNewSort = tempData.filter(
+        (post) => now.diff(dayjs(post.createdPostDate), 'day') <= 3
+      ); // 篩選3天內的最新貼文
+      tempData = tempDataNewSort.sort(
+        (a, b) => new Date(b.createdPostDate) - new Date(a.createdPostDate)
+      ); //排序新到舊
+      console.log(tempData);
+    }
+    // 熱門貼文 且為選取的縣市
+    if (activeCity !== '地理位置') {
+      tempData = tempData.filter((post) => post.pickup?.city === activeCity);
+    }
+    // 熱門貼文 且為選取縣市 且為選取美食類型
+    if (activeFood !== '美食類型') {
+      tempData = tempData.filter((post) => post.food?.type === activeFood);
+    }
+    setResult(tempData); // 更新篩選結果
+  }, [activeFilter, activeCity, activeFood, posts, searchKeyword]);
+
+  const editModalRef = useRef(null);
+  const myEditModal = useRef(null);
+  const closeEditModal = () => {
+    myEditModal.current.hide();
+  };
+
+  useEffect(() => {
+    if (editModalRef.current) {
+      myEditModal.current = new Modal(editModalRef.current, {
+        backdrop: 'static',
+        keyboard: false,
+      });
+    }
   }, []);
+  // 🟢 點擊編輯貼文按鈕 (傳入貼文 ID)
+  const handleEditPost = async (postId) => {
+    try {
+      const { data } = await axios.get(
+        `https://json-server-vercel-5mr9.onrender.com/posts/${postId}`
+      );
+      setTempPost(data); // 🟢 確保資料結構正確
+      console.log(data);
+      myEditModal.current.show();
+    } catch (error) {
+      alert('取得貼文資料失敗:', error);
+    }
+  };
   const handlePostFilter = (filter) => {
     setActiveFilter(filter);
-    console.log(filter);
   };
   const handleChangeCity = (e, city) => {
     e.preventDefault();
@@ -265,32 +337,8 @@ function AllPosts() {
     setActiveFilter('全部貼文');
     setActiveCity('地理位置');
     setActiveFood('美食類型');
+    setSearchKeyword('');
   };
-
-  // 根據 activeFilter 變化篩選貼文
-  useEffect(() => {
-    let tempData = [...posts]; // 預設顯示全部貼文
-
-    if (activeFilter === '熱門貼文') {
-      tempData = tempData.filter((post) => post.likeCount > 100); // 篩選熱門貼文
-    } else if (activeFilter === '最新貼文') {
-      const now = dayjs();
-      tempData = tempData.filter(
-        (post) => now.diff(dayjs(post.createdPostDate), 'day') <= 3
-      ); // 篩選3天內的最新貼文
-    }
-    // 熱門貼文 且為選取的縣市
-    if (activeCity !== '地理位置') {
-      tempData = tempData.filter((post) => post.pickup?.city === activeCity);
-    }
-    // 熱門貼文 且為選取縣市 且為選取美食類型
-    if (activeFood !== '美食類型') {
-      tempData = tempData.filter((post) => post.food?.type === activeFood);
-    }
-    setResult(tempData); // 更新篩選結果
-  }, [activeFilter, activeCity, activeFood, posts]);
-
-  const [likes, setLike] = useState({});
   const handleChangeLike = (id) => {
     setLike((prevLikes) => {
       const updatedLikes = { ...prevLikes };
@@ -314,12 +362,9 @@ function AllPosts() {
           )
         );
       }
-      console.log(updatedLikes);
       return updatedLikes;
     });
   };
-
-  const [follows, setFollows] = useState({});
   const handelChangeFllow = (id) => {
     setFollows((prev) => {
       const follows = { ...prev };
@@ -328,26 +373,19 @@ function AllPosts() {
       } else {
         follows[id] = true;
       }
-      console.log(follows);
       return follows;
     });
   };
 
   return (
     <>
-      {tempPost && (
-        <ShareFoodModal
-          isEditMode={isEditMode}
-          tempPost={tempPost}
-          defaultValues={defaultValues}
-        />
-      )}
+      <ShareFoodEditModal
+        closeEditModal={closeEditModal}
+        editModalRef={editModalRef}
+        tempPost={tempPost}
+        getPosts={getPosts}
+      />
       <div className='allPost container'>
-        {/* {loading && (
-          <div style={override}>
-            <PacmanLoader color={'#00503F'} size={75} />
-          </div>
-        )} */}
         {/* 小螢幕時顯示下拉選單 */}
         <div className='account-nav dropdown position-relative d-lg-none mt-10 mb-13'>
           {
@@ -595,16 +633,18 @@ function AllPosts() {
             <p className='fs-4 text-center py-20'>目前還沒有貼文 ( ´•̥̥̥ω•̥̥̥` )</p>
           ) : (
             result.map((post) => {
-              const user = users.find((user) => user.id === post.id);
+              // const user = users.find((user) => user.id === post.id);
               const timeAgo = dayjs(post.createdPostDate).fromNow();
               const now = dayjs();
               const isNewPost =
                 now.diff(dayjs(post.createdPostDate), 'day') <= 3;
+              // id !== user.id
               const isAvailable =
                 post.food?.restQuantity !== 0 &&
-                dayjs().isBefore(dayjs(post.food?.expiryDate));
+                dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
+                post?.user?.id !== getUserId(uid);
               const isTaken = post.food?.restQuantity === 0;
-              
+
               return (
                 <article
                   key={post.id}
@@ -619,30 +659,32 @@ function AllPosts() {
                         className='position-absolute top-0 start-0 w-100 h-75'
                       />
                       <div className='ps-lg-5'>
-                        {user && (
+                        {post.user && (
                           <div className='d-flex flex-wrap align-items-center py-4'>
                             <div className='card-header d-flex align-items-center me-auto mb-5 mb-md-0'>
                               <div className='d-flex align-items-center'>
                                 <img
-                                  src={user.avatarUrl}
-                                  alt='User avatar'
+                                  src={post?.user?.avatarUrl}
+                                  alt={post?.user?.avatarUrl}
                                   className='rounded-circle me-4 object-fit-cover'
                                   width={48}
                                   height={48}
                                 />
                                 <div>
-                                  <h2 className='h5 mb-1'>{user.nickName}</h2>
+                                  <h2 className='h5 mb-1'>
+                                    {post?.user?.nickName}
+                                  </h2>
                                   <p className='text-gray-700 small mb-0'>
                                     {post.pickup?.city} /{' '}
                                     {post.pickup?.district}· {timeAgo}
                                   </p>
                                 </div>
                               </div>
-                              {post.id === 1 && (
+                              {post?.user?.id === getUserId(uid) && isLogin && (
                                 <a
                                   href='#'
                                   data-bs-toggle='modal'
-                                  data-bs-target='#shareFoodModal'
+                                  data-bs-target='#shareFoodEditModal'
                                   onClick={() => handleEditPost(post.id)}
                                   className='z-1 ms-auto d-md-none'
                                 >
@@ -688,11 +730,11 @@ function AllPosts() {
                         <div className='py-7 border-top border-bottom'>
                           <div className='d-flex'>
                             <h2 className='fs-3 mb-5'>{post.title}</h2>
-                            {post.id === 1 && (
+                            {post?.user?.id === getUserId(uid) && isLogin && (
                               <a
                                 href='#'
                                 data-bs-toggle='modal'
-                                data-bs-target='#shareFoodModal'
+                                data-bs-target='#shareFoodEditModal'
                                 onClick={() => handleEditPost(post.id)}
                                 className='z-1 ms-auto d-none d-md-block'
                               >
@@ -786,16 +828,13 @@ function AllPosts() {
                         </div>
                         <div className='post-card-md-btn-list d-none d-md-block mt-5'>
                           <div className='row mx-0'>
-                            {post.id !== 1 && (
+                            {post?.user?.id !== getUserId(uid) && (
                               <div className='col ps-0 pe-1'>
                                 <button
                                   type='button'
                                   className={`get-btn btn bg-black text-white w-100 ${
-                                    post.food?.restQuantity === 0
-                                      ? 'not-allowed'
-                                      : ''
+                                    !isAvailable ? 'not-allowed' : ''
                                   }`}
-                                  // disabled={post.food?.restQuantity === 0}
                                 >
                                   <span className='me-2'>我要領取</span>
                                   <svg
@@ -991,7 +1030,7 @@ function AllPosts() {
                               </div>
                             </div>
                           </div>
-                          {post.id !== 1 && (
+                          {post?.user?.id !== getUserId(uid) && (
                             <button
                               type='button'
                               className={`get-btn btn bg-black text-white w-100 ${
@@ -1059,12 +1098,15 @@ function AllPosts() {
         </main>
       </div>
       <div ref={endTriggerRef}></div>
+      <ShareFoodModal />
 
       {/* CTA */}
       <CircleCTAButton
         title={'分享美味'}
         startTriggerRef={startTriggerRef}
         endTriggerRef={endTriggerRef}
+        startPosition={'top 20%'}
+        endPosition={'bottom 100%'}
       />
     </>
   );
