@@ -181,7 +181,13 @@ const HomeYummySection = () => {
                       </svg>
                     </div>
                   </div>
-                  <div className="foodCard-text p-7 border border-top-0 border-2 border-deco-pink">
+                  <div
+                    className="foodCard-text p-7 border border-top-0 border-2 border-deco-pink"
+                    style={{
+                      height: '100%',
+                      minHeight: '146px',
+                    }}
+                  >
                     <p className="multiline-ellipsis">{post.content}</p>
                   </div>
                 </Link>

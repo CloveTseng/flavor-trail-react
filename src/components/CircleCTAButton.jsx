@@ -2,52 +2,14 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ShareFoodModal from './ShareFoodModal';
-const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
+const CircleCTAButton = ({
+  title,
+  startTriggerRef,
+  endTriggerRef,
+  startPosition,
+  endPosition,
+}) => {
   const circleCTARef = useRef(null);
-  // useEffect(() => {
-  //   gsap.registerPlugin(ScrollTrigger);
-
-  //   gsap.set(circleCTARef.current, {
-  //     position: 'absolute',
-  //     bottom: '24px',
-  //     right: '5%',
-  //     opacity: 0,
-  //     visibility: 'hidden',
-  //     zIndex: 1000,
-  //   });
-
-  //   ScrollTrigger.defaults({
-  //     markers: true,
-  //   });
-
-  //   ScrollTrigger.create({
-  //     trigger: 'body',
-  //     start: 'top top',
-  //     end: 'top 60%',
-  //     onUpdate: (self) => {
-  //       if (scrollY >= 1080) {
-  //         gsap.to(circleCTARef.current, {
-  //           position: 'fixed',
-  //           opacity: 1,
-  //           visibility: 'visible',
-  //           duration: 0.3,
-  //         });
-  //       } else {
-  //         gsap.to(circleCTARef.current, {
-  //           position: 'absolute',
-  //           opacity: 0,
-  //           visibility: 'hidden',
-  //           duration: 0.3,
-  //           onComplete: () => {
-  //             gsap.set(circleCTARef.current, {
-  //               position: 'absolute',
-  //             });
-  //           },
-  //         });
-  //       }
-  //     },
-  //   });
-  // }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -65,9 +27,9 @@ const CircleCTAButton = ({ title, startTriggerRef, endTriggerRef }) => {
 
     const CTATrigger = ScrollTrigger.create({
       trigger: startTriggerRef.current,
-      start: 'top 20%',
+      start: startPosition,
       endTrigger: endTriggerRef.current,
-      end: 'bottom 60%',
+      end: endPosition,
       onToggle: (self) => {
         if (self.isActive) {
           gsap.to(circleCTARef.current, {

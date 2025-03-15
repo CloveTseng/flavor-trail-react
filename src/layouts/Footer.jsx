@@ -85,7 +85,6 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="#"
                         className="footer-nav__link"
                         data-bs-toggle="modal"
                         data-bs-target="#shareFoodModal"
