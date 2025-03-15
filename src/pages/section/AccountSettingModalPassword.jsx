@@ -18,7 +18,7 @@ function AccountSettingModalPassword() {
                 變更密碼
               </h2>
               <img
-                src="../assets/images/icon/x.svg"
+                src="/assets/images/icon/x.svg"
                 alt=""
                 className="ms-auto p-2 pointer"
                 data-bs-dismiss="modal"

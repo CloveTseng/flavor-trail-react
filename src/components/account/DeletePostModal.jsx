@@ -17,7 +17,7 @@ const DeletePostModal = ({ postId, onDeleteSuccess }) => {
       onDeleteSuccess();
     } catch (error) {
       console.log(error.message);
-      alert('刪除失敗，請稍後再試');
+      alert('刪除失敗，請稍候再試');
     }
   };
 

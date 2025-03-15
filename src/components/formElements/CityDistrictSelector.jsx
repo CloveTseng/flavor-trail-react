@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormContext } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -12,8 +13,6 @@ function CityDistrictSelector({
   rules,
   initialCityId,
   initialDistrict,
-  cityName,
-  districtName,
 }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -38,7 +37,7 @@ function CityDistrictSelector({
   }, []);
 
   useEffect(() => {
-    if (initialCityId && initialDistrict !== selectedCityId) {
+    if (initialCityId && initialCityId !== selectedCityId) {
       setSelectedCityId(initialCityId);
     }
   }, [initialCityId]);
@@ -63,7 +62,12 @@ function CityDistrictSelector({
   }, [selectedCityId]);
 
   useEffect(() => {
-    if (districts.length > 0 && initialDistrict && !defaultDistrictSet) {
+    if (
+      selectedCityId &&
+      districts.length > 0 &&
+      initialDistrict &&
+      !defaultDistrictSet
+    ) {
       const foundDistrict = districts.find(
         (district) => district.name === initialDistrict
       );
@@ -72,7 +76,7 @@ function CityDistrictSelector({
       }
       setDefaultDistrictSet(true);
     }
-  }, [districts]);
+  }, [selectedCityId, districts]);
 
   const handleCityChange = (e) => {
     const selectedId = e.target.value;
@@ -126,5 +130,19 @@ function CityDistrictSelector({
     </>
   );
 }
+CityDistrictSelector.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  cityId: PropTypes.string.isRequired,
+  districtId: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  initialCityId: PropTypes.string,
+  initialDistrict: PropTypes.string,
+  cityName: PropTypes.string,
+  districtName: PropTypes.string,
+};
 
+CityDistrictSelector.defaultProps = {
+  errors: {},
+};
 export default CityDistrictSelector;
