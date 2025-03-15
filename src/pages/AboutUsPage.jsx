@@ -1,4 +1,4 @@
-import AboutUsMarquee from "../components/AboutUsMarquee";
+import AboutUsMarquee from '../components/AboutUsMarquee';
 
 const AboutUsPage = () => {
   return (
@@ -1030,7 +1030,7 @@ const AboutUsPage = () => {
             <div className="about-story__background">
               <img
                 className="about-story__background-img"
-                src="/assets/images/about-2.jpg"
+                src="./assets/images/about-2.jpg"
                 alt="about-story__background"
               />
             </div>
@@ -1401,6 +1401,6 @@ const AboutUsPage = () => {
       </section>
     </>
   );
-}
+};
 
 export default AboutUsPage;

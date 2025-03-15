@@ -11,7 +11,7 @@ function NotifyAlert() {
         >
           <div className="toast-header">
             <img
-              src="../assets/images/Logo.png"
+              src="./assets/images/Logo.png"
               className="rounded me-2"
               alt="logo"
               style="width:20px ;height:20px"

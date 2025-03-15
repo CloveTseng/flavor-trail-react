@@ -10,50 +10,6 @@ const CircleCTAButton = ({
   endPosition,
 }) => {
   const circleCTARef = useRef(null);
-  // useEffect(() => {
-  //   gsap.registerPlugin(ScrollTrigger);
-
-  //   gsap.set(circleCTARef.current, {
-  //     position: 'absolute',
-  //     bottom: '24px',
-  //     right: '5%',
-  //     opacity: 0,
-  //     visibility: 'hidden',
-  //     zIndex: 1000,
-  //   });
-
-  //   ScrollTrigger.defaults({
-  //     markers: true,
-  //   });
-
-  //   ScrollTrigger.create({
-  //     trigger: 'body',
-  //     start: 'top top',
-  //     end: 'top 60%',
-  //     onUpdate: (self) => {
-  //       if (scrollY >= 1080) {
-  //         gsap.to(circleCTARef.current, {
-  //           position: 'fixed',
-  //           opacity: 1,
-  //           visibility: 'visible',
-  //           duration: 0.3,
-  //         });
-  //       } else {
-  //         gsap.to(circleCTARef.current, {
-  //           position: 'absolute',
-  //           opacity: 0,
-  //           visibility: 'hidden',
-  //           duration: 0.3,
-  //           onComplete: () => {
-  //             gsap.set(circleCTARef.current, {
-  //               position: 'absolute',
-  //             });
-  //           },
-  //         });
-  //       }
-  //     },
-  //   });
-  // }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

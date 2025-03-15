@@ -71,7 +71,7 @@ function AccountPosts() {
           placeholder="搜尋發文"
           filterOptions={['all', 'notExpired', 'expired']}
         />
-        <div>目前沒有貼文。</div>
+        <div className="ms-10">目前沒有貼文。</div>
       </>
     );
   }

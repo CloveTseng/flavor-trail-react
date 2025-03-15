@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="container">
           <div className="footer-header d-flex flex-lg-row flex-column-reverse mb-lg-19 mb-16">
             <a href="index.html" className="footer-logo">
-              <img src="/assets/images/Logo.png" alt="logo" />
+              <img src="./assets/images/Logo.png" alt="logo" />
             </a>
             <div className="slogan ms-auto mt-lg-12 fs-2 fw-bolder lh-1">
               <p>快樂齊分享，美味</p>
@@ -79,13 +79,12 @@ const Footer = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/account-settings" className="footer-nav__link">
+                      <Link to="/account/setting" className="footer-nav__link">
                         我的帳號
                       </Link>
                     </li>
                     <li>
                       <a
-                        href="#"
                         className="footer-nav__link"
                         data-bs-toggle="modal"
                         data-bs-target="#shareFoodModal"
@@ -106,20 +105,20 @@ const Footer = () => {
             <div className="col-3 d-lg-flex justify-content-end align-items-end">
               <div className="footer-social d-flex flex-lg-row flex-column align-items-end gap-2">
                 <a href="#" className="p-2">
-                  <img src="/assets/images/icon/twitter.svg" alt="twitter" />
+                  <img src="./assets/images/icon/twitter.svg" alt="twitter" />
                 </a>
                 <a href="#" className="p-2">
                   <img
-                    src="/assets/images/icon/instagram.svg"
+                    src="./assets/images/icon/instagram.svg"
                     alt="instagram"
                   />
                 </a>
                 <a href="#" className="p-2">
-                  <img src="/assets/images/icon/facebook.svg" alt="facebook" />
+                  <img src="./assets/images/icon/facebook.svg" alt="facebook" />
                 </a>
                 <a href="#" className="p-2">
                   <img
-                    src="/assets/images/icon/hugeicons_line.svg"
+                    src="./assets/images/icon/hugeicons_line.svg"
                     alt="line"
                   />
                 </a>
