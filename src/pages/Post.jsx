@@ -39,7 +39,7 @@ const Post = () => {
 
   const [hasApplication, setHasApplication] = useState(false);
   const checkFoodApplications = (userId, postId) => {
-    console.log('check:', userId, postId);
+    // console.log('check:', userId, postId);
     const currentUser = identity.filter((user) => user.userId === userId);
 
     if (currentUser.length === 0) {
@@ -49,7 +49,7 @@ const Post = () => {
     const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
       (application) => application.postId == postId
     );
-    console.log('目前使用者申請：', currentUser);
+    // console.log('目前使用者申請：', currentUser);
     if (findApplicationsIndex !== -1) {
       setHasApplication(true);
     } else {
@@ -192,7 +192,7 @@ const Post = () => {
   }, []);
 
   // 判斷滾動
-  const [isScroll, setIsScroll] = useState(false);
+  const [isScroll, setIsScroll] = useState(true);
   useEffect(() => {
     const handleScroll = () => {
       setIsScroll(window.scrollY >= 20);
@@ -205,7 +205,7 @@ const Post = () => {
 
   // redux
   useEffect(() => {
-    console.log(isLogin);
+    // console.log(isLogin);
     if (isLogin) {
       // console.log('登入者id:', getUserId(uid));
       // console.log('身份資料:', identity);
@@ -858,9 +858,16 @@ const Post = () => {
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
               <div
-                className={`bg-white rounded-3 p-5 mb-3 ${
-                  isScroll ? 'sticky-top' : ''
-                }`}
+                className="bg-white rounded-3 p-5 mb-3"
+                style={
+                  isScroll
+                    ? {
+                        position: 'sticky',
+                        top: '0',
+                        zIndex: '90',
+                      }
+                    : {}
+                }
               >
                 {/* <!--份數統計--> */}
                 <div className="row gx-0">
