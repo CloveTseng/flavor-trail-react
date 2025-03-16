@@ -8,7 +8,7 @@ const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
 const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
-  const [newComments, setNewComments] = useState(null);
+  const [newComment, setNewComment] = useState(null);
   const { id: postId } = useParams();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const { identity } = useSelector((state) => state.loginSlice);
@@ -33,7 +33,7 @@ const PostComments = ({ id, commentCount }) => {
       return;
     }
 
-    if (newComments === '') {
+    if (!newComment) {
       alert('親愛的尋者唷！說點啥！');
       return;
     }
@@ -42,11 +42,11 @@ const PostComments = ({ id, commentCount }) => {
         postId,
         userId: getUserId(uid),
         type,
-        comment: newComments,
+        comment: newComment,
         createDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
       console.log(res);
-      setNewComments('');
+      setNewComment('');
       getComments();
     } catch (error) {
       // console.log(error);
@@ -121,8 +121,8 @@ const PostComments = ({ id, commentCount }) => {
           type="text"
           className="form-control"
           placeholder="寫下你的留言"
-          value={newComments || ''}
-          onChange={(e) => setNewComments(e.target.value)}
+          value={newComment || ''}
+          onChange={(e) => setNewComment(e.target.value)}
         />
         <button
           type="button"
