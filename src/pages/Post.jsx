@@ -1,24 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+
 import axios from 'axios';
 import { Modal } from 'bootstrap';
-
-import Swiper from 'swiper';
-import { Pagination } from 'swiper/modules';
-import 'swiper/css';
-
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
 
-import RectangleCTAButton from '../components/RectangleCTAButton';
 import OtherPosts from '../components/postPage/OtherPosts';
-import { Link, useNavigate, useParams } from 'react-router';
 import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
-import { useSelector } from 'react-redux';
 import FullScreenLoading from '../components/FullScreenLoading';
+import RectangleCTAButton from '../components/RectangleCTAButton';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -26,7 +22,6 @@ const logoUrl = './assets/images/Logo.png';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  // const [timeAgo, setTimeAgo] = useState(null);
   const [postTag, setPostTag] = useState({
     latest: false,
     hot: false,
@@ -39,17 +34,10 @@ const Post = () => {
 
   const [hasApplication, setHasApplication] = useState(false);
   const checkFoodApplications = (userId, postId) => {
-    // console.log('check:', userId, postId);
     const currentUser = identity.filter((user) => user.userId === userId);
-
-    if (currentUser.length === 0) {
-      return;
-    }
-
     const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
       (application) => application.postId == postId
     );
-    // console.log('目前使用者申請：', currentUser);
     if (findApplicationsIndex !== -1) {
       setHasApplication(true);
     } else {
@@ -104,9 +92,7 @@ const Post = () => {
         const res = await axios.get(
           `${VITE_BASE_URL}/posts/${id}?_expand=user`
         );
-        // console.log(res.data);
         setPost((pre) => res.data);
-        // setTimeAgo((pre) => res.data.createdPostDate);
         handlePostTag(
           res.data.likeCount,
           res.data.createdPostDate,
@@ -114,31 +100,11 @@ const Post = () => {
         );
       } catch (error) {
         navigate('*');
-        // console.log(error);
       } finally {
         setLoading(false);
       }
     })();
   }, [id]);
-
-  useEffect(() => {
-    new Swiper('.postSwiper', {
-      modules: [Pagination],
-      spaceBetween: 24,
-      slidesPerView: 1,
-      pagination: {
-        el: '.swiper-pagination-post',
-        type: 'fraction',
-      },
-      1200: {
-        grid: {
-          rows: 1,
-        },
-        slidesPerView: 3,
-        spaceBetween: 24,
-      },
-    });
-  }, []);
 
   // foodApplyModal
   const foodApplyRef = useRef(null);
@@ -205,10 +171,7 @@ const Post = () => {
 
   // redux
   useEffect(() => {
-    // console.log(isLogin);
     if (isLogin) {
-      // console.log('登入者id:', getUserId(uid));
-      // console.log('身份資料:', identity);
       checkFoodApplications(getUserId(uid), id);
     }
   }, [isLogin, identity]);
@@ -247,52 +210,14 @@ const Post = () => {
               <div className="row mb-7">
                 <div className="col-lg-12">
                   <div className="post-img-sm d-block d-lg-none position-relative">
-                    {post?.imagesUrl && post?.imagesUrl.length > 1 ? (
-                      <>
-                        <div className="swiper-pagination-post position-absolute rounded-3 text-white fw-bold py-3 px-5 z-2"></div>
-                        <div className="swiper postSwiper">
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide">
-                              <img
-                                className="rounded-3"
-                                src="../assets/images/allPost/postBanner1.jpg"
-                                alt="postBanner1"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                className="rounded-3"
-                                src="../assets/images/allPost/postBanner2.jpg"
-                                alt="postBanner2"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                className="rounded-3"
-                                src="../assets/images/allPost/postBanner3.jpg"
-                                alt="postBanner3"
-                              />
-                            </div>
-                            <div className="swiper-slide">
-                              <img
-                                className="rounded-3"
-                                src="../assets/images/allPost/postBanner4.jpg"
-                                alt="postBanner4"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="mt-3">
-                        <img
-                          className="w-100 h-100 rounded-3 object-fit-cover"
-                          src={post?.imagesUrl[0]}
-                          alt={`post${post?.id}-banner`}
-                          style={{ maxHeight: '580px' }}
-                        />
-                      </div>
-                    )}
+                    <div className="mt-3">
+                      <img
+                        className="w-100 h-100 rounded-3 object-fit-cover"
+                        src={post?.imagesUrl[0]}
+                        alt={`post${post?.id}-banner`}
+                        style={{ maxHeight: '580px' }}
+                      />
+                    </div>
                   </div>
                   <div className="post-img-lg d-none d-lg-block w-100 h-100">
                     <img
@@ -303,46 +228,6 @@ const Post = () => {
                     />
                   </div>
                 </div>
-                {/* 多圖... */}
-                {/* <div className="d-none d-lg-flex flex-column col-lg-4">
-              <div className="mb-7 w-100 h-100">
-                <img
-                  className="w-100 rounded-3 object-fit-cover"
-                  src="../assets/images/allPost/postBanner2.jpg"
-                  alt="postBanner2"
-                  style={{ minHeight: '278px' }}
-                />
-              </div>
-              <div className="w-100 h-100 position-relative">
-                <a
-                  href="#"
-                  className="more-card-text d-flex flex-column justify-content-center align-items-center position-absolute start-50 top-50 translate-middle z-1"
-                >
-                  <svg
-                    width="24"
-                    height="25"
-                    viewBox="0 0 24 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 13.5H5V11.5H11V5.5H13V11.5H19V13.5H13V19.5H11V13.5Z"
-                      fill="white"
-                    />
-                  </svg>
-                  <div className="fw-4 fw-bold text-white mt-2">查看更多</div>
-                </a>
-                <img
-                  className="w-100 rounded-3 object-fit-cover more-card"
-                  src="../assets/images/allPost/postBanner3.jpg"
-                  alt="postBanner3"
-                  style={{
-                    minHeight: '278px',
-                    filter: 'brightness(0.5)',
-                  }}
-                />
-              </div>
-            </div> */}
               </div>
               {/* 貼文 */}
               <div className="bg-white rounded-3 p-5 mb-5">
