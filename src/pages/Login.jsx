@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { setIsLogin } from '../redux/LoginStateSlice';
-const baseUrl = 'https://ec-course-api.hexschool.io/v2';
+const { VITE_LOGIN_URL } = import.meta.env;
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Login = () => {
   const signin = async (formData) => {
     try {
       const { email, password, check } = formData;
-      const res = await axios.post(`${baseUrl}/admin/signin`, {
+      const res = await axios.post(`${VITE_LOGIN_URL}/admin/signin`, {
         username: email,
         password,
       });

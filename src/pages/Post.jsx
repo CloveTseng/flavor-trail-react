@@ -58,7 +58,6 @@ const Post = () => {
         hot: false,
       }));
     }
-
     //最新
     if (dayjs().diff(dayjs(timeAgo), 'day') <= 3) {
       setPostTag((pre) => ({
@@ -71,7 +70,6 @@ const Post = () => {
         latest: false,
       }));
     }
-
     //是否過期
     if (dayjs().isAfter(dayjs(expiryDate))) {
       setPostTag((pre) => ({
@@ -125,6 +123,7 @@ const Post = () => {
       return;
     }
     setApplyInfo((pre) => ({
+      ...pre,
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
@@ -144,17 +143,13 @@ const Post = () => {
     (async () => {
       try {
         const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
-        // console.log(res);
         setUserNickname(res.data.nickName);
-      } catch (error) {
-        // console.log(error);
-      }
+      } catch (error) {}
     })();
   }, [uid]);
 
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
-    // console.log(foodApplyRef);
   }, []);
 
   // 判斷滾動
@@ -172,6 +167,16 @@ const Post = () => {
   // redux
   useEffect(() => {
     if (isLogin) {
+      //取得使用者暱稱
+      (async () => {
+        try {
+          const res = await axios.get(
+            `${VITE_BASE_URL}/users/${getUserId(uid)}`
+          );
+          setUserNickname(res.data.nickName);
+        } catch (error) {}
+      })();
+      //確認使用者是否有領取資格
       checkFoodApplications(getUserId(uid), id);
     }
   }, [isLogin, identity]);
