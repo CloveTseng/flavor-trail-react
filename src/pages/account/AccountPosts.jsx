@@ -7,6 +7,7 @@ import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
 // import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CopyUid from '../../components/CopyUid';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -23,6 +24,10 @@ function AccountPosts() {
   const [postData, setPostData] = useState(null);
   const [filter, setFilter] = useState('all');
   const [selectedPostId, setSelectedPostId] = useState(null);
+
+  const handleClick = () => {
+    toast.success('這是一顆吐司');
+  };
 
   useEffect(() => {
     const getPostData = async () => {
@@ -90,6 +95,7 @@ function AccountPosts() {
 
   return (
     <>
+      <button onClick={handleClick}>這是一個按鈕</button>
       <AccountFilter
         setFilter={setFilter}
         filter={filter}

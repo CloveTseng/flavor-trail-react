@@ -183,10 +183,14 @@ function AccountNav() {
             </svg>
           </button>
           <ul className="dropdown-menu custom-dropdown-menu">
-            <li className="d-flex">
-              <a
-                href="account-settings.html"
-                className="dropdown-item d-flex align-items-center gap-2"
+            <li className="d-flex" key="setting">
+              <NavLink
+                to="/account/setting"
+                className={`dropdown-item d-flex align-items-center gap-2 ${
+                  location.pathname.endsWith('/setting')
+                    ? 'path-white text-white'
+                    : ''
+                }`}
               >
                 <svg
                   width="16"
@@ -204,12 +208,16 @@ function AccountNav() {
                   />
                 </svg>
                 個人設定
-              </a>
+              </NavLink>
             </li>
-            <li className="d-flex">
-              <a
-                href="account-notifications.html"
-                className="dropdown-item d-flex align-items-center gap-2"
+            <li className="d-flex" key="notifications">
+              <NavLink
+                to="/account/notifications"
+                className={`dropdown-item d-flex align-items-center gap-2 ${
+                  location.pathname.endsWith('/notifications')
+                    ? 'path-white text-white'
+                    : ''
+                }`}
               >
                 <svg
                   width="16"
@@ -227,12 +235,16 @@ function AccountNav() {
                   />
                 </svg>
                 全部通知
-              </a>
+              </NavLink>
             </li>
-            <li className="d-flex">
-              <a
-                href="account-posts.html"
-                className="dropdown-item d-flex align-items-center gap-2"
+            <li className="d-flex" key="my-posts">
+              <NavLink
+                to="/account/my-posts"
+                className={`dropdown-item d-flex align-items-center gap-2 ${
+                  location.pathname.endsWith('/my-posts')
+                    ? 'path-white text-white'
+                    : ''
+                }`}
               >
                 <svg
                   width="16"
@@ -250,12 +262,16 @@ function AccountNav() {
                   />
                 </svg>
                 我的發文
-              </a>
+              </NavLink>
             </li>
-            <li className="d-flex">
-              <a
-                href="account-following.html"
-                className="dropdown-item d-flex align-items-center gap-2"
+            <li className="d-flex" key="following">
+              <NavLink
+                to="/account/following"
+                className={`dropdown-item d-flex align-items-center gap-2 ${
+                  location.pathname.endsWith('/following')
+                    ? 'path-white text-white'
+                    : ''
+                }`}
               >
                 <svg
                   width="16"
@@ -273,12 +289,16 @@ function AccountNav() {
                   />
                 </svg>
                 我的追蹤
-              </a>
+              </NavLink>
             </li>
-            <li className="d-flex">
-              <a
-                href="account-history.html"
-                className="dropdown-item d-flex align-items-center gap-2"
+            <li className="d-flex" key="history">
+              <NavLink
+                to="/account/history"
+                className={`dropdown-item d-flex align-items-center gap-2 ${
+                  location.pathname.endsWith('/history')
+                    ? 'path-white text-white'
+                    : ''
+                }`}
               >
                 <svg
                   width="16"
@@ -296,7 +316,7 @@ function AccountNav() {
                   />
                 </svg>
                 領取紀錄
-              </a>
+              </NavLink>
             </li>
           </ul>
         </h1>
