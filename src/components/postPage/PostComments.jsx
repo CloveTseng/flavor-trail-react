@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import axios from 'axios';
 import dayjs from 'dayjs';
+
+import { getUserId } from '../../utils/loginUser';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -11,16 +13,10 @@ const PostComments = ({ id, commentCount }) => {
   const [newComment, setNewComment] = useState(null);
   const { id: postId } = useParams();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
-  const { identity } = useSelector((state) => state.loginSlice);
-  const getUserId = (uid) => {
-    let LoginPerson = identity.filter((person) => person.uid === uid);
-    return LoginPerson[0].userId;
-  };
 
   const getComments = async () => {
     try {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
-      // console.log(res.data);
       setComments(res.data.filter((comment) => comment.postId == id));
     } catch (error) {
       // console.log(error);
@@ -45,7 +41,6 @@ const PostComments = ({ id, commentCount }) => {
         comment: newComment,
         createDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
-      console.log(res);
       setNewComment('');
       getComments();
     } catch (error) {

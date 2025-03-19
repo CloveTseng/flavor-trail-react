@@ -145,12 +145,7 @@ const Post = () => {
       dispatch(getLoginUserInfo(getUserId(uid)));
     }
   }, [isLogin]);
-  useEffect(() => {
-    if (isLogin) {
-      console.log(userInfo);
-      console.log(checkFoodApplications(userInfo.foodApplications, id));
-    }
-  }, [userInfo]);
+
   return (
     <>
       <header>
@@ -714,7 +709,15 @@ const Post = () => {
               {/* 留言區 */}
               <PostComments id={id} commentCount={post?.commentCount} />
               {/* 其他貼文 */}
-              <OtherPosts id={id} />
+              <OtherPosts
+                id={id}
+                isDisabled={
+                  (isLogin && post?.user?.id == getUserId(uid)) ||
+                  post?.food?.restQuantity === 0 ||
+                  !postTag.expired
+                }
+                clickMethod={() => openApplyModal(post)}
+              />
             </div>
             {/* <!--右邊領取區--> */}
             <div className="col-lg-4 d-none d-lg-block">
@@ -916,7 +919,16 @@ const Post = () => {
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
       />
-      <RectangleCTAButton page={'PostPage'} title={'我要領取'} />
+      <RectangleCTAButton
+        page={'PostPage'}
+        title={'我要領取'}
+        isDisabled={
+          (isLogin && post?.user?.id == getUserId(uid)) ||
+          post?.food?.restQuantity === 0 ||
+          !postTag.expired
+        }
+        clickMethod={() => openApplyModal(post)}
+      />
     </>
   );
 };

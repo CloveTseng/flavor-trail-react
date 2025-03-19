@@ -28,7 +28,6 @@ const Login = () => {
         username: email,
         password,
       });
-      console.log(res);
       reset();
       dispatch(
         setIsLogin({

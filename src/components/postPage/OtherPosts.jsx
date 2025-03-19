@@ -11,21 +11,16 @@ import { Link } from 'react-router';
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
 
-const OtherPosts = ({ id }) => {
+const OtherPosts = ({ id, isDisabled, clickMethod }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
   const getOtherPosts = (posts, count) => {
     let tempPosts = [...posts].filter((post) => post.id != id);
     let otherPosts = [];
-    // console.log('本篇貼文', id);
-
-    // console.log('更多貼文選項', tempPosts);
-
     for (let i = 0; i < count; i++) {
       let randomIndex = Math.floor(Math.random() * tempPosts.length);
       otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
     }
-    // console.log('更多貼文', otherPosts);
     return otherPosts;
   };
 
@@ -33,7 +28,6 @@ const OtherPosts = ({ id }) => {
     (async () => {
       try {
         const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
-        // console.log(res);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
         // console.log(error);
@@ -46,9 +40,12 @@ const OtherPosts = ({ id }) => {
       <h3 className="mb-7 fs-1 fw-bolder">其他貼文</h3>
       {otherPosts?.map((post) => (
         <div className="bg-white rounded-3 p-5 mb-5" key={post.id}>
-          <Link to={`/post/${post.id}`} className="card border-0 bg-white">
+          <div className="card border-0 bg-white">
             <div className="row flex-column flex-lg-row-reverse">
-              <div className="col-xxl-5 tet-align-center">
+              <Link
+                to={`/post/${post.id}`}
+                className="col-xxl-5 tet-align-center"
+              >
                 <img
                   src={post.imagesUrl}
                   className="rounded-3 object-fit-cover h-100 w-100"
@@ -57,7 +54,7 @@ const OtherPosts = ({ id }) => {
                     maxHeight: '300px',
                   }}
                 />
-              </div>
+              </Link>
               <div className="col-xxl-7">
                 <div className="pt-7 pt-xxl-0">
                   <div className="d-flex flex-column flex-lg-row justify-content-between">
@@ -233,6 +230,8 @@ const OtherPosts = ({ id }) => {
                         <button
                           type="button"
                           className="btn btn-dark w-100 p-4 d-flex align-items-center justify-content-center"
+                          onClick={clickMethod}
+                          disabled={isDisabled}
                         >
                           <small className="me-1">我要領取</small>
                           <svg
@@ -402,7 +401,12 @@ const OtherPosts = ({ id }) => {
                       </div>
                     </div>
                     <div className="row my-4 gx-0 d-lg-none d-flex">
-                      <button type="button" className="btn btn-dark">
+                      <button
+                        type="button"
+                        className="btn btn-dark"
+                        onClick={clickMethod}
+                        disabled={isDisabled}
+                      >
                         <span className="me-2">我要領取</span>
                         <svg
                           width="16"
@@ -432,7 +436,7 @@ const OtherPosts = ({ id }) => {
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       ))}
     </div>
