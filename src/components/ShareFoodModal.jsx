@@ -2,6 +2,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 import { useForm, FormProvider } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
 import CityDistrictSelector from './formElements/CityDistrictSelector';
 import InputTextGroup from './formElements/InputTextGroup';
@@ -64,22 +65,28 @@ const ShareFoodModal = () => {
     const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
 
     try {
-      await axios.post(`${BASE_URL}/posts`, {
-        ...rest,
-        redeemCode: uid,
-        food: {
-          ...submitData,
-          expiryDate: formattedExpiryDate,
-          totalQuantity: Number(totalQuantity),
-          restQuantity: Number(totalQuantity),
-        },
-        pickup: {
-          ...data.pickup,
-        },
-        createdPostDate,
-        imagesUrl: imagesUrlArray,
-      });
-      alert('表單已送出');
+      await toast.promise(
+        axios.post(`${BASE_URL}/posts`, {
+          ...rest,
+          redeemCode: uid,
+          food: {
+            ...submitData,
+            expiryDate: formattedExpiryDate,
+            totalQuantity: Number(totalQuantity),
+            restQuantity: Number(totalQuantity),
+          },
+          pickup: {
+            ...data.pickup,
+          },
+          createdPostDate,
+          imagesUrl: imagesUrlArray,
+        }),
+        {
+          loading: '發送食物中...',
+          success: '分享食物成功',
+          error: '分享失敗，請稍候再試',
+        }
+      );
     } catch (error) {
       console.log(error.message);
     }
