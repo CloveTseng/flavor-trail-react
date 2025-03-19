@@ -2,16 +2,21 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { Modal } from 'bootstrap';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const DeletePostModal = ({ postId, onDeleteSuccess }) => {
   const modalRef = useRef(null);
 
+  const handleClick = () => {
+    toast.success('貼文刪除成功');
+  };
+
   const deletePost = async () => {
     try {
       await axios.delete(`${BASE_URL}/posts/${postId}`);
-      alert('貼文刪除成功');
+      handleClick();
       const modalInstance = Modal.getInstance(modalRef.current);
       modalInstance.hide();
       onDeleteSuccess();
