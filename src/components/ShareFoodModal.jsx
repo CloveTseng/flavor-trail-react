@@ -123,6 +123,11 @@ const ShareFoodModal = () => {
   const handleDateChange = (date) => {
     setValue('expiryDate', date);
   };
+
+  const handleTimeChange = ({ startTime, endTime }) => {
+    setValue('pickup.time', `${startTime} - ${endTime}`);
+  };
+
   return (
     <>
       <FormProvider {...methods}>
@@ -410,7 +415,11 @@ const ShareFoodModal = () => {
                         領取時間
                         <span className="text-danger"> * </span>
                       </label>
-                      <TimePicker />
+                      <TimePicker
+                        initialStartTime=""
+                        initialEndTime=""
+                        onTimeChange={handleTimeChange}
+                      />
                     </div>
 
                     {/* 上傳圖片 */}
