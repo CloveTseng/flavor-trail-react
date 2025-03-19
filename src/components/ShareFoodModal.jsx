@@ -161,9 +161,10 @@ const ShareFoodModal = () => {
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodType"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-5 py-4"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
                             >
                               食物類型
+                              <span className="text-danger"> * </span>
                             </label>
                           </div>
                           <SelectBox
@@ -195,6 +196,7 @@ const ShareFoodModal = () => {
                               className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
                             >
                               保存方式
+                              <span className="text-danger"> * </span>
                             </label>
                           </div>
                           <SelectBox
@@ -223,9 +225,10 @@ const ShareFoodModal = () => {
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodNum"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-12 py-4"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-4"
                             >
                               食物份數
+                              <span className="text-danger"> * </span>
                             </label>
                           </div>
                           <InputText
@@ -259,6 +262,7 @@ const ShareFoodModal = () => {
                               className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-2"
                             >
                               有效期限
+                              <span className="text-danger"> * </span>
                             </label>
                           </div>
                           <DatePicker
@@ -310,6 +314,7 @@ const ShareFoodModal = () => {
                         className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7"
                       >
                         領取地點
+                        <span className="text-danger"> * </span>
                       </label>
                       <CityDistrictSelector
                         register={register}
@@ -347,6 +352,7 @@ const ShareFoodModal = () => {
                         className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7"
                       >
                         領取時間
+                        <span className="text-danger"> * </span>
                       </label>
                       <TimePicker />
                     </div>
@@ -358,6 +364,7 @@ const ShareFoodModal = () => {
                         className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7"
                       >
                         上傳圖片
+                        <span className="text-danger"> * </span>
                       </label>
                       <InputText
                         register={register}
@@ -380,6 +387,7 @@ const ShareFoodModal = () => {
                         className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 mt-lg-3"
                       >
                         介紹與描述
+                        <span className="text-danger"> * </span>
                       </label>
                       <TextArea
                         register={register}

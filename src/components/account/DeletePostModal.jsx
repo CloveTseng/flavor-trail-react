@@ -9,20 +9,18 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const DeletePostModal = ({ postId, onDeleteSuccess }) => {
   const modalRef = useRef(null);
 
-  const handleClick = () => {
-    toast.success('貼文刪除成功');
-  };
-
   const deletePost = async () => {
     try {
-      await axios.delete(`${BASE_URL}/posts/${postId}`);
-      handleClick();
+      await toast.promise(axios.delete(`${BASE_URL}/posts/${postId}`), {
+        loading: '刪除中...',
+        success: '貼文刪除成功',
+        error: '刪除失敗，請稍候再試',
+      });
       const modalInstance = Modal.getInstance(modalRef.current);
       modalInstance.hide();
       onDeleteSuccess();
     } catch (error) {
       console.log(error.message);
-      alert('刪除失敗，請稍候再試');
     }
   };
 

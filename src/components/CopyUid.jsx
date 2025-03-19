@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
 const CopyUid = ({ uid, disabled }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(uid);
+      await toast.promise(navigator.clipboard.writeText(uid), {
+        success: '領取碼複製成功',
+        error: '複製失敗，請稍候再試',
+      });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -52,6 +56,10 @@ const CopyUid = ({ uid, disabled }) => {
       )}
     </span>
   );
+};
+CopyUid.propTypes = {
+  uid: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default CopyUid;
