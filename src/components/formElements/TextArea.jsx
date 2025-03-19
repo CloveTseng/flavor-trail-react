@@ -1,19 +1,23 @@
-const TextArea = ({ register, errors, labelText, id, rows }) => {
+import { get } from 'lodash';
+
+const TextArea = ({ register, errors, labelText, id, rows, name, rules }) => {
   return (
-    <div className="share-food-modal mb-7 d-flex flex-column flex-lg-row gap-2">
-      <label
-        htmlFor={id}
-        className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap me-lg-7 mt-lg-3"
-      >
-        {labelText}
-      </label>
+    <>
       <textarea
         id={id}
+        name={name}
         rows={rows}
         placeholder={`請輸入${labelText}`}
-        className="form-control py-2 px-5 border-gray-400 rounded-3 bg-white"
-      ></textarea>
-    </div>
+        className={`form-control py-2 px-5 border-gray-400 rounded-3 bg-white w-100 ${
+          get(errors, name) && 'is-invalid'
+        }`}
+        {...register(name, rules)}
+      >
+        {get(errors, name) && (
+          <div className="invalid-feedback">{get(errors, name)?.message}</div>
+        )}
+      </textarea>
+    </>
   );
 };
 

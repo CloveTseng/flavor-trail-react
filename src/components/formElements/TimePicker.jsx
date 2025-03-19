@@ -1,12 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useFormContext } from 'react-hook-form';
 
-const TimePicker = () => {
+const TimePicker = ({ initialStartTime, initialEndTime }) => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [startTimeOptions, setStartTimeOptions] = useState([]);
   const [endTimeOptions, setEndTimeOptions] = useState([]);
   const dropdownRef = useRef(null);
+  const { setValue } = useFormContext();
+  useEffect(() => {
+    if (initialStartTime) {
+      setStartTime(initialStartTime);
+    }
+    if (initialEndTime) {
+      setEndTime(initialEndTime);
+    }
+    console.log('initialStartTime:', initialStartTime);
+    console.log('initialEndTime:', initialEndTime);
+  }, [initialStartTime, initialEndTime]);
+
+  // 🟢 監聽 `initialStartTime` & `initialEndTime`，確保每次開啟不同 ID 時，載入對應的時間
+  useEffect(() => {
+    if (initialStartTime) {
+      setStartTime(initialStartTime);
+      updateEndTimeOptions(initialStartTime);
+    } else {
+      setStartTime('');
+      setEndTime('');
+      setEndTimeOptions([]);
+    }
+    if (initialEndTime) {
+      setEndTime(initialEndTime);
+    }
+  }, [initialStartTime, initialEndTime]);
 
   useEffect(() => {
     const generateTimeOptions = () => {
@@ -24,6 +52,20 @@ const TimePicker = () => {
     setStartTimeOptions(allOptions);
     setEndTimeOptions([]);
   }, []);
+
+  // 🟢 更新結束時間選項
+  const updateEndTimeOptions = (selectedStartTime) => {
+    const [startHour, startMinute] = selectedStartTime.split(':').map(Number);
+    const newEndTimeOptions = [];
+
+    for (let hour = startHour; hour < 24; hour++) {
+      for (let minute = hour === startHour ? startMinute + 15 : 0; minute < 60; minute += 15) {
+        const newTime = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
+        newEndTimeOptions.push(newTime);
+      }
+    }
+    setEndTimeOptions(newEndTimeOptions);
+  };
 
   const handleStartTimeClick = (time) => {
     setStartTime(time);
@@ -43,15 +85,22 @@ const TimePicker = () => {
     if (endTime === '') {
       setEndTime(newEndTimeOptions[0]);
     }
+    console.log('startTime:', time);
   };
-
+  
   const handleEndTimeClick = (time) => {
     setEndTime(time);
+    console.log('endTime:', time);  
   };
 
+  useEffect(() => {
+    setValue('pickup.time', `${startTime} - ${endTime}`);
+  } , [startTime, endTime, setValue]);
+  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,29 +115,29 @@ const TimePicker = () => {
   }, [dropdownRef]);
 
   return (
-    <div className="timePicker" ref={dropdownRef}>
-      <div className="dropdown">
+    <div className='timePicker' ref={dropdownRef}>
+      <div className='dropdown'>
         <button
-          className="dropdown-toggle rounded-3 border border-1 border-gray-400 d-flex align-items-center bg-white"
+          className='dropdown-toggle rounded-3 border border-1 border-gray-400 d-flex align-items-center bg-white'
           onClick={toggleDropdown}
-          type="button"
+          type='button'
         >
-          <div className="py-2 px-5">
+          <div className='py-2 px-5'>
             {startTime && endTime ? `${startTime} - ${endTime}` : '請選擇時間'}
           </div>
           <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            width='16'
+            height='16'
+            viewBox='0 0 24 24'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
           >
             <path
-              d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              d='M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z'
+              stroke='black'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             />
           </svg>
         </button>
@@ -97,11 +146,11 @@ const TimePicker = () => {
             isOpen ? 'show' : ''
           }`}
         >
-          <div className="d-flex">
+          <div className='d-flex'>
             {/* 開始時間 */}
             <ul
-              className="list-unstyled dropdown-menu-start-time"
-              id="start-time"
+              className='list-unstyled dropdown-menu-start-time'
+              id='start-time'
             >
               {startTimeOptions.map((time) => (
                 <li key={time} onClick={() => handleStartTimeClick(time)}>
@@ -114,7 +163,7 @@ const TimePicker = () => {
               className={`list-unstyled dropdown-menu-end-time ${
                 endTimeOptions.length === 0 ? 'disabled' : ''
               }`}
-              id="end-time"
+              id='end-time'
             >
               {endTimeOptions.map((time) => (
                 <li key={time} onClick={() => handleEndTimeClick(time)}>
@@ -128,5 +177,8 @@ const TimePicker = () => {
     </div>
   );
 };
-
+TimePicker.propTypes = {
+  initialStartTime: PropTypes.string,
+  initialEndTime: PropTypes.string,
+};
 export default TimePicker;
