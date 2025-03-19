@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
@@ -20,7 +20,6 @@ function CityDistrictSelector({
   const [selectedDistrict, setSelectedDistrict] = useState(''); // 目前選擇的地區
   const [isLoading, setIsLoading] = useState(false); // 控制載入狀態
   const { setValue, clearErrors } = useFormContext(); // React Hook Form 內建方法
-  const prevCityId = useRef(null); // ✅ 記錄上次選擇的城市 ID
 
   /** ✅ 取得縣市列表 */
   useEffect(() => {
@@ -29,9 +28,6 @@ function CityDistrictSelector({
       try {
         const res = await axios.get(`${BASE_URL}/twCities`);
         setCities(res.data);
-        console.log('initialCityId:', initialCityId);
-    console.log('initialDistrict:', initialDistrict);
-    console.log('縣市列表:', res.data);
       } catch (error) {
         console.error('❌ 獲取縣市失敗:', error.message);
       } finally {
@@ -39,8 +35,7 @@ function CityDistrictSelector({
       }
     };
     getTwCities();
-  }, [initialCityId, initialDistrict]);//檢視用之後刪除 => []
-
+  }, []);
   /** ✅ 當 `initialCityId` 變更時，找到對應的 `id` 並獲取地區列表 */
   useEffect(() => {
     if (initialCityId) {
@@ -49,26 +44,31 @@ function CityDistrictSelector({
       if (targetCity) {
         fetchDistricts(targetCity.id);
         setSelectedCityId(targetCity.id);
-         prevCityId.current = targetCity.id; // ✅ 記錄當前城市 ID
       } else {
         setDistricts([]);
       }
     }
-  }, [initialCityId, cities]);
+  },[initialCityId, cities]);
 
   /** ✅ 取得對應縣市的地區列表 */
   const fetchDistricts = async (cityId) => {
     setIsLoading(true);
-    
+
     try {
-      const res = await axios.get(`${BASE_URL}/twCities/${encodeURIComponent(cityId)}`);
+      const res = await axios.get(
+        `${BASE_URL}/twCities/${encodeURIComponent(cityId)}`
+      );
 
       if (res.data && Array.isArray(res.data.districts)) {
         setDistricts(res.data.districts);
 
         // ✅ 設定預設地區，但不觸發驗證
         if (initialDistrict) {
-          const foundDistrict = res.data.districts.find((d) => d.name === initialDistrict);
+          const foundDistrict = res.data.districts.find(
+            (d) => d.name === initialDistrict
+          );
+          console.log('foundDistrict:', foundDistrict);
+
           if (foundDistrict) {
             setSelectedDistrict(foundDistrict.name);
             setValue(districtId, foundDistrict.name);
@@ -89,30 +89,19 @@ function CityDistrictSelector({
     }
   };
 
-/** ✅ 當用戶選擇縣市時，更新 `districts` */
-const handleCityChange = (e) => {
-  const selectedId = e.target.value;
-  const targetCity = cities.find((c) => c.id == selectedId);
-  console.log('cities:', typeof cities[0].id);
-  console.log(typeof selectedId);
-  
-  
-  
-  console.log('選擇的縣市:', targetCity, selectedId);
-  
-  // ✅ **如果用戶選擇的是與 `prevCityId` 相同的城市，仍然清空 `district`**
-  if (prevCityId.current === selectedId) {
+  /** ✅ 當用戶選擇縣市時，更新 `districts` */
+  const handleCityChange = (e) => {
+    const selectedId = +e.target.value;
+    const targetCity = cities.find((c) => c.id === selectedId);
+    initialDistrict = '';
     setSelectedDistrict(''); // ✅ **確保選單回到「請選擇地區」**
     setValue(districtId, ''); // ✅ 清空 `district`，避免帶入上一次的值
-  }
+    setSelectedCityId(selectedId);
+    setValue(cityId, targetCity.name, { shouldValidate: true });
 
-  setSelectedCityId(selectedId);
-  setValue(cityId, targetCity.name, { shouldValidate: true });
-
-  setDistricts([]); // ✅ 清空地區選項，等待 API 更新
-  fetchDistricts(selectedId);
-  prevCityId.current = selectedId; // ✅ 記錄目前選擇的城市
-};
+    setDistricts([]); // ✅ 清空地區選項，等待 API 更新
+    fetchDistricts(selectedId);
+  };
 
   /** ✅ 當用戶選擇地區時，更新 `selectedDistrict` */
   const handleDistrictChange = (e) => {
@@ -123,7 +112,7 @@ const handleCityChange = (e) => {
 
   return (
     <>
-      <div className="d-flex gap-2 col-lg-4">
+      <div className='d-flex gap-2 col-lg-4'>
         {/* 縣市選單 */}
         <select
           id={cityId}
@@ -136,7 +125,7 @@ const handleCityChange = (e) => {
           disabled={isLoading}
           value={selectedCityId}
         >
-          <option value="" disabled>
+          <option value='' disabled>
             請選擇縣市
           </option>
           {cities.map((city) => (
@@ -158,7 +147,7 @@ const handleCityChange = (e) => {
           disabled={!selectedCityId || isLoading || districts.length === 0}
           value={selectedDistrict}
         >
-          <option className="text-gray-700" value="">
+          <option className='text-gray-700' value=''>
             請選擇地區
           </option>
           {districts.map((district) => (

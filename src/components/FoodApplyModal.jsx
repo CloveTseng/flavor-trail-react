@@ -65,7 +65,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
             />
           </div>
           <div className="modal-body p-lg-7 py-7 px-4">
-            <Link to={`/post/${postId}`} alt="" className="d-block mb-7">
+            <Link onClick={closeApplyModal} to={`/post/${postId}`} alt="" className="d-block mb-7">
               <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
                 <div className="d-flex align-items-center">
                   <img

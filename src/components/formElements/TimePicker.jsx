@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useFormContext } from 'react-hook-form';
 
 const TimePicker = ({ initialStartTime, initialEndTime }) => {
   const [startTime, setStartTime] = useState('');
@@ -7,6 +9,7 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
   const [startTimeOptions, setStartTimeOptions] = useState([]);
   const [endTimeOptions, setEndTimeOptions] = useState([]);
   const dropdownRef = useRef(null);
+  const { setValue } = useFormContext();
   useEffect(() => {
     if (initialStartTime) {
       setStartTime(initialStartTime);
@@ -82,15 +85,22 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
     if (endTime === '') {
       setEndTime(newEndTimeOptions[0]);
     }
+    console.log('startTime:', time);
   };
-
+  
   const handleEndTimeClick = (time) => {
     setEndTime(time);
+    console.log('endTime:', time);  
   };
 
+  useEffect(() => {
+    setValue('pickup.time', `${startTime} - ${endTime}`);
+  } , [startTime, endTime, setValue]);
+  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -167,5 +177,8 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
     </div>
   );
 };
-
+TimePicker.propTypes = {
+  initialStartTime: PropTypes.string,
+  initialEndTime: PropTypes.string,
+};
 export default TimePicker;
