@@ -1,7 +1,11 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { Modal } from 'bootstrap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ShareFoodModal from './ShareFoodModal';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
 const CircleCTAButton = ({
   title,
   startTriggerRef,
@@ -10,7 +14,19 @@ const CircleCTAButton = ({
   endPosition,
 }) => {
   const circleCTARef = useRef(null);
-
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      alert('請先登入會員！');
+      return;
+    }
+  };
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -54,9 +70,8 @@ const CircleCTAButton = ({
   return (
     <div className='cta-button d-lg-block d-none' ref={circleCTARef}>
       <a
+        onClick={(e) => openShareFoodModal(e)}
         className='CTA d-flex justify-content-center align-items-center rounded-circle'
-        data-bs-toggle='modal'
-        data-bs-target='#shareFoodModal'
       >
         <p className='CTA-content-title text-center fs-4 fw-bold lh-xs text-deco-bright-green'>
           {/* <!-- 分享美味 立即報名 --> */}
@@ -101,5 +116,11 @@ const CircleCTAButton = ({
     </div>
   );
 };
-
+CircleCTAButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  startTriggerRef: PropTypes.object.isRequired,
+  endTriggerRef: PropTypes.object.isRequired,
+  startPosition: PropTypes.string.isRequired,
+  endPosition: PropTypes.string.isRequired,
+};
 export default CircleCTAButton;

@@ -1,17 +1,20 @@
 import { useRef, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router';
+import { Link, useSearchParams, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import ShareFoodModal from '../components/ShareFoodModal';
 import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CircleCTAButton from '../components/CircleCTAButton';
+import FoodApplyModal from '../components/FoodApplyModal';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
+const { VITE_BASE_URL } = import.meta.env;
+
 function AllPosts() {
   const defaultValues = {
     redeemCode: '',
@@ -50,6 +53,8 @@ function AllPosts() {
   const [loading, setLoading] = useState(false);
   const [likes, setLike] = useState({});
   const [follows, setFollows] = useState({});
+  const startTriggerRef = useRef();
+  const endTriggerRef = useRef();
   // 添加這些代碼讀取 URL 參數
   const [searchParams] = useSearchParams();
   const urlKeyword = searchParams.get('keyword');
@@ -93,8 +98,6 @@ function AllPosts() {
     }
   }, [urlKeyword]);
 
-  const startTriggerRef = useRef();
-  const endTriggerRef = useRef();
   const filterOptions = [
     {
       name: '全部貼文',
@@ -207,9 +210,7 @@ function AllPosts() {
   const getPosts = async () => {
     setLoading(true);
     try {
-      const resPosts = await axios.get(
-        'https://json-server-vercel-5mr9.onrender.com/posts?_expand=user'
-      );
+      const resPosts = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
       setPosts(resPosts.data);
       setResult(resPosts.data);
       setLoading(false);
@@ -302,15 +303,14 @@ function AllPosts() {
   };
 
   useEffect(() => {
-    if (editModalRef.current) {
-      myEditModal.current = new Modal(editModalRef.current, {
-        backdrop: 'static',
-        keyboard: false,
-      });
-    }
+    myEditModal.current = new Modal(editModalRef.current, {
+      backdrop: 'static',
+      keyboard: false,
+    });
   }, []);
   // 🟢 點擊編輯貼文按鈕 (傳入貼文 ID)
   const handleEditPost = async (postId) => {
+    setLoading(true);
     try {
       const { data } = await axios.get(
         `https://json-server-vercel-5mr9.onrender.com/posts/${postId}`
@@ -318,6 +318,7 @@ function AllPosts() {
       setTempPost(data); // 🟢 確保資料結構正確
       console.log(data);
       myEditModal.current.show();
+      setLoading(false);
     } catch (error) {
       alert('取得貼文資料失敗:', error);
     }
@@ -340,6 +341,8 @@ function AllPosts() {
     setSearchKeyword('');
   };
   const handleChangeLike = (id) => {
+    // 登入後才能按讚
+    if (!isLogin) return alert('迷路的尋者唷！您尚未登入唷！');
     setLike((prevLikes) => {
       const updatedLikes = { ...prevLikes };
 
@@ -377,6 +380,82 @@ function AllPosts() {
     });
   };
 
+  const { id } = useParams();
+  const [hasApplication, setHasApplication] = useState(false);
+  const checkFoodApplications = (userId, postId) => {
+    // console.log('check:', userId, postId);
+    const currentUser = identity.filter((user) => user.userId === userId);
+
+    if (currentUser.length === 0) {
+      return;
+    }
+
+    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
+      (application) => application.postId == postId
+    );
+    // console.log('目前使用者申請：', currentUser);
+    if (findApplicationsIndex !== -1) {
+      setHasApplication(true);
+    } else {
+      setHasApplication(false);
+    }
+  };
+  // foodApplyModal
+  const foodApplyRef = useRef(null);
+  const foodApplyModalRef = useRef(null);
+  const [applyInfo, setApplyInfo] = useState({
+    postId: '',
+    postTitle: '',
+    userNickname: '',
+  });
+  // 領取按鈕
+  const openApplyModal = (post) => {
+    if (!isLogin) {
+      alert('迷路的尋者唷！您尚未登入唷！');
+      return;
+    }
+
+    if (hasApplication) {
+      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
+      return;
+    }
+    setApplyInfo(() => ({
+      postId: post.id,
+      postTitle: post.title,
+      postImgUrl: post.imagesUrl,
+      userId: getUserId(uid),
+      userNickname,
+    }));
+    foodApplyRef.current.show();
+  };
+  const [userNickname, setUserNickname] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
+        // console.log(res);
+        setUserNickname(res.data.nickName);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [uid]);
+
+  useEffect(() => {
+    foodApplyRef.current = new Modal(foodApplyModalRef.current);
+  }, []);
+
+  // redux
+  useEffect(() => {
+    // console.log(isLogin);
+    if (isLogin) {
+      // console.log('登入者id:', getUserId(uid));
+      // console.log('身份資料:', identity);
+      checkFoodApplications(getUserId(uid), id);
+    }
+  }, [isLogin, identity]);
+
+  //
   return (
     <>
       <ShareFoodEditModal
@@ -384,6 +463,10 @@ function AllPosts() {
         editModalRef={editModalRef}
         tempPost={tempPost}
         getPosts={getPosts}
+      />
+      <FoodApplyModal
+        foodApplyModalRef={foodApplyModalRef}
+        applyInfo={applyInfo}
       />
       <div className='allPost container'>
         {/* 小螢幕時顯示下拉選單 */}
@@ -831,6 +914,7 @@ function AllPosts() {
                             {post?.user?.id !== getUserId(uid) && (
                               <div className='col ps-0 pe-1'>
                                 <button
+                                  onClick={() => openApplyModal(post)}
                                   type='button'
                                   className={`get-btn btn bg-black text-white w-100 ${
                                     !isAvailable ? 'not-allowed' : ''
@@ -1032,6 +1116,7 @@ function AllPosts() {
                           </div>
                           {post?.user?.id !== getUserId(uid) && (
                             <button
+                              onClick={() => openApplyModal(post)}
                               type='button'
                               className={`get-btn btn bg-black text-white w-100 ${
                                 post.food?.restQuantity === 0
@@ -1098,16 +1183,17 @@ function AllPosts() {
         </main>
       </div>
       <div ref={endTriggerRef}></div>
+
       <ShareFoodModal />
 
       {/* CTA */}
-      <CircleCTAButton
-        title={'分享美味'}
-        startTriggerRef={startTriggerRef}
-        endTriggerRef={endTriggerRef}
-        startPosition={'top 20%'}
-        endPosition={'bottom 100%'}
-      />
+        <CircleCTAButton
+          title={'分享美味'}
+          startTriggerRef={startTriggerRef}
+          endTriggerRef={endTriggerRef}
+          startPosition={'top 2%'}
+          endPosition={'bottom -200%'}
+        />
     </>
   );
 }
