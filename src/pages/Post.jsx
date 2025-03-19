@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 import { Modal } from 'bootstrap';
@@ -15,6 +15,8 @@ import PostComments from '../components/postPage/PostComments';
 import FoodApplyModal from '../components/FoodApplyModal';
 import FullScreenLoading from '../components/FullScreenLoading';
 import RectangleCTAButton from '../components/RectangleCTAButton';
+import { getLoginUserInfo } from '../redux/LoginStateSlice';
+import { getUserId, checkFoodApplications } from '../utils/loginUser';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -30,20 +32,7 @@ const Post = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
-  const { identity } = useSelector((state) => state.loginSlice);
-
-  const [hasApplication, setHasApplication] = useState(false);
-  const checkFoodApplications = (userId, postId) => {
-    const currentUser = identity.filter((user) => user.userId === userId);
-    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
-      (application) => application.postId == postId
-    );
-    if (findApplicationsIndex !== -1) {
-      setHasApplication(true);
-    } else {
-      setHasApplication(false);
-    }
-  };
+  const { userInfo } = useSelector((state) => state.loginSlice);
 
   const handlePostTag = (likeCount, timeAgo, expiryDate) => {
     //熱門Tag
@@ -118,7 +107,7 @@ const Post = () => {
       return;
     }
 
-    if (hasApplication) {
+    if (checkFoodApplications(userInfo.foodApplications, post.id)) {
       alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
       return;
     }
@@ -127,26 +116,11 @@ const Post = () => {
       postId: post.id,
       postTitle: post.title,
       postImgUrl: post.imagesUrl,
-      userId: getUserId(uid),
-      userNickname,
+      userId: userInfo.userId,
+      userNickname: userInfo.nickname,
     }));
     foodApplyRef.current.show();
   };
-
-  const getUserId = (uid) => {
-    let LoginPerson = identity.filter((person) => person.uid === uid);
-    return LoginPerson[0].userId;
-  };
-
-  const [userNickname, setUserNickname] = useState(null);
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
-        setUserNickname(res.data.nickName);
-      } catch (error) {}
-    })();
-  }, [uid]);
 
   useEffect(() => {
     foodApplyRef.current = new Modal(foodApplyModalRef.current);
@@ -164,22 +138,19 @@ const Post = () => {
     return () => window.addEventListener('scroll', handleScroll);
   }, []);
 
+  const dispatch = useDispatch();
   // redux
   useEffect(() => {
     if (isLogin) {
-      //取得使用者暱稱
-      (async () => {
-        try {
-          const res = await axios.get(
-            `${VITE_BASE_URL}/users/${getUserId(uid)}`
-          );
-          setUserNickname(res.data.nickName);
-        } catch (error) {}
-      })();
-      //確認使用者是否有領取資格
-      checkFoodApplications(getUserId(uid), id);
+      dispatch(getLoginUserInfo(getUserId(uid)));
     }
-  }, [isLogin, identity]);
+  }, [isLogin]);
+  useEffect(() => {
+    if (isLogin) {
+      console.log(userInfo);
+      console.log(checkFoodApplications(userInfo.foodApplications, id));
+    }
+  }, [userInfo]);
   return (
     <>
       <header>

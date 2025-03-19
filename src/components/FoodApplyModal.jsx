@@ -4,8 +4,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
-import { addFoodApplication } from '../redux/LoginStateSlice';
-
+import { getLoginUserInfo } from '../redux/LoginStateSlice';
 const { VITE_BASE_URL } = import.meta.env;
 
 const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
@@ -31,12 +30,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
         created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
       console.log(res);
-      dispatch(
-        addFoodApplication({
-          userId,
-          postId,
-        })
-      );
+      dispatch(getLoginUserInfo(userId));
       alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
     } catch (error) {
       console.log(error);
