@@ -18,6 +18,7 @@ const RadioGroup = ({
             className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
           >
             {labelText}
+            <span className="text-danger"> * </span>
           </label>
         </div>
         {options.map((item) => (

@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
+// import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CopyUid from '../../components/CopyUid';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -122,8 +123,10 @@ function AccountPosts() {
                             </div>
                           </div>
                           <div className="pt-7">
-                            <div className="d-flex align-items-end mb-5">
-                              <h2 className="fs-3">{item.title}</h2>
+                            <div className="d-flex flex-column flex-lg-row mb-5">
+                              <h2 className="fs-3 pb-2 pb-lg-0">
+                                {item.title}
+                              </h2>
                               <CopyUid
                                 uid={item.redeemCode}
                                 disabled={expired}
@@ -277,7 +280,7 @@ function AccountPosts() {
                             </svg>
                           </a>
                           <ul className="dropdown-menu">
-                            <li>
+                            {/* <li>
                               <a
                                 className="dropdown-item"
                                 href="#"
@@ -286,7 +289,7 @@ function AccountPosts() {
                               >
                                 編輯貼文
                               </a>
-                            </li>
+                            </li> */}
                             <li>
                               <a
                                 className="dropdown-item"

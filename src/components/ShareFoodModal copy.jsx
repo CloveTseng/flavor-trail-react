@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { useForm, FormProvider } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
+import CityDistrictSelector from './formElements/CityDistrictSelector';
 import InputTextGroup from './formElements/InputTextGroup';
 import InputText from './formElements/InputText';
 import TextArea from './formElements/TextArea';
@@ -12,8 +13,6 @@ import RadioGroup from './formElements/RadioGroup';
 import TimePicker from './formElements/TimePicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import SelectCity from './formElements/SelectCity';
-import { useEffect, useState } from 'react';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -57,33 +56,6 @@ const ShareFoodModal = () => {
     getValues,
   } = methods;
 
-  const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState('');
-  const [districts, setDistricts] = useState([]);
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/twCities`);
-        setCities(res.data);
-      } catch (error) {
-        console.error('載入縣市失敗:', error);
-      }
-    };
-    fetchCities();
-  }, []);
-
-  useEffect(() => {
-    if (selectedCity) {
-      const selectedCityData = cities.find(
-        (city) => city.name === selectedCity
-      );
-      setDistricts(selectedCityData ? selectedCityData.districts : []);
-    } else {
-      setDistricts([]);
-    }
-  }, [selectedCity, cities]);
-
   const onSubmit = async (data) => {
     const { food, expiryDate, imagesUrl, ...rest } = data;
     const { totalQuantity, ...submitData } = food;
@@ -123,12 +95,6 @@ const ShareFoodModal = () => {
   const handleDateChange = (date) => {
     setValue('expiryDate', date);
   };
-
-  const handleTimeChange = ({ startTime, endTime }) => {
-    const formattedTime = `${startTime} - ${endTime}`;
-    setValue('pickup.time', formattedTime, { shouldValidate: true });
-  };
-
   return (
     <>
       <FormProvider {...methods}>
@@ -357,41 +323,20 @@ const ShareFoodModal = () => {
                         領取地點
                         <span className="text-danger"> * </span>
                       </label>
-                      <div className="w-50 d-flex gap-2">
-                        <SelectCity
-                          register={register}
-                          errors={errors}
-                          labelText="縣市"
-                          id="city"
-                          name="pickup.city"
-                          options={cities}
-                          optionLabelKey="name"
-                          optionValueKey="name"
-                          rules={{
-                            required: {
-                              value: true,
-                              message: `請選擇縣市`,
-                            },
-                          }}
-                          onChange={(e) => setSelectedCity(e.target.value)}
-                        />
-                        <SelectCity
-                          register={register}
-                          errors={errors}
-                          labelText="區域"
-                          id="district"
-                          name="pickup.district"
-                          options={districts}
-                          optionLabelKey="name"
-                          optionValueKey="name"
-                          rules={{
-                            required: {
-                              value: true,
-                              message: `請選擇區域`,
-                            },
-                          }}
-                        />
-                      </div>
+                      <CityDistrictSelector
+                        register={register}
+                        errors={errors}
+                        cityId="city"
+                        districtId="district"
+                        cityName="pickup.city"
+                        districtName="pickup.district"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: '請選擇縣市與地區',
+                          },
+                        }}
+                      />
                       <InputText
                         register={register}
                         errors={errors}
@@ -416,11 +361,7 @@ const ShareFoodModal = () => {
                         領取時間
                         <span className="text-danger"> * </span>
                       </label>
-                      <TimePicker
-                        initialStartTime=""
-                        initialEndTime=""
-                        onTimeChange={handleTimeChange}
-                      />
+                      <TimePicker />
                     </div>
 
                     {/* 上傳圖片 */}

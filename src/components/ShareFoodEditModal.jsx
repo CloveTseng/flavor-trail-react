@@ -13,6 +13,7 @@ import RadioGroup from './formElements/RadioGroup';
 import TimePicker from './formElements/TimePicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PropTypes from 'prop-types';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -26,9 +27,6 @@ const ShareFoodEditModal = ({
     defaultValues: tempPost,
     mode: 'onTouched',
   });
-
-  // const pickupTime = tempPost?.pickup?.time || '';
-  // const [startTime, endTime] = pickupTime.split(' - ');
 
   const {
     register,
@@ -48,20 +46,17 @@ const ShareFoodEditModal = ({
     setValue('food.expiryDate', dayjs(date).format('YYYY-MM-DD'));
   };
 
-  const handleTimeChange = (startTime, endTime) => {
-    const formattedTime = `${startTime} - ${endTime}`;
-    setValue('pickup.time', formattedTime);
-  };
   const onSubmit = async (data) => {
-    const { food, expiryDate, imagesUrl, pickup,...rest } = data;
+    const { food, imagesUrl, pickup, ...rest } = data;
     const { totalQuantity, ...submitData } = food;
-    const formattedExpiryDate = dayjs(expiryDate).format('YYYY-MM-DD');
-    const createdPostDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    const formattedExpiryDate = dayjs(getValues('food.expiryDate')).format(
+      'YYYY-MM-DD'
+    );
     const uid = nanoid(6);
     const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
     const id = tempPost.id;
     try {
-      await axios.patch(`${BASE_URL}/posts/${id}`, {
+      const res = await axios.patch(`${BASE_URL}/posts/${id}`, {
         ...rest,
         redeemCode: uid,
         food: {
@@ -76,9 +71,11 @@ const ShareFoodEditModal = ({
           time: pickup.time,
           address: pickup.address,
         },
-        createdPostDate,
         imagesUrl: imagesUrlArray,
       });
+      console.log('測試 data', data);
+      console.log(getValues());
+      console.log('res:', res.data);
 
       alert('編輯成功');
       getPosts();
@@ -253,21 +250,30 @@ const ShareFoodEditModal = ({
                         </div>
                       </div>
                     </div>
-                     {/* 有效期限 */}
-                     <div className="col-lg-6">
-                      <div className="mb-4">
-                        <div className="share-food-modal d-lg-flex">
-                          <div className="me-lg-7 mb-2">
-                            <label htmlFor="exp" className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-2">有效期限</label>
+                    {/* 有效期限 */}
+                    <div className='col-lg-6'>
+                      <div className='mb-4'>
+                        <div className='share-food-modal d-lg-flex'>
+                          <div className='me-lg-7 mb-2'>
+                            <label
+                              htmlFor='exp'
+                              className='form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-2'
+                            >
+                              有效期限
+                            </label>
                           </div>
                           <DatePicker
-                            id="exp"
-                            selected={getValues('food.expiryDate') ? new Date(getValues('food.expiryDate')) : null}
+                            id='exp'
+                            selected={
+                              getValues('food.expiryDate')
+                                ? new Date(getValues('food.expiryDate'))
+                                : null
+                            }
                             onChange={handleDateChange}
-                            name="food.expiryDate"
-                            dateFormat="yyyy/MM/dd"
-                            className="form-select border-gray-400 py-2 px-5 rounded-3 bg-white"
-                            placeholderText="請選擇有效期限"
+                            name='food.expiryDate'
+                            dateFormat='yyyy/MM/dd'
+                            className='form-select border-gray-400 py-2 px-5 rounded-3 bg-white'
+                            placeholderText='請選擇有效期限'
                           />
                         </div>
                       </div>
@@ -349,7 +355,8 @@ const ShareFoodEditModal = ({
                           tempPost?.pickup?.time?.split(' - ')[0]
                         }
                         initialEndTime={tempPost?.pickup?.time?.split(' - ')[1]}
-                        onTimeChange={handleTimeChange}
+                        setValue={setValue}
+                        name='pickup.time'
                       />
                     </div>
 
@@ -418,5 +425,10 @@ const ShareFoodEditModal = ({
     </>
   );
 };
-
+ShareFoodEditModal.propTypes = {
+  tempPost: PropTypes.object,
+  closeEditModal: PropTypes.func,
+  editModalRef: PropTypes.object,
+  getPosts: PropTypes.func,
+};
 export default ShareFoodEditModal;
