@@ -24,7 +24,6 @@ const CircleCTAButton = ({
       shareFoodModal.show();
     } else {
       alert('請先登入會員！');
-      return;
     }
   };
   useEffect(() => {

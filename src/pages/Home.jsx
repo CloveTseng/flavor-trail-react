@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router';
-
+import { Modal } from 'bootstrap';
+import { useSelector } from 'react-redux';
 import ShareFoodModal from '../components/ShareFoodModal';
 
 import CircleCTAButton from '../components/CircleCTAButton';
@@ -9,6 +10,18 @@ import HomeFoodTalkSection from './section/HomeFoodTalkSection';
 const Home = () => {
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      alert('請先登入會員！');
+    }
+  };
   return (
     <>
       {/* bannerSection */}
@@ -38,10 +51,9 @@ const Home = () => {
 
               <span>（</span>
               <a
+                onClick={(e) => openShareFoodModal(e)}
                 href='#'
                 className='banner-cta'
-                data-bs-toggle='modal'
-                data-bs-target='#shareFoodModal'
               >
                 分享美味
               </a>
@@ -407,16 +419,15 @@ const Home = () => {
       </section>
 
       {/* CTA */}
-        <CircleCTAButton
-          title={'分享美味'}
-          startTriggerRef={startTriggerRef}
-          endTriggerRef={endTriggerRef}
-          startPosition={'top 20%'}
-          endPosition={'bottom 60%'}
-        />
+      <CircleCTAButton
+        title={'分享美味'}
+        startTriggerRef={startTriggerRef}
+        endTriggerRef={endTriggerRef}
+        startPosition={'top 20%'}
+        endPosition={'bottom 60%'}
+      />
     </>
   );
 };
 
 export default Home;
-
