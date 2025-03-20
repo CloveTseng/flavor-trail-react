@@ -17,6 +17,7 @@ import FullScreenLoading from '../components/FullScreenLoading';
 import RectangleCTAButton from '../components/RectangleCTAButton';
 import { getLoginUserInfo } from '../redux/LoginStateSlice';
 import { getUserId, checkFoodApplications } from '../utils/loginUser';
+import ShareFoodEditModal from '../components/ShareFoodEditModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -72,27 +73,45 @@ const Post = () => {
       }));
     }
   };
+
+  const getPost = async (id) => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${VITE_BASE_URL}/posts/${id}?_expand=user`);
+      setPost(res.data);
+      handlePostTag(
+        res.data.likeCount,
+        res.data.createdPostDate,
+        res.data.food.expiryDate
+      );
+    } catch (error) {
+      alert(error);
+      navigate('*');
+    } finally {
+      setLoading(false);
+    }
+  };
+  //取得貼文
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(
-          `${VITE_BASE_URL}/posts/${id}?_expand=user`
-        );
-        setPost(res.data);
-        handlePostTag(
-          res.data.likeCount,
-          res.data.createdPostDate,
-          res.data.food.expiryDate
-        );
-      } catch (error) {
-        alert(error);
-        navigate('*');
-      } finally {
-        setLoading(false);
-      }
-    })();
+    getPost(id);
   }, [id]);
+
+  //編輯貼文
+  const editModalRef = useRef(null);
+  const myEditModal = useRef(null);
+  const openEditPost = () => {
+    myEditModal.current.show();
+  };
+  const closeEditModal = () => {
+    myEditModal.current.hide();
+  };
+
+  useEffect(() => {
+    myEditModal.current = new Modal(editModalRef.current, {
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }, []);
 
   // foodApplyModal
   const foodApplyRef = useRef(null);
@@ -232,7 +251,11 @@ const Post = () => {
                         </div>
                         {isLogin && getUserId(uid) === post?.user?.id && (
                           <div className="d-md-none d-flex text-center pe-0 align-items-center justify-content-end">
-                            <button type="button" className="btn border-0">
+                            <button
+                              type="button"
+                              className="btn border-0"
+                              onClick={openEditPost}
+                            >
                               <img
                                 src="../assets/images/icon/square-pen.svg"
                                 alt=""
@@ -446,6 +469,7 @@ const Post = () => {
                           <button
                             type="button"
                             className="normal-btn btn border-0 w-100"
+                            onClick={openEditPost}
                           >
                             <span className="me-2">編輯貼文</span>
                             <svg
@@ -948,6 +972,12 @@ const Post = () => {
       <FoodApplyModal
         foodApplyModalRef={foodApplyModalRef}
         applyInfo={applyInfo}
+      />
+      <ShareFoodEditModal
+        tempPost={post}
+        closeEditModal={closeEditModal}
+        editModalRef={editModalRef}
+        getPosts={() => getPost(id)}
       />
       {loading && <FullScreenLoading />}
     </>
