@@ -10,10 +10,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '1';
 
 function AccountSettingForm() {
-  // const [cities, setCities] = useState([]);
-  // const [districts, setDistricts] = useState([]);
-  // const [selectedCityId, setSelectedCityId] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
   const [accountData, setAccountData] = useState(null);
   const [isFormChanged, setIsFormChanged] = useState(false);
   const [initialValues, setInitialValues] = useState({});
@@ -89,40 +85,6 @@ function AccountSettingForm() {
       console.log(error.message);
     }
   };
-
-  // useEffect(() => {
-  //   const getTwCities = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const res = await axios.get(`${BASE_URL}/twCities`);
-  //       setCities(res.data);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   getTwCities();
-  // }, []);
-
-  // useEffect(() => {
-  //   const getDistricts = async () => {
-  //     if (selectedCityId) {
-  //       setIsLoading(true);
-  //       try {
-  //         const res = await axios.get(`${BASE_URL}/twCities/${selectedCityId}`);
-  //         setDistricts(res.data.districts);
-  //       } catch (error) {
-  //         console.log(error.message);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     } else {
-  //       setDistricts([]);
-  //     }
-  //   };
-  //   getDistricts();
-  // }, [selectedCityId]);
 
   const onSubmit = (data) => {
     changeData(data);
