@@ -5,6 +5,7 @@ import InputText from '../../components/formElements/InputText';
 import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
 import logo from '/assets/images/Logo.png';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '1';
@@ -76,10 +77,16 @@ function AccountSettingForm() {
 
   const deletePhoto = async () => {
     try {
-      await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
-        avatarUrl: null,
-      });
-      alert('照片刪除成功');
+      await toast.promise(
+        axios.patch(`${BASE_URL}/users/${USER_ID}`, {
+          avatarUrl: null,
+        }),
+        {
+          loading: '處理中...',
+          success: '照片刪除成功',
+          error: '刪除失敗，請稍候再試',
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.log(error.message);
@@ -88,8 +95,7 @@ function AccountSettingForm() {
 
   const onSubmit = (data) => {
     changeData(data);
-    console.log(data);
-    alert('個人資料已修改');
+    toast.success('個人資料已修改');
     setIsFormChanged(false);
   };
 

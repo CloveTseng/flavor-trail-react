@@ -1,6 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
@@ -46,13 +47,17 @@ const ReceiveModal = ({ app, onClose }) => {
     if (isProcessingRef.current) return;
     isProcessingRef.current = true;
     try {
-      await axios.patch(`${BASE_URL}/applications/${appId}`, {
-        status: '已取消',
-      });
-      alert('已放棄此筆領取，若需恢復，請重新提交『我要領取』');
+      await toast.promise(
+        axios.patch(`${BASE_URL}/applications/${appId}`, {
+          status: '已取消',
+        }),
+        {
+          success: '已放棄此筆領取，若需恢復，請重新提交『我要領取』',
+          error: '操作失敗，請稍候再試',
+        }
+      );
       refreshPage();
     } catch (errors) {
-      alert('操作失敗，請稍候再試');
       console.log(errors);
     } finally {
       onClose();
