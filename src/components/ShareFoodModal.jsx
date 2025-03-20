@@ -125,7 +125,8 @@ const ShareFoodModal = () => {
   };
 
   const handleTimeChange = ({ startTime, endTime }) => {
-    setValue('pickup.time', `${startTime} - ${endTime}`);
+    const formattedTime = `${startTime} - ${endTime}`;
+    setValue('pickup.time', formattedTime, { shouldValidate: true });
   };
 
   return (
