@@ -7,6 +7,7 @@ dayjs.locale('zh-tw');
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -30,7 +31,7 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
         const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
-        // console.log(error);
+        console.log(error);
       }
     })();
   }, [id]);
@@ -441,6 +442,12 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
       ))}
     </div>
   );
+};
+
+OtherPosts.propTypes = {
+  id: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  clickMethod: PropTypes.func.isRequired,
 };
 
 export default OtherPosts;

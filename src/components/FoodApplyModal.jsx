@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { getLoginUserInfo } from '../redux/LoginStateSlice';
+import PropTypes from 'prop-types';
 const { VITE_BASE_URL } = import.meta.env;
 
 const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
@@ -59,7 +60,12 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
             />
           </div>
           <div className="modal-body p-lg-7 py-7 px-4">
-            <Link onClick={closeApplyModal} to={`/post/${postId}`} alt="" className="d-block mb-7">
+            <Link
+              onClick={closeApplyModal}
+              to={`/post/${postId}`}
+              alt=""
+              className="d-block mb-7"
+            >
               <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
                 <div className="d-flex align-items-center">
                   <img
@@ -126,6 +132,17 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
       </div>
     </div>
   );
+};
+
+FoodApplyModal.propTypes = {
+  foodApplyModalRef: PropTypes.object,
+  applyInfo: PropTypes.shape({
+    postId: PropTypes.string,
+    postTitle: PropTypes.string,
+    postImgUrl: PropTypes.string,
+    userId: PropTypes.string,
+    userNickname: PropTypes.string,
+  }),
 };
 
 export default FoodApplyModal;

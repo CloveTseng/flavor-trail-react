@@ -5,6 +5,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 
 import { getUserId } from '../../utils/loginUser';
+import PropTypes from 'prop-types';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -19,7 +20,7 @@ const PostComments = ({ id, commentCount }) => {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
       setComments(res.data.filter((comment) => comment.postId == id));
     } catch (error) {
-      // console.log(error);
+      console.log('getComments', error);
     }
   };
 
@@ -34,7 +35,7 @@ const PostComments = ({ id, commentCount }) => {
       return;
     }
     try {
-      const res = await axios.post(`${VITE_BASE_URL}/comments`, {
+      await axios.post(`${VITE_BASE_URL}/comments`, {
         postId,
         userId: getUserId(uid),
         type,
@@ -44,7 +45,7 @@ const PostComments = ({ id, commentCount }) => {
       setNewComment('');
       getComments();
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -153,6 +154,11 @@ const PostComments = ({ id, commentCount }) => {
       </div>
     </div>
   );
+};
+
+PostComments.propTypes = {
+  id: PropTypes.string.isRequired,
+  commentCount: PropTypes.number.isRequired,
 };
 
 export default PostComments;

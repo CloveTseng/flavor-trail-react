@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 
 const RectangleCTAButton = ({ page, title, isDisabled, clickMethod }) => {
@@ -71,6 +72,13 @@ const RectangleCTAButton = ({ page, title, isDisabled, clickMethod }) => {
       )}
     </div>
   );
+};
+
+RectangleCTAButton.propTypes = {
+  page: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  clickMethod: PropTypes.func.isRequired,
 };
 
 export default RectangleCTAButton;
