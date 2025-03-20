@@ -30,9 +30,6 @@ function CityDistrictSelector({
       try {
         const res = await axios.get(`${BASE_URL}/twCities`);
         setCities(res.data);
-        console.log('initialCityId:', initialCityId);
-        console.log('initialDistrict:', initialDistrict);
-        console.log('縣市列表:', res.data);
       } catch (error) {
         console.error('獲取縣市失敗:', error.message);
       } finally {
@@ -40,7 +37,7 @@ function CityDistrictSelector({
       }
     };
     getTwCities();
-  }, [initialCityId, initialDistrict]);
+  }, []);
 
   useEffect(() => {
     if (initialCityId) {
@@ -49,7 +46,6 @@ function CityDistrictSelector({
       if (targetCity) {
         fetchDistricts(targetCity.id);
         setSelectedCityId(targetCity.id);
-        prevCityId.current = targetCity.id;
       } else {
         setDistricts([]);
       }
@@ -94,10 +90,6 @@ function CityDistrictSelector({
   const handleCityChange = (e) => {
     const selectedId = e.target.value;
     const targetCity = cities.find((c) => c.id == selectedId);
-    console.log('cities:', typeof cities[0].id);
-    console.log(typeof selectedId);
-
-    console.log('選擇的縣市:', targetCity, selectedId);
 
     if (prevCityId.current === selectedId) {
       setSelectedDistrict('');
@@ -109,7 +101,6 @@ function CityDistrictSelector({
 
     setDistricts([]);
     fetchDistricts(selectedId);
-    prevCityId.current = selectedId;
   };
 
   const handleDistrictChange = (e) => {
