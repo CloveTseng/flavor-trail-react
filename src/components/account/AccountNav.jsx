@@ -1,7 +1,32 @@
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 
 function AccountNav() {
   const location = useLocation();
+  const [dropdownTitle, setDropdownTitle] = useState('我的發文');
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/account/setting':
+        setDropdownTitle('個人設定');
+        break;
+      case '/account/notifications':
+        setDropdownTitle('全部通知');
+        break;
+      case '/account/my-posts':
+        setDropdownTitle('我的發文');
+        break;
+      case '/account/following':
+        setDropdownTitle('我的追蹤');
+        break;
+      case '/account/history':
+        setDropdownTitle('領取紀錄');
+        break;
+      default:
+        setDropdownTitle('我的發文');
+        break;
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -157,7 +182,7 @@ function AccountNav() {
       {/* 手機版下拉選單 */}
       <div className="dropdown position-relative mb-13 d-lg-none d-block">
         <h1 className="d-flex align-items-center fs-1 fw-bolder">
-          我的發文
+          <div className="ms-3">{dropdownTitle}</div>
           <button
             className="dropdown-btn d-flex align-items-center justify-content-between 
             p-2 rounded-3 bg-white rounded-circle border-0 ms-2"
