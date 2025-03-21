@@ -72,6 +72,9 @@ const Header = () => {
             isLogin: false,
           })
         );
+        
+        handleNavLinkClick();
+        navigate('/');
 
         AlertModal.successMessage({
           title: '登出成功',
@@ -427,7 +430,10 @@ const Header = () => {
                       </li>
                       <li>
                         <a
-                          onClick={handleLogout}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLogout()
+                          }}
                           className="dropdown-item logout"
                           href="#"
                           id="logout"
@@ -561,9 +567,8 @@ const Header = () => {
                         <a
                           onClick={(e) => {
                             e.preventDefault();
-                            handleLogout();
                             closeAccountMenu();
-                            handleNavLinkClick();
+                            handleLogout();
                           }}
                           className="dropdown-item logout"
                           href="#"
