@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { Link, useSearchParams, useParams, useNavigate } from 'react-router';
+import { Link, useSearchParams, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Modal } from 'bootstrap';
@@ -7,7 +7,6 @@ import ShareFoodModal from '../components/ShareFoodModal';
 import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import AlertModal from '../components/AlertModal';
 import CircleCTAButton from '../components/CircleCTAButton';
-import FoodApplyModal from '../components/FoodApplyModal';
 import FullScreenLoading from '../components/FullScreenLoading';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -386,92 +385,6 @@ function AllPosts() {
     });
   };
 
-  const { id } = useParams();
-  const [hasApplication, setHasApplication] = useState(false);
-  const checkFoodApplications = (userId, postId) => {
-    // console.log('check:', userId, postId);
-    const currentUser = identity.filter((user) => user.userId === userId);
-
-    if (currentUser.length === 0) {
-      return;
-    }
-
-    const findApplicationsIndex = currentUser[0].foodApplications.findIndex(
-      (application) => application.postId == postId
-    );
-    // console.log('目前使用者申請：', currentUser);
-    if (findApplicationsIndex !== -1) {
-      setHasApplication(true);
-    } else {
-      setHasApplication(false);
-    }
-  };
-  // foodApplyModal
-  const foodApplyRef = useRef(null);
-  const foodApplyModalRef = useRef(null);
-  const [applyInfo, setApplyInfo] = useState({
-    postId: '',
-    postTitle: '',
-    userNickname: '',
-  });
-  // 領取按鈕
-  const openApplyModal = (post) => {
-if (!isLogin) {
-      AlertModal.confirmAction({
-        title: '請先登入',
-        text: '迷路的尋者，登入後才能使用會員功能喔!',
-        icon: 'info',
-        confirmButtonText: '登入',
-        cancelButtonText: '取消',
-        onConfirm: () => {
-          navigate('/login');
-        },
-      });
-      return;
-    }
-
-
-    if (hasApplication) {
-      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
-      return;
-    }
-    setApplyInfo(() => ({
-      postId: post.id,
-      postTitle: post.title,
-      postImgUrl: post.imagesUrl,
-      userId: getUserId(uid),
-      userNickname,
-    }));
-    foodApplyRef.current.show();
-  };
-  const [userNickname, setUserNickname] = useState(null);
-  useEffect(() => {
-    if (!uid) return;
-    (async () => {
-      try {
-        const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
-        setUserNickname(res.data.nickName);
-      } catch (error) {
-        alert(error);
-      }
-    })();
-  }, [uid]);
-
-  useEffect(() => {
-    foodApplyRef.current = new Modal(foodApplyModalRef.current);
-  }, []);
-
-  // redux
-  useEffect(() => {
-    // console.log(isLogin);
-    if (isLogin) {
-      // console.log('登入者id:', getUserId(uid));
-      // console.log('身份資料:', identity);
-      checkFoodApplications(getUserId(uid), id);
-    }
-  }, [isLogin, identity]);
-
-  //
   return (
     <>
       <ShareFoodEditModal
@@ -479,10 +392,6 @@ if (!isLogin) {
         editModalRef={editModalRef}
         tempPost={tempPost}
         getPosts={getPosts}
-      />
-      <FoodApplyModal
-        foodApplyModalRef={foodApplyModalRef}
-        applyInfo={applyInfo}
       />
       <div className='allPost container'>
         {/* 小螢幕時顯示下拉選單 */}
@@ -925,12 +834,15 @@ if (!isLogin) {
                           <div className='row mx-0'>
                             {post?.user?.id !== getUserId(uid) && (
                               <div className='col ps-0 pe-1'>
-                                <button
-                                  onClick={() => openApplyModal(post)}
+                              <button
+                                  onClick={() => {
+                                    navigate(`/post/${post.id}`);
+                                  }}
                                   type='button'
                                   className={`get-btn btn bg-black text-white w-100 ${
                                     !isAvailable ? 'not-allowed' : ''
                                   }`}
+                                  disabled={!isAvailable}
                                 >
                                   <span className='me-2'>我要領取</span>
                                   <svg
@@ -1128,14 +1040,15 @@ if (!isLogin) {
                             </div>
                           </div>
                           {post?.user?.id !== getUserId(uid) && (
-                            <button
-                              onClick={() => openApplyModal(post)}
+                              <button
+                              onClick={() => {
+                                navigate(`/post/${post.id}`);
+                              }}
                               type='button'
                               className={`get-btn btn bg-black text-white w-100 ${
-                                post.food?.restQuantity === 0
-                                  ? 'not-allowed'
-                                  : ''
+                                !isAvailable ? 'not-allowed' : ''
                               }`}
+                              disabled={!isAvailable}
                             >
                               <span className='me-2'>我要領取</span>
                               <svg

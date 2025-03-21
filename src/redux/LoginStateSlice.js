@@ -1,40 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const { VITE_BASE_URL } = import.meta.env;
 
 //demo預設帳號狀態
 const identity = [
   {
-    //法坨地頭蛇
+    //法國地頭蛇
     userId: 1,
     uid: 'vDJJ4XDu8BQnTSbpRueedfOKVWg2',
-    foodApplications: [
-      {
-        id: 7,
-        postId: 2,
-        status: "待回覆",
-      },
-      {
-        id: 8,
-        postId: 12,
-        status: "已同意",
-      },
-      {
-        id: 9,
-        postId: 9,
-        status: "已同意",
-      },
-    ]
   },
   {
     //美食橘貓咩嚕
     userId: 16,
     uid: 'QTMKlCfcFndoHtjRDThP0hcAiCl1',
-    foodApplications: [
-      {
-        id: 1,
-        postId: 15,
-        status: "已同意",
-      },
-    ]
   },
 ]
 
@@ -45,7 +24,12 @@ const LoginStateSlice = createSlice({
       uid: '',
       isLogin: false
     },
-    identity
+    identity,
+    userInfo: {
+      userId: '',
+      nickname: '',
+      foodApplications: []
+    }
   },
   reducers: {
     setIsLogin: (state, action) => {
@@ -55,27 +39,45 @@ const LoginStateSlice = createSlice({
         isLogin
       };
     },
+    setLoginIdentity: (state, action) => {
+      const { userId, nickname, foodApplications } = action.payload;
+      state.userInfo = {
+        userId,
+        nickname,
+        foodApplications
+      }
+    },
+
     setLogout: (state) => {
       state.loginStatus = {
         uid: '',
         isLogin: false
       };
     },
-    addFoodApplication: (state, action) => {
-      const { userId, postId } = action.payload;
-      state.identity.forEach(data => {
-        if (data.userId == userId) {
-          data.foodApplications.push({
-            postId,
-            status: "待回覆",
-          })
-        }
-      })
-      // console.log('add結果', state);
-    },
   }
 })
 
+export const getLoginUserInfo = createAsyncThunk(
+  'LoginState/getUserInfo',
+  async (id, { dispatch }) => {
+    try {
+      const [userRes, applicationsRes] = await Promise.all([
+        axios.get(`${VITE_BASE_URL}/users/${id}`),
+        axios.get(`${VITE_BASE_URL}/applications`),
+      ])
+      const foodApplications = applicationsRes.data.filter(application => (application.userId === id));
+      const userInfo = {
+        userId: userRes.data.id,
+        nickname: userRes.data.nickName,
+        foodApplications
+      }
+      dispatch(setLoginIdentity(userInfo))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
 
 export default LoginStateSlice.reducer;
-export const { setIsLogin, setLogout, addFoodApplication } = LoginStateSlice.actions;
+export const { setIsLogin, setLoginIdentity, setLogout } = LoginStateSlice.actions;

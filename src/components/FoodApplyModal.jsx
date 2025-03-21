@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { Modal } from 'bootstrap';
 import dayjs from 'dayjs';
+import { Modal } from 'bootstrap';
+import toast from 'react-hot-toast';
+import AlertModal from './AlertModal';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
-import { addFoodApplication } from '../redux/LoginStateSlice';
-
+import { getLoginUserInfo } from '../redux/LoginStateSlice';
+import PropTypes from 'prop-types';
 const { VITE_BASE_URL } = import.meta.env;
 
 const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
@@ -22,7 +24,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
 
   const applyFood = async () => {
     try {
-      const res = await axios.post(`${VITE_BASE_URL}/applications`, {
+      await axios.post(`${VITE_BASE_URL}/applications`, {
         postId,
         userId,
         type: '申請通知',
@@ -30,16 +32,13 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
         status: '待回覆',
         created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
-      console.log(res);
-      dispatch(
-        addFoodApplication({
-          userId,
-          postId,
-        })
-      );
-      alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
+      dispatch(getLoginUserInfo(userId));
+      toast.success('尊敬的尋者唷！領取申請已送出，請靜候通知！');
     } catch (error) {
-      console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     } finally {
       closeApplyModal();
     }
@@ -65,7 +64,12 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
             />
           </div>
           <div className="modal-body p-lg-7 py-7 px-4">
-            <Link onClick={closeApplyModal} to={`/post/${postId}`} alt="" className="d-block mb-7">
+            <Link
+              onClick={closeApplyModal}
+              to={`/post/${postId}`}
+              alt=""
+              className="d-block mb-7"
+            >
               <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0">
                 <div className="d-flex align-items-center">
                   <img
@@ -132,6 +136,17 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
       </div>
     </div>
   );
+};
+
+FoodApplyModal.propTypes = {
+  foodApplyModalRef: PropTypes.object,
+  applyInfo: PropTypes.shape({
+    postId: PropTypes.string,
+    postTitle: PropTypes.string,
+    postImgUrl: PropTypes.string,
+    userId: PropTypes.string,
+    userNickname: PropTypes.string,
+  }),
 };
 
 export default FoodApplyModal;

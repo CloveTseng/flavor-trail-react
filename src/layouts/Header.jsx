@@ -3,10 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../redux/LoginStateSlice';
-import { Modal } from 'bootstrap';
 const { VITE_BASE_URL } = import.meta.env;
-// import Swal from 'sweetalert2';
 import AlertModal from '../components/AlertModal';
+import { Modal } from 'bootstrap';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -33,26 +32,7 @@ const Header = () => {
 
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef(null);
-  const openShareFoodModal = (e) => {
-    e.preventDefault();
-    if (isLogin) {
-      const shareFoodModal = new Modal(
-        document.getElementById('shareFoodModal')
-      );
-      shareFoodModal.show();
-    } else {
-      AlertModal.confirmAction({
-        title: '請先登入',
-        text: '迷路的尋者，登入後才能使用會員功能喔！',
-        icon: 'info',
-        confirmButtonText: '登入',
-        cancelButtonText: '取消',
-        onConfirm: () => {
-          navigate('/login');
-        }
-      });
-    }
-  };
+
   const toggleAccountMenu = () => {
     setIsAccountMenuOpen(!isAccountMenuOpen);
   };
@@ -81,8 +61,8 @@ const Header = () => {
 
   const handleLogout = () => {
     AlertModal.confirmAction({
-      title: '確定登出？',
-      text: '登出後將無法使用會員功能喔！',
+      title: '確認登出',
+      text: '親愛的尋者，登出後將無法使用會員功能喔！',
       icon: 'question',
       confirmButtonText: '登出',
       cancelButtonText: '取消',
@@ -93,6 +73,9 @@ const Header = () => {
             isLogin: false,
           })
         );
+
+        handleNavLinkClick();
+        navigate('/');
 
         AlertModal.successMessage({
           title: '登出成功',
@@ -262,6 +245,26 @@ const Header = () => {
   const handleClick = (handler) => (e) => {
     e.preventDefault();
     handler();
+  };
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+    }
   };
   return (
     <>
@@ -440,14 +443,27 @@ const Header = () => {
                         </NavLink>
                       </li>
                       <li>
-                        <a className='dropdown-item'>我的追蹤</a>
+                        <NavLink
+                          to='/account/following'
+                          className='dropdown-item'
+                        >
+                          我的追蹤
+                        </NavLink>
                       </li>
                       <li>
-                        <a className='dropdown-item'>領取紀錄</a>
+                        <NavLink
+                          to='/account/history'
+                          className='dropdown-item'
+                        >
+                          領取紀錄
+                        </NavLink>
                       </li>
                       <li>
                         <a
-                          onClick={handleLogout}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleLogout();
+                          }}
                           className='dropdown-item logout'
                           href='#'
                           id='logout'
@@ -519,7 +535,7 @@ const Header = () => {
                     >
                       <li>
                         <NavLink
-                          to='/account-settings'
+                          to='/account/setting'
                           onClick={() => {
                             closeAccountMenu();
                             handleNavLinkClick();
@@ -531,7 +547,7 @@ const Header = () => {
                       </li>
                       <li>
                         <NavLink
-                          to='/account-notifications'
+                          to='/account/notifications'
                           onClick={() => {
                             closeAccountMenu();
                             handleNavLinkClick();
@@ -543,7 +559,7 @@ const Header = () => {
                       </li>
                       <li>
                         <NavLink
-                          to='/account-posts'
+                          to='/account/my-posts'
                           onClick={() => {
                             closeAccountMenu();
                             handleNavLinkClick();
@@ -554,14 +570,36 @@ const Header = () => {
                         </NavLink>
                       </li>
                       <li>
-                        <a className='dropdown-item'>我的追蹤</a>
+                        <NavLink
+                          to='/account/following'
+                          onClick={() => {
+                            closeAccountMenu();
+                            handleNavLinkClick();
+                          }}
+                          className='dropdown-item'
+                        >
+                          我的追蹤
+                        </NavLink>
                       </li>
                       <li>
-                        <a className='dropdown-item'>領取紀錄</a>
+                        <NavLink
+                          to='/account/history'
+                          onClick={() => {
+                            closeAccountMenu();
+                            handleNavLinkClick();
+                          }}
+                          className='dropdown-item'
+                        >
+                          領取紀錄
+                        </NavLink>
                       </li>
                       <li>
                         <a
-                          onClick={handleLogout}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            closeAccountMenu();
+                            handleLogout();
+                          }}
                           className='dropdown-item logout'
                           href='#'
                           id='logout'
@@ -738,7 +776,6 @@ const Header = () => {
               </li>
               <li className='nav-item mb-10'>
                 <h2 className='fs-1 fw-bolder'>
-                  {/* 點擊這裡會因為 bootstrap 出錯, 記得改 */}
                   <a
                     onClick={(e) => openShareFoodModal(e)}
                     className='nav-link p-0'

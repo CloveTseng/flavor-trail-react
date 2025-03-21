@@ -7,6 +7,7 @@ import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
 // import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CopyUid from '../../components/CopyUid';
+import FullScreenLoading from '../../components/FullScreenLoading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -58,7 +59,11 @@ function AccountPosts() {
   };
 
   if (!postData) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <FullScreenLoading />
+      </div>
+    );
   }
 
   if (postData.length === 0) {
