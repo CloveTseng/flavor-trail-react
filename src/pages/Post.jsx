@@ -103,10 +103,39 @@ const Post = () => {
   //編輯貼文
   const editModalRef = useRef(null);
   const myEditModal = useRef(null);
+  const defaultValues = {
+    redeemCode: '',
+    title: '',
+    content: '',
+    food: {
+      name: '',
+      type: '',
+      saveMethod: '',
+      totalQuantity: 0,
+      restQuantity: 0,
+      expiryDate: '',
+      isPastBestBefore: '',
+      dietType: '',
+    },
+    pickup: {
+      city: '',
+      district: '',
+      time: '',
+      address: '',
+    },
+    imagesUrl: [],
+    viewCount: 1,
+    commentCount: 0,
+    likeCount: 0,
+    userId: 1,
+  };
+  const [tempPost, setTempPost] = useState(defaultValues);
   const openEditPost = () => {
+    setTempPost(post);
     myEditModal.current.show();
   };
   const closeEditModal = () => {
+    setTempPost(defaultValues);
     myEditModal.current.hide();
   };
 
@@ -989,7 +1018,7 @@ const Post = () => {
         applyInfo={applyInfo}
       />
       <ShareFoodEditModal
-        tempPost={post}
+        tempPost={tempPost}
         closeEditModal={closeEditModal}
         editModalRef={editModalRef}
         getPosts={() => getPost(id)}
