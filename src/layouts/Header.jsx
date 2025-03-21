@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../redux/LoginStateSlice';
 import { Modal } from 'bootstrap';
 const { VITE_BASE_URL } = import.meta.env;
+// import Swal from 'sweetalert2';
+import AlertModal from '../components/AlertModal';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -69,13 +71,26 @@ const Header = () => {
   }, [isAccountMenuOpen]);
 
   const handleLogout = () => {
-    dispatch(
-      setIsLogin({
-        uid: '',
-        isLogin: false,
-      })
-    );
-    console.log('登出');
+    AlertModal.confirmAction({
+      title: '確定登出？',
+      text: '登出後將無法使用會員功能喔！',
+      icon: 'question',
+      confirmButtonText: '登出',
+      cancelButtonText: '取消',
+      onConfirm: () => {
+        dispatch(
+          setIsLogin({
+            uid: '',
+            isLogin: false,
+          })
+        );
+
+        AlertModal.successMessage({
+          title: '登出成功',
+          text: '期待下次再見！',
+        });
+      },
+    });
   };
 
   /* 向下滾動 - 隱藏 navbar & 向上滾動 - 顯示 navbar */

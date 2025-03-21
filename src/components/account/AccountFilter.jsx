@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
 function AccountFilter({
   setFilter,
@@ -10,41 +11,27 @@ function AccountFilter({
   placeholder,
   filterOptions = [],
 }) {
-  const allPostsCount = postData ? postData.length : 0;
+  const allPostsCount = postData.length;
 
-  const expiredPostsCount = postData
-    ? postData.filter((item) => {
-        const createdDate = new Date(item.createdPostDate);
-        const today = new Date();
-        createdDate.setHours(0, 0, 0, 0);
-        today.setHours(0, 0, 0, 0);
-        const diffTime = today.getTime() - createdDate.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays > 30;
-      }).length
-    : 0;
+  const today = dayjs().startOf('day');
 
-  const notExpiredPostsCount = postData
-    ? postData.filter((item) => {
-        const createdDate = new Date(item.createdPostDate);
-        const today = new Date();
-        createdDate.setHours(0, 0, 0, 0);
-        today.setHours(0, 0, 0, 0);
-        const diffTime = today.getTime() - createdDate.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays <= 30;
-      }).length
-    : 0;
+  const expiredPostsCount = postData.filter((item) => {
+    return today.diff(dayjs(item.createdPostDate).startOf('day'), 'day') > 30;
+  }).length;
 
-  const applyPostsCount = appData
-    ? appData.filter((item) => item.type === '申請通知').length
-    : 0;
-  const receivePostsCount = appData
-    ? appData.filter((item) => item.type === '領取通知').length
-    : 0;
-  const commentPostsCount = appData
-    ? appData.filter((item) => item.type === '評價通知').length
-    : 0;
+  const notExpiredPostsCount = postData.filter((item) => {
+    return today.diff(dayjs(item.createdPostDate).startOf('day'), 'day') <= 30;
+  }).length;
+
+  const applyPostsCount = appData.filter(
+    (item) => item.type === '申請通知'
+  ).length;
+  const receivePostsCount = appData.filter(
+    (item) => item.type === '領取通知'
+  ).length;
+  const commentPostsCount = appData.filter(
+    (item) => item.type === '評價通知'
+  ).length;
 
   const scrollContainerRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -109,96 +96,88 @@ function AccountFilter({
     if (container && searchInput) {
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            searchInput.classList.add('border-white');
-          } else {
-            searchInput.classList.remove('border-white');
-          }
+          searchInput.classList.toggle('border-white', entry.isIntersecting);
         },
         { threshold: 0 }
       );
       observer.observe(searchInput);
-      return () => {
-        observer.unobserve(searchInput);
-      };
+      return () => observer.unobserve(searchInput);
     }
   }, []);
 
   return (
-    <>
-      <div className="container">
-        <h2 className="fw-bolder text-black mb-7 d-none d-lg-block">{title}</h2>
-        <div className="posts-wrap">
-          <ul
-            ref={scrollContainerRef}
-            className="g-2 mt-2 mb-2 d-flex align-items-center gap-2 posts-menu 
+    <div className="container">
+      <h2 className="fw-bolder text-black mb-7 d-none d-lg-block">{title}</h2>
+      <div className="posts-wrap">
+        <ul
+          ref={scrollContainerRef}
+          className="g-2 mt-2 mb-2 d-flex align-items-center gap-2 posts-menu 
           d-lg-flex account-filter-overflow"
-          >
-            {filterOptions.map((option) => (
-              <li
-                className="col-2 list-group-item border-0 p-0 w-auto"
-                key={option}
+        >
+          {filterOptions.map((option) => (
+            <li
+              className="col-2 list-group-item border-0 p-0 w-auto"
+              key={option}
+            >
+              <button
+                type="button"
+                onClick={() => setFilter(option)}
+                className={`btn py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center justify-content-between ${
+                  filter === option ? 'btn-primary' : 'btn-light'
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => setFilter(option)}
-                  className={`btn py-3 px-5 text-start w-100 text-nowrap btn-sm rounded-3 d-flex align-items-center justify-content-between ${
-                    filter === option ? 'btn-primary' : 'btn-light'
+                {filterOptionDetails[option].svg && (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {filterOptionDetails[option].svg}
+                    <defs>
+                      <clipPath id="clip0_228_3113">
+                        <rect width="16" height="16" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+                <span
+                  className={`fs-6 ms-2 pe-12 ${
+                    filter === option ? '' : 'text-gray-700'
                   }`}
                 >
-                  {filterOptionDetails[option].svg && (
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      {filterOptionDetails[option].svg}
-                      <defs>
-                        <clipPath id="clip0_228_3113">
-                          <rect width="16" height="16" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  )}
-                  <span
-                    className={`fs-6 ms-2 pe-12 ${
-                      filter === option ? '' : 'text-gray-700'
-                    }`}
-                  >
-                    {filterOptionDetails[option].text}
-                  </span>
-                  <span
-                    className={`badge text-primary rounded-circle fw-medium ${
-                      filter === option ? 'bg-white' : 'bg-bedge-color'
-                    }`}
-                  >
-                    {filterOptionDetails[option].count}
-                  </span>
-                </button>
-              </li>
-            ))}
-            <li className="list-group-item border-0 p-0 w-100 d-flex justify-content-between">
-              <form className="d-flex w-100">
-                <input
-                  ref={searchInputRef}
-                  className="form-control bg-white border-white py-4 px-5 posts-rounded"
-                  type="search"
-                  placeholder={placeholder}
-                  aria-label="Search"
-                />
-              </form>
-              <img
-                src="./assets/images/icon/search.svg"
-                alt=""
-                className="bg-white rounded-end pe-5 "
-              />
+                  {filterOptionDetails[option].text}
+                </span>
+                <span
+                  className={`badge text-primary rounded-circle fw-medium ${
+                    filter === option ? 'bg-white' : 'bg-bedge-color'
+                  }`}
+                >
+                  {filterOptionDetails[option].count}
+                </span>
+              </button>
             </li>
-          </ul>
-        </div>
+          ))}
+          <li className="list-group-item border-0 p-0 w-100 d-flex justify-content-between">
+            <form className="d-flex w-100">
+              <input
+                ref={searchInputRef}
+                className="form-control bg-white border-white py-4 px-5 posts-rounded"
+                type="search"
+                placeholder={placeholder}
+                aria-label="Search"
+              />
+            </form>
+            <img
+              src="./assets/images/icon/search.svg"
+              alt=""
+              className="bg-white rounded-end pe-5 "
+            />
+          </li>
+        </ul>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -211,4 +190,5 @@ AccountFilter.propTypes = {
   placeholder: PropTypes.string.isRequired,
   filterOptions: PropTypes.array,
 };
+
 export default AccountFilter;
