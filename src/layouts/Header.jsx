@@ -60,8 +60,8 @@ const Header = () => {
 
   const handleLogout = () => {
     AlertModal.confirmAction({
-      title: '確定登出？',
-      text: '登出後將無法使用會員功能喔！',
+      title: '確認登出',
+      text: '親愛的尋者，登出後將無法使用會員功能喔！',
       icon: 'question',
       confirmButtonText: '登出',
       cancelButtonText: '取消',
