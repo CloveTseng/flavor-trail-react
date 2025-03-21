@@ -3,7 +3,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Event from '../pages/Event';
 import AllPost from '../pages/AllPosts';
-import AboutUsPage from '../pages/AboutUsPage';
+import AboutUs from '../pages/AboutUs';
 import GuideLine from '../pages/GuideLine';
 import Post from '../pages/Post';
 import PageNotFound from '../pages/PageNotFound';
@@ -37,7 +37,7 @@ const routes = [
       },
       {
         path: 'about-us',
-        element: <AboutUsPage />,
+        element: <AboutUs />,
       },
       {
         path: 'guide-line',

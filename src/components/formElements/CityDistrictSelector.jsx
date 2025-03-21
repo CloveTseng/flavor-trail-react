@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
@@ -13,13 +13,16 @@ function CityDistrictSelector({
   rules,
   initialCityId,
   initialDistrict,
+  cityName,
+  districtName,
 }) {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
+  const [selectedDistrict, setSelectedDistrict] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setValue } = useFormContext();
-  const [defaultDistrictSet, setDefaultDistrictSet] = useState(false);
+  const { setValue, clearErrors } = useFormContext();
+  const prevCityId = useRef(null);
 
   useEffect(() => {
     const getTwCities = async () => {
@@ -28,7 +31,7 @@ function CityDistrictSelector({
         const res = await axios.get(`${BASE_URL}/twCities`);
         setCities(res.data);
       } catch (error) {
-        console.log(error.message);
+        console.error('獲取縣市失敗:', error.message);
       } finally {
         setIsLoading(false);
       }
@@ -37,68 +40,90 @@ function CityDistrictSelector({
   }, []);
 
   useEffect(() => {
-    if (initialCityId && initialCityId !== selectedCityId) {
-      setSelectedCityId(initialCityId);
-    }
-  }, [initialCityId]);
+    if (initialCityId) {
+      const targetCity = cities.find((c) => c.name === initialCityId);
 
-  useEffect(() => {
-    const getDistricts = async () => {
-      if (selectedCityId) {
-        setIsLoading(true);
-        try {
-          const res = await axios.get(`${BASE_URL}/twCities/${selectedCityId}`);
-          setDistricts(res.data.districts);
-        } catch (error) {
-          console.log(error.message);
-        } finally {
-          setIsLoading(false);
+      if (targetCity) {
+        fetchDistricts(targetCity.id);
+        setSelectedCityId(targetCity.id);
+      } else {
+        setDistricts([]);
+      }
+    }
+  }, [initialCityId, cities]);
+
+  const fetchDistricts = async (cityId) => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/twCities/${encodeURIComponent(cityId)}`
+      );
+
+      if (res.data && Array.isArray(res.data.districts)) {
+        setDistricts(res.data.districts);
+
+        if (initialDistrict) {
+          const foundDistrict = res.data.districts.find(
+            (d) => d.name === initialDistrict
+          );
+          if (foundDistrict) {
+            setSelectedDistrict(foundDistrict.name);
+            setValue(districtId, foundDistrict.name);
+            clearErrors(districtId);
+          }
+        } else {
+          setSelectedDistrict('');
+          setValue(districtId, '');
         }
       } else {
         setDistricts([]);
       }
-    };
-    getDistricts();
-  }, [selectedCityId]);
-
-  useEffect(() => {
-    if (
-      selectedCityId &&
-      districts.length > 0 &&
-      initialDistrict &&
-      !defaultDistrictSet
-    ) {
-      const foundDistrict = districts.find(
-        (district) => district.name === initialDistrict
-      );
-      if (foundDistrict) {
-        setValue(districtId, foundDistrict.name, { shouldValidate: true });
-      }
-      setDefaultDistrictSet(true);
+    } catch (error) {
+      console.error(`獲取地區失敗:`, error.message);
+      setDistricts([]);
+    } finally {
+      setIsLoading(false);
     }
-  }, [selectedCityId, districts]);
-
+  };
   const handleCityChange = (e) => {
     const selectedId = e.target.value;
+    const targetCity = cities.find((c) => c.id == selectedId);
+
+    if (prevCityId.current === selectedId) {
+      setSelectedDistrict('');
+      setValue(districtId, '');
+    }
+
     setSelectedCityId(selectedId);
-    setValue(cityId, selectedId, { shouldValidate: true });
+    setValue(cityId, targetCity.name, { shouldValidate: true });
+
+    setDistricts([]);
+    fetchDistricts(selectedId);
+  };
+
+  const handleDistrictChange = (e) => {
+    const selectedDistrict = e.target.value;
+    setSelectedDistrict(selectedDistrict);
+    setValue(districtId, selectedDistrict, { shouldValidate: true });
   };
 
   return (
     <>
-      <div className="d-flex gap-2 col-lg-4">
+      <div className='d-flex gap-2 col-lg-4'>
+        {/* 縣市選單 */}
         <select
           id={cityId}
-          name={cityId}
-          className={`form-select py-2 px-5 border-gray-400 rounded-3 d-inline-blok w-100 bg-white ${
+          name={cityName}
+          className={`form-select py-2 px-5 border-gray-400 rounded-3 d-inline-block w-100 bg-white ${
             errors?.[cityId] && 'is-invalid'
           }`}
           {...register(cityId, rules)}
           onChange={handleCityChange}
           disabled={isLoading}
-          defaultValue={initialCityId}
+          value={selectedCityId}
         >
-          <option value="" disabled selected>
+          <option value='' disabled>
             請選擇縣市
           </option>
           {cities.map((city) => (
@@ -108,20 +133,26 @@ function CityDistrictSelector({
           ))}
         </select>
 
+        {/* 地區選單 */}
         <select
           id={districtId}
-          name={districtId}
+          name={districtName}
           className={`form-select py-2 px-5 border-gray-400 rounded-3 w-100 bg-white ${
             errors?.[districtId] && 'is-invalid'
           }`}
           {...register(districtId, rules)}
-          disabled={!selectedCityId || isLoading}
+          onChange={handleDistrictChange}
+          disabled={!selectedCityId || isLoading || districts.length === 0}
+          value={selectedDistrict}
         >
-          <option className="text-gray-700" value="" disabled selected>
+          <option className='text-gray-700' value=''>
             請選擇地區
           </option>
           {districts.map((district) => (
-            <option key={district.zip} value={district.name}>
+            <option
+              key={`${district.zip}-${district.name}`}
+              value={district.name}
+            >
               {district.name}
             </option>
           ))}

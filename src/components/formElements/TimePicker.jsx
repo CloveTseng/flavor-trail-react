@@ -1,12 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useFormContext } from 'react-hook-form';
 
-const TimePicker = () => {
+const TimePicker = ({ initialStartTime, initialEndTime }) => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [startTimeOptions, setStartTimeOptions] = useState([]);
   const [endTimeOptions, setEndTimeOptions] = useState([]);
   const dropdownRef = useRef(null);
+  const { setValue } = useFormContext();
+
+  useEffect(() => {
+    if (initialStartTime) {
+      setStartTime(initialStartTime);
+    }
+    if (initialEndTime) {
+      setEndTime(initialEndTime);
+    }
+  }, [initialStartTime, initialEndTime]);
 
   useEffect(() => {
     const generateTimeOptions = () => {
@@ -22,7 +34,6 @@ const TimePicker = () => {
 
     const allOptions = generateTimeOptions();
     setStartTimeOptions(allOptions);
-    setEndTimeOptions([]);
   }, []);
 
   const handleStartTimeClick = (time) => {
@@ -40,14 +51,22 @@ const TimePicker = () => {
       }
     }
     setEndTimeOptions(newEndTimeOptions);
-    if (endTime === '') {
+    if (endTime === '' || !newEndTimeOptions.includes(endTime)) {
       setEndTime(newEndTimeOptions[0]);
     }
+    setValue('pickup.time', `${startTime} - ${endTime}`);
   };
 
   const handleEndTimeClick = (time) => {
     setEndTime(time);
+    setValue('pickup.time', `${startTime} - ${time}`);
   };
+
+  useEffect(() => {
+    if (startTime && endTime) {
+      setValue('pickup.time', `${startTime} - ${endTime}`);
+    }
+  }, [startTime, endTime, setValue]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -128,5 +147,8 @@ const TimePicker = () => {
     </div>
   );
 };
-
+TimePicker.propTypes = {
+  initialStartTime: PropTypes.string,
+  initialEndTime: PropTypes.string,
+};
 export default TimePicker;

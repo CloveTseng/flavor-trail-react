@@ -2,6 +2,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { Modal } from 'bootstrap';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -10,14 +11,16 @@ const DeletePostModal = ({ postId, onDeleteSuccess }) => {
 
   const deletePost = async () => {
     try {
-      await axios.delete(`${BASE_URL}/posts/${postId}`);
-      alert('貼文刪除成功');
+      await toast.promise(axios.delete(`${BASE_URL}/posts/${postId}`), {
+        loading: '刪除中...',
+        success: '貼文刪除成功',
+        error: '刪除失敗，請稍候再試',
+      });
       const modalInstance = Modal.getInstance(modalRef.current);
       modalInstance.hide();
       onDeleteSuccess();
     } catch (error) {
       console.log(error.message);
-      alert('刪除失敗，請稍候再試');
     }
   };
 
