@@ -6,9 +6,11 @@
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
+
     &::-webkit-scrollbar {
         display: none;
-      }
+    }
+
     @include media-breakpoint-up(lg) {
         overflow-x: visible;
     }
@@ -16,4 +18,8 @@
 
 .notify-rounded {
     border-radius: 8px 0 0 8px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

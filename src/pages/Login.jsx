@@ -1,12 +1,19 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
-
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+import { setIsLogin } from '../redux/LoginStateSlice';
+import AlertModal from '../components/AlertModal';
+const { VITE_LOGIN_URL } = import.meta.env;
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   //form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     mode: 'onTouched',
@@ -15,8 +22,28 @@ const Login = () => {
   //eye
   const [passwordHidden, setPasswordHidden] = useState(true);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const signin = async (formData) => {
+    try {
+      const { email, password } = formData;
+      const res = await axios.post(`${VITE_LOGIN_URL}/admin/signin`, {
+        username: email,
+        password,
+      });
+      reset();
+      dispatch(
+        setIsLogin({
+          uid: res.data.uid,
+          isLogin: true,
+        })
+      );
+      AlertModal.successMessage({
+        text: '尊敬的尋者唷！歡迎回來！',
+      });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      alert(`${error.response.data.error?.message}`);
+    }
   };
 
   return (
@@ -46,7 +73,7 @@ const Login = () => {
               className="footer-logo position-absolute top-0 start-0 z-2"
             >
               <img
-                src="../assets/images/Logo.png"
+                src="./assets/images/Logo.png"
                 alt="logo"
                 style={{
                   width: '174px',
@@ -56,18 +83,18 @@ const Login = () => {
             </Link>
             <img
               className="login-img object-fit-cover"
-              src="../assets/images/home-2.jpg"
+              src="./assets/images/home-2.jpg"
               alt="img"
             />
             <div className="login-deco-1 position-absolute d-none d-lg-block">
               <img
-                src="../assets/images/deco/login-deco-1.svg"
+                src="./assets/images/deco/login-deco-1.svg"
                 alt="login-deco"
               />
             </div>
             <div className="login-deco-2 position-absolute d-none d-lg-block">
               <img
-                src="../assets/images/deco/login-deco-2.svg"
+                src="./assets/images/deco/login-deco-2.svg"
                 alt="login-deco"
               />
             </div>
@@ -89,7 +116,7 @@ const Login = () => {
                 <p className="vertical-text text-lg-vertical ms-auto">再出發</p>
               </div>
               <img
-                src="../assets/images/deco/login-deco-3.svg"
+                src="./assets/images/deco/login-deco-3.svg"
                 alt="login-deco"
               />
             </div>
@@ -98,7 +125,7 @@ const Login = () => {
 
         <div className="col-lg-5">
           <h2 className="fs-1 fw-bolder mb-14">歡迎回來！</h2>
-          <form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
+          <form className="row g-3" onSubmit={handleSubmit(signin)}>
             <div className="col-12">
               <div className="mb-12">
                 <label htmlFor="validationUsername" className="form-label mb-4">
