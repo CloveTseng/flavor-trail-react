@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -15,7 +15,7 @@ const PostComments = ({ id, commentCount }) => {
   const [newComment, setNewComment] = useState(null);
   const { id: postId } = useParams();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
-
+  const navigate = useNavigate();
   const getComments = async () => {
     try {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
@@ -29,9 +29,15 @@ const PostComments = ({ id, commentCount }) => {
   };
   const createComment = async (type = 'normal') => {
     if (!isLogin) {
-      AlertModal.customMessage({
-        icon: 'warning',
-        text: '迷路的尋者唷！您尚未登入唷！',
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔!',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
       });
       return;
     }

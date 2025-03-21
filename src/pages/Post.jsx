@@ -127,9 +127,15 @@ const Post = () => {
   });
   const openApplyModal = (post) => {
     if (!isLogin) {
-      AlertModal.customMessage({
-        icon: 'warning',
-        text: '迷路的尋者唷！您尚未登入唷！',
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔!',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
       });
       return;
     }
