@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import gsap from 'gsap';
 import { Modal } from 'bootstrap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ShareFoodModal from './ShareFoodModal';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import AlertModal from '../components/AlertModal';
 
 const CircleCTAButton = ({
   title,
@@ -14,6 +16,7 @@ const CircleCTAButton = ({
   endPosition,
 }) => {
   const circleCTARef = useRef(null);
+  const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const openShareFoodModal = (e) => {
     e.preventDefault();
@@ -23,8 +26,16 @@ const CircleCTAButton = ({
       );
       shareFoodModal.show();
     } else {
-      alert('請先登入會員！');
-      return;
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
     }
   };
   useEffect(() => {

@@ -1,14 +1,38 @@
 import { useRef } from 'react';
-import { Link } from 'react-router';
-
+import { Link, useNavigate } from 'react-router';
+import { Modal } from 'bootstrap';
+import { useSelector } from 'react-redux';
 import ShareFoodModal from '../components/ShareFoodModal';
 
 import CircleCTAButton from '../components/CircleCTAButton';
 import HomeYummySection from './section/HomeYummySection';
 import HomeFoodTalkSection from './section/HomeFoodTalkSection';
+import AlertModal from '../components/AlertModal';
 const Home = () => {
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
+  const navigate = useNavigate();
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+    }
+  };
   return (
     <>
       {/* bannerSection */}
@@ -38,10 +62,9 @@ const Home = () => {
 
               <span>（</span>
               <a
+                onClick={(e) => openShareFoodModal(e)}
                 href='#'
                 className='banner-cta'
-                data-bs-toggle='modal'
-                data-bs-target='#shareFoodModal'
               >
                 分享美味
               </a>
@@ -407,16 +430,15 @@ const Home = () => {
       </section>
 
       {/* CTA */}
-        <CircleCTAButton
-          title={'分享美味'}
-          startTriggerRef={startTriggerRef}
-          endTriggerRef={endTriggerRef}
-          startPosition={'top 20%'}
-          endPosition={'bottom 60%'}
-        />
+      <CircleCTAButton
+        title={'分享美味'}
+        startTriggerRef={startTriggerRef}
+        endTriggerRef={endTriggerRef}
+        startPosition={'top 20%'}
+        endPosition={'bottom 60%'}
+      />
     </>
   );
 };
 
 export default Home;
-
