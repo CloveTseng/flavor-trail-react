@@ -150,7 +150,7 @@ const Post = () => {
   });
   const openApplyModal = (post) => {
     if (!isLogin) {
-      alert('迷路的尋者唷！您尚未登入唷！');
+      alert('迷路的尋者您尚未登入唷！');
       return;
     }
 

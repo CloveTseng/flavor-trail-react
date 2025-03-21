@@ -17,11 +17,11 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
     if (initialEndTime) {
       setEndTime(initialEndTime);
     }
-    console.log('initialStartTime:', initialStartTime);
-    console.log('initialEndTime:', initialEndTime);
+    // console.log('initialStartTime:', initialStartTime);
+    // console.log('initialEndTime:', initialEndTime);
   }, [initialStartTime, initialEndTime]);
 
-  // 🟢 監聽 `initialStartTime` & `initialEndTime`，確保每次開啟不同 ID 時，載入對應的時間
+  // 監聽 `initialStartTime` & `initialEndTime`，確保每次開啟不同 ID 時，載入對應的時間
   useEffect(() => {
     if (initialStartTime) {
       setStartTime(initialStartTime);
@@ -53,7 +53,7 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
     setEndTimeOptions([]);
   }, []);
 
-  // 🟢 更新結束時間選項
+  // 更新結束時間選項
   const updateEndTimeOptions = (selectedStartTime) => {
     const [startHour, startMinute] = selectedStartTime.split(':').map(Number);
     const newEndTimeOptions = [];
@@ -85,12 +85,12 @@ const TimePicker = ({ initialStartTime, initialEndTime }) => {
     if (endTime === '') {
       setEndTime(newEndTimeOptions[0]);
     }
-    console.log('startTime:', time);
+    // console.log('startTime:', time);
   };
   
   const handleEndTimeClick = (time) => {
     setEndTime(time);
-    console.log('endTime:', time);  
+    // console.log('endTime:', time);  
   };
 
   useEffect(() => {

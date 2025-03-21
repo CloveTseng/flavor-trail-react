@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Modal } from 'bootstrap';
 import { useSelector } from 'react-redux';
 import ShareFoodModal from '../components/ShareFoodModal';
@@ -7,9 +7,11 @@ import ShareFoodModal from '../components/ShareFoodModal';
 import CircleCTAButton from '../components/CircleCTAButton';
 import HomeYummySection from './section/HomeYummySection';
 import HomeFoodTalkSection from './section/HomeFoodTalkSection';
+import AlertModal from '../components/AlertModal';
 const Home = () => {
   const startTriggerRef = useRef();
   const endTriggerRef = useRef();
+  const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const openShareFoodModal = (e) => {
     e.preventDefault();
@@ -19,7 +21,16 @@ const Home = () => {
       );
       shareFoodModal.show();
     } else {
-      alert('請先登入會員！');
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
     }
   };
   return (

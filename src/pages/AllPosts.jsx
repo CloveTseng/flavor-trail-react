@@ -1,21 +1,23 @@
 import { useRef, useEffect, useState } from 'react';
-import { Link, useSearchParams, useParams } from 'react-router';
+import { Link, useSearchParams, useParams, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import ShareFoodModal from '../components/ShareFoodModal';
 import ShareFoodEditModal from '../components/ShareFoodEditModal';
+import AlertModal from '../components/AlertModal';
 import CircleCTAButton from '../components/CircleCTAButton';
 import FoodApplyModal from '../components/FoodApplyModal';
+import FullScreenLoading from '../components/FullScreenLoading';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import PacmanLoader from 'react-spinners/PacmanLoader';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
 const { VITE_BASE_URL } = import.meta.env;
 
 function AllPosts() {
+  const navigate = useNavigate();
   const defaultValues = {
     redeemCode: '',
     title: '',
@@ -68,11 +70,11 @@ function AllPosts() {
     // If it is empty, return null.
     return LoginPerson.length > 0 ? LoginPerson[0].userId : null;
   };
-  useEffect(() => {
-    if (isLogin) {
-      console.log('登入者id:', getUserId(uid));
-    }
-  }, [isLogin, identity]);
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     console.log('登入者id:', getUserId(uid));
+  //   }
+  // }, [isLogin, identity]);
 
   // 如果 URL 中有參數，則自動設置相應的篩選條件
   useEffect(() => {
@@ -89,7 +91,7 @@ function AllPosts() {
 
   // 當 URL 參數變化時，更新搜尋關鍵字
   useEffect(() => {
-    console.log('URL 关键词:', urlKeyword);
+    // console.log('URL 关键词:', urlKeyword);
     handleClearFilter();
     if (urlKeyword) {
       setSearchKeyword(urlKeyword);
@@ -191,20 +193,6 @@ function AllPosts() {
       ),
     },
   ];
-  const override = {
-    height: '100vh',
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    right: '0',
-    bootom: '0',
-    backgroundColor: 'rgba(224, 224, 224, 0.5)',
-    zIndex: '999',
-    backdropFilter: 'blur(15px)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
 
   // 定義 getPosts 函式
   const getPosts = async () => {
@@ -214,7 +202,7 @@ function AllPosts() {
       setPosts(resPosts.data);
       setResult(resPosts.data);
       setLoading(false);
-      console.log('貼文資料:', resPosts.data);
+      // console.log('貼文資料:', resPosts.data);
     } catch (error) {
       alert(error);
     } finally {
@@ -227,9 +215,7 @@ function AllPosts() {
   useEffect(() => {
     (async () => {
       try {
-        const resCity = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/twCities'
-        );
+        const resCity = await axios.get(`${VITE_BASE_URL}/twCities`);
         setCity(resCity.data);
         setLoading(false);
       } catch (error) {
@@ -242,9 +228,7 @@ function AllPosts() {
   useEffect(() => {
     (async () => {
       try {
-        const resFoodTypes = await axios.get(
-          'https://json-server-vercel-5mr9.onrender.com/foodTypes'
-        );
+        const resFoodTypes = await axios.get(`${VITE_BASE_URL}/foodTypes`);
         setFoodType(resFoodTypes.data);
         setLoading(false);
       } catch (error) {
@@ -269,8 +253,6 @@ function AllPosts() {
         // 判斷標題或內容中是否包含關鍵字
         return title.includes(keyword) || content.includes(keyword);
       });
-
-      console.log('关键词筛选后结果:', tempData.length);
     }
     if (activeFilter === '熱門貼文') {
       tempData = tempData.filter((post) => post.likeCount > 100); // 篩選熱門貼文
@@ -283,7 +265,7 @@ function AllPosts() {
       tempData = tempDataNewSort.sort(
         (a, b) => new Date(b.createdPostDate) - new Date(a.createdPostDate)
       ); //排序新到舊
-      console.log(tempData);
+      // console.log(tempData);
     }
     // 熱門貼文 且為選取的縣市
     if (activeCity !== '地理位置') {
@@ -300,6 +282,7 @@ function AllPosts() {
   const myEditModal = useRef(null);
   const closeEditModal = () => {
     myEditModal.current.hide();
+    setTempPost(defaultValues);
   };
 
   useEffect(() => {
@@ -308,17 +291,15 @@ function AllPosts() {
       keyboard: false,
     });
   }, []);
-  // 🟢 點擊編輯貼文按鈕 (傳入貼文 ID)
+  // 點擊編輯貼文按鈕 (傳入貼文 ID)
   const handleEditPost = async (postId) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(
-        `https://json-server-vercel-5mr9.onrender.com/posts/${postId}`
-      );
-      setTempPost(data); // 🟢 確保資料結構正確
-      console.log(data);
-      myEditModal.current.show();
+      const { data } = await axios.get(`${VITE_BASE_URL}/posts/${postId}`);
+      setTempPost(data); // 確保資料結構正確
+      // console.log(data);
       setLoading(false);
+      myEditModal.current.show();
     } catch (error) {
       alert('取得貼文資料失敗:', error);
     }
@@ -342,7 +323,19 @@ function AllPosts() {
   };
   const handleChangeLike = (id) => {
     // 登入後才能按讚
-    if (!isLogin) return alert('迷路的尋者唷！您尚未登入唷！');
+    if (!isLogin) {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+      return;
+    }
     setLike((prevLikes) => {
       const updatedLikes = { ...prevLikes };
 
@@ -369,6 +362,19 @@ function AllPosts() {
     });
   };
   const handelChangeFllow = (id) => {
+    if (!isLogin) {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+      return;
+    }
     setFollows((prev) => {
       const follows = { ...prev };
       if (follows[id]) {
@@ -410,10 +416,20 @@ function AllPosts() {
   });
   // 領取按鈕
   const openApplyModal = (post) => {
-    if (!isLogin) {
-      alert('迷路的尋者唷！您尚未登入唷！');
+if (!isLogin) {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔!',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
       return;
     }
+
 
     if (hasApplication) {
       alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
@@ -430,13 +446,13 @@ function AllPosts() {
   };
   const [userNickname, setUserNickname] = useState(null);
   useEffect(() => {
+    if (!uid) return;
     (async () => {
       try {
         const res = await axios.get(`${VITE_BASE_URL}/users/${getUserId(uid)}`);
-        // console.log(res);
         setUserNickname(res.data.nickName);
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     })();
   }, [uid]);
@@ -709,19 +725,15 @@ function AllPosts() {
         </div>
         <main className='postCard mb-18'>
           {loading ? (
-            <div style={override}>
-              <PacmanLoader color={'#00503F'} size={75} />
-            </div>
+            <FullScreenLoading />
           ) : result.length === 0 ? (
             <p className='fs-4 text-center py-20'>目前還沒有貼文 ( ´•̥̥̥ω•̥̥̥` )</p>
           ) : (
             result.map((post) => {
-              // const user = users.find((user) => user.id === post.id);
               const timeAgo = dayjs(post.createdPostDate).fromNow();
               const now = dayjs();
               const isNewPost =
                 now.diff(dayjs(post.createdPostDate), 'day') <= 3;
-              // id !== user.id
               const isAvailable =
                 post.food?.restQuantity !== 0 &&
                 dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
@@ -1062,7 +1074,8 @@ function AllPosts() {
                                 </button>
                               </div>
                               <div className='px-1'>
-                                <button
+                                <Link
+                                  to={`/post/${post.id}`}
                                   type='button'
                                   className='nomoral-sm-btn btn p-5'
                                 >
@@ -1082,7 +1095,7 @@ function AllPosts() {
                                       strokeLinejoin='round'
                                     />
                                   </svg>
-                                </button>
+                                </Link>
                               </div>
                               <div className='ps-1 pe-0'>
                                 <button
@@ -1123,7 +1136,6 @@ function AllPosts() {
                                   ? 'not-allowed'
                                   : ''
                               }`}
-                              // disabled={post.food?.restQuantity === 0}
                             >
                               <span className='me-2'>我要領取</span>
                               <svg
@@ -1187,13 +1199,13 @@ function AllPosts() {
       <ShareFoodModal />
 
       {/* CTA */}
-        <CircleCTAButton
-          title={'分享美味'}
-          startTriggerRef={startTriggerRef}
-          endTriggerRef={endTriggerRef}
-          startPosition={'top 2%'}
-          endPosition={'bottom -200%'}
-        />
+      <CircleCTAButton
+        title={'分享美味'}
+        startTriggerRef={startTriggerRef}
+        endTriggerRef={endTriggerRef}
+        startPosition={'top 2%'}
+        endPosition={'bottom -200%'}
+      />
     </>
   );
 }

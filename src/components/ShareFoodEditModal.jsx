@@ -14,6 +14,7 @@ import TimePicker from './formElements/TimePicker';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -36,12 +37,24 @@ const ShareFoodEditModal = ({
     setValue,
     getValues,
   } = methods;
-  // ✅ 監聽 tempPost 變化，確保表單數據更新
+  //監聽 tempPost 變化，確保表單數據更新
   useEffect(() => {
     if (tempPost && Object.keys(tempPost).length > 0) {
       reset(tempPost); // ✅ 重新載入表單數據
+
+      // ✅ 確保 TimePicker 獲取 API 值
+      const pickupTime = tempPost?.pickup?.time || '';
+      const [startTime, endTime] = pickupTime.split(' - ');
+
+      setValue('pickup.time', pickupTime);
+      setValue('pickup.startTime', startTime || '');
+      setValue('pickup.endTime', endTime || '');
+
+      // ✅ 強制更新 CityDistrictSelector
+      setValue('pickup.city', tempPost.pickup.city || '');
+      setValue('pickup.district', tempPost.pickup.district || '');
     }
-  }, [tempPost, reset]);
+  }, [tempPost]); // ✅ **去掉 `reset`，確保 `tempPost` 變更時能執行**
   const handleDateChange = (date) => {
     setValue('food.expiryDate', dayjs(date).format('YYYY-MM-DD'));
   };
@@ -76,12 +89,11 @@ const ShareFoodEditModal = ({
       console.log('測試 data', data);
       console.log(getValues());
       console.log('res:', res.data);
-
-      alert('編輯成功');
+      toast.success('成功更新貼文！');
       getPosts();
-      closeEditModal(); // ✅ 關閉 Modal
+      closeEditModal();
     } catch (error) {
-      console.error('❌ API 更新失敗:', error.message);
+      alert(error.message);
     }
 
     reset();
@@ -322,7 +334,7 @@ const ShareFoodEditModal = ({
                         districtId='pickup.district'
                         initialCityId={tempPost?.pickup?.city}
                         initialDistrict={tempPost?.pickup?.district}
-                        setValue={setValue} // ✅ 傳遞 setValue 以更新表單
+                        // setValue={setValue} // 傳遞 setValue 以更新表單
                         rules={{
                           required: {
                             value: true,
@@ -355,7 +367,7 @@ const ShareFoodEditModal = ({
                           tempPost?.pickup?.time?.split(' - ')[0]
                         }
                         initialEndTime={tempPost?.pickup?.time?.split(' - ')[1]}
-                        setValue={setValue}
+                        // setValue={setValue}
                         name='pickup.time'
                       />
                     </div>

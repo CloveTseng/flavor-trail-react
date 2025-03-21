@@ -1,10 +1,12 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Modal } from 'bootstrap';
 import { useSelector } from 'react-redux';
 import ShareFoodModal from '../components/ShareFoodModal';
+import AlertModal from '../components/AlertModal';
 
 const Footer = () => {
   const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const navigate = useNavigate();
   const openShareFoodModal = (e) => {
     e.preventDefault();
     if (isLogin) {
@@ -13,7 +15,16 @@ const Footer = () => {
       );
       shareFoodModal.show();
     } else {
-      alert('請先登入會員！');
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
     }
   };
   return (
