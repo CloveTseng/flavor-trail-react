@@ -352,7 +352,7 @@ const ShareFoodModal = () => {
                         領取地點
                         <span className="text-danger"> * </span>
                       </label>
-                      <div className="w-50 d-flex gap-2">
+                      <div className="w-lg-50 w-100 d-flex gap-2">
                         <SelectCity
                           register={register}
                           errors={errors}
