@@ -1,55 +1,68 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import axios from 'axios';
 import dayjs from 'dayjs';
+
+import { getUserId } from '../../utils/loginUser';
+import PropTypes from 'prop-types';
+import AlertModal from '../AlertModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
 const PostComments = ({ id, commentCount }) => {
   const [comments, setComments] = useState([]);
-  const [newComments, setNewComments] = useState(null);
+  const [newComment, setNewComment] = useState(null);
   const { id: postId } = useParams();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
-  const { identity } = useSelector((state) => state.loginSlice);
-  const getUserId = (uid) => {
-    let LoginPerson = identity.filter((person) => person.uid === uid);
-    return LoginPerson[0].userId;
-  };
-
+  const navigate = useNavigate();
   const getComments = async () => {
     try {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
-      // console.log(res.data);
       setComments(res.data.filter((comment) => comment.postId == id));
     } catch (error) {
-      // console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   };
-
   const createComment = async (type = 'normal') => {
     if (!isLogin) {
-      alert('迷路的尋者唷！您尚未登入唷');
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔!',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
       return;
     }
 
-    if (newComments === '') {
-      alert('親愛的尋者唷！說點啥！');
+    if (!newComment) {
+      AlertModal.customMessage({
+        text: '親愛的尋者唷！說點啥！',
+      });
       return;
     }
     try {
-      const res = await axios.post(`${VITE_BASE_URL}/comments`, {
+      await axios.post(`${VITE_BASE_URL}/comments`, {
         postId,
         userId: getUserId(uid),
         type,
-        comment: newComments,
+        comment: newComment,
         createDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
-      console.log(res);
-      setNewComments('');
+      setNewComment('');
       getComments();
     } catch (error) {
-      // console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   };
 
@@ -121,8 +134,8 @@ const PostComments = ({ id, commentCount }) => {
           type="text"
           className="form-control"
           placeholder="寫下你的留言"
-          value={newComments || ''}
-          onChange={(e) => setNewComments(e.target.value)}
+          value={newComment || ''}
+          onChange={(e) => setNewComment(e.target.value)}
         />
         <button
           type="button"
@@ -158,6 +171,11 @@ const PostComments = ({ id, commentCount }) => {
       </div>
     </div>
   );
+};
+
+PostComments.propTypes = {
+  id: PropTypes.string.isRequired,
+  commentCount: PropTypes.number.isRequired,
 };
 
 export default PostComments;

@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { setIsLogin } from '../redux/LoginStateSlice';
-const baseUrl = 'https://ec-course-api.hexschool.io/v2';
+import AlertModal from '../components/AlertModal';
+const { VITE_LOGIN_URL } = import.meta.env;
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,12 +24,11 @@ const Login = () => {
 
   const signin = async (formData) => {
     try {
-      const { email, password, check } = formData;
-      const res = await axios.post(`${baseUrl}/admin/signin`, {
+      const { email, password } = formData;
+      const res = await axios.post(`${VITE_LOGIN_URL}/admin/signin`, {
         username: email,
         password,
       });
-      console.log(res);
       reset();
       dispatch(
         setIsLogin({
@@ -36,6 +36,9 @@ const Login = () => {
           isLogin: true,
         })
       );
+      AlertModal.successMessage({
+        text: '尊敬的尋者唷！歡迎回來！',
+      });
       navigate('/');
     } catch (error) {
       console.log(error);
