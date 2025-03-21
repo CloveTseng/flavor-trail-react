@@ -18,6 +18,7 @@ import RectangleCTAButton from '../components/RectangleCTAButton';
 import { getLoginUserInfo } from '../redux/LoginStateSlice';
 import { getUserId, checkFoodApplications } from '../utils/loginUser';
 import ShareFoodEditModal from '../components/ShareFoodEditModal';
+import AlertModal from '../components/AlertModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -85,7 +86,10 @@ const Post = () => {
         res.data.food.expiryDate
       );
     } catch (error) {
-      alert(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
       navigate('*');
     } finally {
       setLoading(false);
@@ -123,12 +127,17 @@ const Post = () => {
   });
   const openApplyModal = (post) => {
     if (!isLogin) {
-      alert('迷路的尋者唷！您尚未登入唷！');
+      AlertModal.customMessage({
+        icon: 'warning',
+        text: '迷路的尋者唷！您尚未登入唷！',
+      });
       return;
     }
 
     if (checkFoodApplications(userInfo.foodApplications, post.id)) {
-      alert('尊敬的尋者唷！您已申請了唷，請等候通知！');
+      AlertModal.customMessage({
+        text: '尊敬的尋者唷！您已申請了唷，請等候通知！',
+      });
       return;
     }
     setApplyInfo((pre) => ({

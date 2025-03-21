@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 import { getUserId } from '../../utils/loginUser';
 import PropTypes from 'prop-types';
+import AlertModal from '../AlertModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
@@ -20,18 +21,25 @@ const PostComments = ({ id, commentCount }) => {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
       setComments(res.data.filter((comment) => comment.postId == id));
     } catch (error) {
-      console.log('getComments', error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   };
-
   const createComment = async (type = 'normal') => {
     if (!isLogin) {
-      alert('迷路的尋者唷！您尚未登入唷');
+      AlertModal.customMessage({
+        icon: 'warning',
+        text: '迷路的尋者唷！您尚未登入唷！',
+      });
       return;
     }
 
     if (!newComment) {
-      alert('親愛的尋者唷！說點啥！');
+      AlertModal.customMessage({
+        text: '親愛的尋者唷！說點啥！',
+      });
       return;
     }
     try {
@@ -45,7 +53,10 @@ const PostComments = ({ id, commentCount }) => {
       setNewComment('');
       getComments();
     } catch (error) {
-      console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   };
 

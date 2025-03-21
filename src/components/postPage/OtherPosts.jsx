@@ -4,6 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/zh-tw';
 dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
+import AlertModal from '../AlertModal';
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
@@ -31,7 +32,10 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
         const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
         setOtherPosts(getOtherPosts(res.data, 3));
       } catch (error) {
-        console.log(error);
+        AlertModal.errorMessage({
+          title: '連線失敗',
+          text: `${error}，請稍後再試`,
+        });
       }
     })();
   }, [id]);

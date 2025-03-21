@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { Modal } from 'bootstrap';
 import dayjs from 'dayjs';
+import { Modal } from 'bootstrap';
+import toast from 'react-hot-toast';
+import AlertModal from './AlertModal';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
@@ -22,7 +24,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
 
   const applyFood = async () => {
     try {
-      const res = await axios.post(`${VITE_BASE_URL}/applications`, {
+      await axios.post(`${VITE_BASE_URL}/applications`, {
         postId,
         userId,
         type: '申請通知',
@@ -30,11 +32,13 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
         status: '待回覆',
         created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       });
-      console.log(res);
       dispatch(getLoginUserInfo(userId));
-      alert('尊敬的尋者唷！領取申請已送出，請靜候通知！');
+      toast.success('尊敬的尋者唷！領取申請已送出，請靜候通知！');
     } catch (error) {
-      console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     } finally {
       closeApplyModal();
     }
