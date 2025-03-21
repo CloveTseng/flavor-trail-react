@@ -6,6 +6,7 @@ import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
 import logo from '/assets/images/Logo.png';
 import { toast } from 'react-hot-toast';
+import FullScreenLoading from '../../components/FullScreenLoading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '1';
@@ -100,7 +101,11 @@ function AccountSettingForm() {
   };
 
   if (!accountData) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <FullScreenLoading />
+      </div>
+    );
   }
 
   return (

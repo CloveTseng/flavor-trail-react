@@ -4,6 +4,7 @@ import ReceiveModal from '../../components/account-notify/ReceiveModal';
 import AccountFilter from '../../components/account/AccountFilter';
 import AccountFilterStatus from '../../components/account/AccountFilterStatus';
 import { useEffect, useState } from 'react';
+import FullScreenLoading from '../../components/FullScreenLoading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -72,7 +73,9 @@ function AccountNotifications() {
           placeholder="搜尋通知"
           filterOptions={['all', 'apply', 'receive', 'comment']}
         />
-        <div className="ms-10">Loading...</div>
+        <div className="ms-10">
+          <FullScreenLoading />
+        </div>
       </>
     );
   }
