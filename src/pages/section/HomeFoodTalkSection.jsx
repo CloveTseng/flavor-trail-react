@@ -79,7 +79,7 @@ const HomeFoodTalkSection = () => {
     }, 3000);
 
     return () => clearInterval(timer);
-  }, [flag]);
+  }, [flag, feedbacks, allFeedbacks]);
 
   return (
     <section className="bg-deco-coral py-lg-18 py-12">
