@@ -40,21 +40,9 @@ const ShareFoodEditModal = ({
   //監聽 tempPost 變化，確保表單數據更新
   useEffect(() => {
     if (tempPost && Object.keys(tempPost).length > 0) {
-      reset(tempPost); // ✅ 重新載入表單數據
-
-      // ✅ 確保 TimePicker 獲取 API 值
-      const pickupTime = tempPost?.pickup?.time || '';
-      const [startTime, endTime] = pickupTime.split(' - ');
-
-      setValue('pickup.time', pickupTime);
-      setValue('pickup.startTime', startTime || '');
-      setValue('pickup.endTime', endTime || '');
-
-      // ✅ 強制更新 CityDistrictSelector
-      setValue('pickup.city', tempPost.pickup.city || '');
-      setValue('pickup.district', tempPost.pickup.district || '');
+      reset(tempPost); //重新載入表單數據
     }
-  }, [tempPost]); // ✅ **去掉 `reset`，確保 `tempPost` 變更時能執行**
+  }, [tempPost, reset]); //去掉 `reset`，確保 `tempPost` 變更時能執行
   const handleDateChange = (date) => {
     setValue('food.expiryDate', dayjs(date).format('YYYY-MM-DD'));
   };
@@ -69,7 +57,7 @@ const ShareFoodEditModal = ({
     const imagesUrlArray = imagesUrl ? [imagesUrl] : [];
     const id = tempPost.id;
     try {
-      const res = await axios.patch(`${BASE_URL}/posts/${id}`, {
+      await axios.patch(`${BASE_URL}/posts/${id}`, {
         ...rest,
         redeemCode: uid,
         food: {
@@ -86,9 +74,9 @@ const ShareFoodEditModal = ({
         },
         imagesUrl: imagesUrlArray,
       });
-      console.log('測試 data', data);
-      console.log(getValues());
-      console.log('res:', res.data);
+      // console.log('測試 data', data);
+      // console.log(getValues());
+      // console.log('res:', res.data);
       toast.success('成功更新貼文！');
       getPosts();
       closeEditModal();
