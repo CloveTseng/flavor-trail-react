@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { get } from 'lodash';
@@ -56,4 +57,17 @@ const SelectBox = ({
     </>
   );
 };
+
+SelectBox.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  labelText: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  apiEndpoint: PropTypes.string.isRequired,
+  optionLabelKey: PropTypes.string.isRequired,
+  optionValueKey: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
+
 export default SelectBox;

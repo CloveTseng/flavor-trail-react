@@ -6,7 +6,7 @@ dayjs.extend(relativeTime);
 dayjs.locale('zh-tw');
 import AlertModal from '../AlertModal';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -16,15 +16,18 @@ const logoUrl = './assets/images/Logo.png';
 const OtherPosts = ({ id, isDisabled, clickMethod }) => {
   const [otherPosts, setOtherPosts] = useState(null);
 
-  const getOtherPosts = (posts, count) => {
-    let tempPosts = [...posts].filter((post) => post.id != id);
-    let otherPosts = [];
-    for (let i = 0; i < count; i++) {
-      let randomIndex = Math.floor(Math.random() * tempPosts.length);
-      otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
-    }
-    return otherPosts;
-  };
+  const getOtherPosts = useCallback(
+    (posts, count) => {
+      let tempPosts = [...posts].filter((post) => post.id != id);
+      let otherPosts = [];
+      for (let i = 0; i < count; i++) {
+        let randomIndex = Math.floor(Math.random() * tempPosts.length);
+        otherPosts.push(tempPosts.splice(randomIndex, 1)[0]);
+      }
+      return otherPosts;
+    },
+    [id]
+  );
 
   useEffect(() => {
     (async () => {
@@ -38,7 +41,7 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
         });
       }
     })();
-  }, [id]);
+  }, [id, getOtherPosts]);
 
   return (
     <div className="mt-5">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -75,30 +75,35 @@ const Post = () => {
     }
   };
 
-  const getPost = async (id) => {
-    setLoading(true);
-    try {
-      const res = await axios.get(`${VITE_BASE_URL}/posts/${id}?_expand=user`);
-      setPost(res.data);
-      handlePostTag(
-        res.data.likeCount,
-        res.data.createdPostDate,
-        res.data.food.expiryDate
-      );
-    } catch (error) {
-      AlertModal.errorMessage({
-        title: '連線失敗',
-        text: `${error}，請稍後再試`,
-      });
-      navigate('*');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getPost = useCallback(
+    async (id) => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          `${VITE_BASE_URL}/posts/${id}?_expand=user`
+        );
+        setPost(res.data);
+        handlePostTag(
+          res.data.likeCount,
+          res.data.createdPostDate,
+          res.data.food.expiryDate
+        );
+      } catch (error) {
+        AlertModal.errorMessage({
+          title: '連線失敗',
+          text: `${error}，請稍後再試`,
+        });
+        navigate('*');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [navigate]
+  );
   //取得貼文
   useEffect(() => {
     getPost(id);
-  }, [id]);
+  }, [id, getPost]);
 
   //編輯貼文
   const editModalRef = useRef(null);
@@ -208,7 +213,7 @@ const Post = () => {
     if (isLogin) {
       dispatch(getLoginUserInfo(getUserId(uid)));
     }
-  }, [isLogin]);
+  }, [isLogin, dispatch, uid]);
 
   return (
     <>
