@@ -76,7 +76,7 @@ const CircleCTAButton = ({
     });
 
     return () => CTATrigger.kill();
-  }, []);
+  }, [endPosition, endTriggerRef, startPosition, startTriggerRef]);
 
   return (
     <div className='cta-button d-lg-block d-none' ref={circleCTARef}>
