@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
@@ -16,7 +16,7 @@ const PostComments = ({ id, commentCount }) => {
   const { id: postId } = useParams();
   const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const navigate = useNavigate();
-  const getComments = async () => {
+  const getComments = useCallback(async () => {
     try {
       const res = await axios.get(`${VITE_BASE_URL}/comments?_expand=user`);
       setComments(res.data.filter((comment) => comment.postId == id));
@@ -26,7 +26,7 @@ const PostComments = ({ id, commentCount }) => {
         text: `${error}，請稍後再試`,
       });
     }
-  };
+  }, [id]);
   const createComment = async (type = 'normal') => {
     if (!isLogin) {
       AlertModal.confirmAction({
@@ -68,7 +68,7 @@ const PostComments = ({ id, commentCount }) => {
 
   useEffect(() => {
     getComments();
-  }, [id]);
+  }, [id, getComments]);
 
   return (
     <div className="bg-white rounded-3 p-5 mt-5 mb-14">
