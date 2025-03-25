@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 const RadioGroup = ({
@@ -48,6 +49,21 @@ const RadioGroup = ({
       </div>
     </div>
   );
+};
+
+RadioGroup.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  labelText: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default RadioGroup;

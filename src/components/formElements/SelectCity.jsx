@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 const SelectCity = ({
@@ -41,5 +42,20 @@ const SelectCity = ({
     </div>
   );
 };
-
+SelectCity.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  labelText: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      [PropTypes.string]: PropTypes.any, // 或可針對你的資料結構細化
+    })
+  ),
+  optionLabelKey: PropTypes.string.isRequired,
+  optionValueKey: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+};
 export default SelectCity;

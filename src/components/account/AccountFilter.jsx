@@ -151,7 +151,7 @@ function AccountFilter({
                 </span>
                 <span
                   className={`badge text-primary rounded-circle fw-medium ${
-                    filter === option ? 'bg-white' : 'bg-bedge-color'
+                    filter === option ? 'bg-white' : 'bg-badge-color'
                   }`}
                 >
                   {filterOptionDetails[option].count}

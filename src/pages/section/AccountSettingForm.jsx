@@ -57,6 +57,7 @@ function AccountSettingForm() {
         console.log(error);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -64,6 +65,7 @@ function AccountSettingForm() {
       return getValues(key) !== initialValues[key];
     });
     setIsFormChanged(hasChanged);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchAllFields]);
 
   const changeData = async (data) => {
