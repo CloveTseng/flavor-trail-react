@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 const InputText = ({ register, errors, id, labelText, rules, name, type }) => {
@@ -18,6 +19,16 @@ const InputText = ({ register, errors, id, labelText, rules, name, type }) => {
       )}
     </div>
   );
+};
+
+InputText.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  labelText: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default InputText;

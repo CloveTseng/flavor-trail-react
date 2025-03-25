@@ -10,8 +10,6 @@ import InputText from '../formElements/InputText';
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const ReceiveModal = ({ app, onClose }) => {
-  if (!app) return null;
-
   const {
     register,
     watch,
@@ -23,25 +21,53 @@ const ReceiveModal = ({ app, onClose }) => {
   });
 
   const popoverRefPC = useRef(null);
+  const popoverRefPhone = useRef(null);
+  const isProcessingRef = useRef(false);
+
+  const [, setShowCodeHint] = useState(false);
+  const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [, setCancelClickCountPC] = useState(0);
+  const [, setCancelClickCountPhone] = useState(0);
+  const [isCorrectCode, setIsCorrectCode] = useState(null);
+
+  const getCodePCValue = watch('getCodePC');
+  const getCodePhoneValue = watch('getCodePhone');
+
+  useEffect(() => {
+    if (getCodePCValue || getCodePhoneValue) {
+      setShowCodeHint(false);
+    }
+  }, [getCodePCValue, getCodePhoneValue]);
+
+  useEffect(() => {
+    let popoverPC = null;
+    let popoverPhone = null;
+
+    if (popoverRefPC.current) {
+      popoverPC = new bootstrap.Popover(popoverRefPC.current, {
+        trigger: 'focus',
+      });
+    }
+    if (popoverRefPhone.current) {
+      popoverPhone = new bootstrap.Popover(popoverRefPhone.current, {
+        trigger: 'focus',
+      });
+    }
+    return () => {
+      popoverPC?.dispose();
+      popoverPhone?.dispose();
+    };
+  }, []);
+
+  if (!app) return null;
+
   const title = app.post.title;
   const replyMessage = app.replyMessage;
   const postId = app.post.id;
   const redeemCode = app.post.redeemCode;
   const appId = app.id;
 
-  const popoverRefPhone = useRef(null);
-  const isProcessingRef = useRef(false);
-
-  const [showCodeHint, setShowCodeHint] = useState(false);
-
-  const [isCodeVerified, setIsCodeVerified] = useState(false);
-  const [cancelClickCountPC, setCancelClickCountPC] = useState(0);
-  const [cancelClickCountPhone, setCancelClickCountPhone] = useState(0);
-  const [isCorrectCode, setIsCorrectCode] = useState(null);
-
-  const refreshPage = () => {
-    window.location.reload();
-  };
+  const refreshPage = () => window.location.reload();
 
   const changeAPPStatus = async () => {
     if (isProcessingRef.current) return;
@@ -86,9 +112,6 @@ const ReceiveModal = ({ app, onClose }) => {
     });
   };
 
-  const getCodePCValue = watch('getCodePC');
-  const getCodePhoneValue = watch('getCodePhone');
-
   const handleCheckCode = () => {
     const codePC = getCodePCValue;
     const codePhone = getCodePhoneValue;
@@ -107,35 +130,7 @@ const ReceiveModal = ({ app, onClose }) => {
     }
   };
 
-  const handleFocus = () => {
-    setShowCodeHint(true);
-  };
-
-  useEffect(() => {
-    if (getCodePCValue || getCodePhoneValue) {
-      setShowCodeHint(false);
-    }
-  }, [getCodePCValue, getCodePhoneValue]);
-
-  useEffect(() => {
-    let popoverPC = null;
-    let popoverPhone = null;
-
-    if (popoverRefPC.current) {
-      popoverPC = new bootstrap.Popover(popoverRefPC.current, {
-        trigger: 'focus',
-      });
-    }
-    if (popoverRefPhone.current) {
-      popoverPhone = new bootstrap.Popover(popoverRefPhone.current, {
-        trigger: 'focus',
-      });
-    }
-    return () => {
-      popoverPC?.dispose();
-      popoverPhone?.dispose();
-    };
-  }, []);
+  const handleFocus = () => setShowCodeHint(true);
 
   return (
     <>

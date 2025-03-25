@@ -54,7 +54,7 @@ function AccountNotifications() {
     if (isRead === true) {
       return 'bg-white';
     } else {
-      return 'bg-bedge-color';
+      return 'bg-badge-color';
     }
   };
 
