@@ -7,7 +7,7 @@ const FullScreenLoading = () => {
     top: '0',
     left: '0',
     right: '0',
-    bootom: '0',
+    bottom: '0',
     backgroundColor: 'rgba(224, 224, 224, 0.5)',
     zIndex: '999',
     backdropFilter: 'blur(15px)',
