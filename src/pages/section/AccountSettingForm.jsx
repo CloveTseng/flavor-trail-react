@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import InputText from '../../components/formElements/InputText';
 import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
-import logo from '/assets/images/Logo.png';
+// import logo from '/assets/images/Logo.png';
+const logo = '/assets/images/Logo.png'; // 將上一行臨時改成這樣，等其他修正後再改回來
 import { toast } from 'react-hot-toast';
 import FullScreenLoading from '../../components/FullScreenLoading';
 
@@ -57,16 +58,14 @@ function AccountSettingForm() {
         console.log(error);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reset]);
 
   useEffect(() => {
     const hasChanged = Object.keys(initialValues).some((key) => {
       return getValues(key) !== initialValues[key];
     });
     setIsFormChanged(hasChanged);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchAllFields]);
+  }, [watchAllFields, initialValues, getValues]);
 
   const changeData = async (data) => {
     try {
