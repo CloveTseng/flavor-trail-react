@@ -116,11 +116,14 @@ function AccountPosts() {
                   <div className="row flex-column-reverse flex-lg-row">
                     <div className="col-lg-9 overflow-hidden d-flex flex-column">
                       <div className="flex-grow-1">
-                        <div>
+                        <div className="d-flex justify-content-between align-items-center">
                           <div className={postBadgeClass}>
                             {isExpired(item.createdPostDate)
                               ? '已過期'
                               : '未過期'}
+                          </div>
+                          <div className="text-gray-700 text-end d-block d-lg-none">
+                            {formatDate(item.createdPostDate)}
                           </div>
                         </div>
                         <div className="pt-7">
@@ -276,16 +279,6 @@ function AccountPosts() {
                           </svg>
                         </a>
                         <ul className="dropdown-menu">
-                          {/* <li>
-                              <a
-                                className="dropdown-item"
-                                href="#"
-                                data-bs-toggle="modal"
-                                data-bs-target="#shareFoodModal"
-                              >
-                                編輯貼文
-                              </a>
-                            </li> */}
                           <li>
                             <a
                               className="dropdown-item"
@@ -331,7 +324,7 @@ function AccountPosts() {
                           />
                         </Link>
                       </div>
-                      <div className="text-gray-700 text-end">
+                      <div className="text-gray-700 text-end d-none d-lg-block">
                         {formatDate(item.createdPostDate)}
                       </div>
                     </div>
