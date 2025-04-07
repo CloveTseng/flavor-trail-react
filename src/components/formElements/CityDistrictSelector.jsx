@@ -111,7 +111,7 @@ function CityDistrictSelector({
 
   return (
     <>
-      <div className='d-flex gap-2 col-lg-4'>
+      <div className="d-flex gap-2 col-lg-4">
         {/* 縣市選單 */}
         <select
           id={cityId}
@@ -124,7 +124,7 @@ function CityDistrictSelector({
           disabled={isLoading}
           value={selectedCityId}
         >
-          <option value='' disabled>
+          <option value="" disabled>
             請選擇縣市
           </option>
           {cities.map((city) => (
@@ -146,7 +146,7 @@ function CityDistrictSelector({
           disabled={!selectedCityId || isLoading || districts.length === 0}
           value={selectedDistrict}
         >
-          <option className='text-gray-700' value=''>
+          <option className="text-gray-700" value="">
             請選擇地區
           </option>
           {districts.map((district) => (
@@ -172,9 +172,5 @@ CityDistrictSelector.propTypes = {
   initialDistrict: PropTypes.string,
   cityName: PropTypes.string,
   districtName: PropTypes.string,
-};
-
-CityDistrictSelector.defaultProps = {
-  errors: {},
 };
 export default CityDistrictSelector;

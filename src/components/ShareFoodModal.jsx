@@ -390,6 +390,7 @@ const ShareFoodModal = () => {
                       <InputText
                         register={register}
                         errors={errors}
+                        type="text"
                         id="inputAddress"
                         name="pickup.address"
                         labelText="地址"
@@ -452,7 +453,7 @@ const ShareFoodModal = () => {
                         labelText="介紹與描述"
                         id="ReplyMessage"
                         name="content"
-                        rows="5"
+                        rows={5}
                         rules={{
                           required: {
                             value: true,
