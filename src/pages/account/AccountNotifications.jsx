@@ -175,7 +175,7 @@ function AccountNotifications() {
                       {formatDate(app.created_time)}
                     </time>
                   </div>
-                  <div className="col-12 col-lg-9 order-lg-2 ps-lg-6 px-0">
+                  <div className="col-lg-9 order-lg-2 ps-lg-6 px-0">
                     <h6 className="text-primary fw-bold mb-2">
                       [{app.status}]
                     </h6>
