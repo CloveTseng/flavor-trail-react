@@ -1,14 +1,14 @@
 .awesome {
+  position: relative;
+  padding-top: 193px;
+  @include media-breakpoint-up(xxl) {
+    padding-top: 356px;
+  }
+  .awesome-content {
     position: relative;
-    padding-top: 193px;
-    @include media-breakpoint-up(xxl) {
-      padding-top: 356px;
-    }
-    .awesome-content {
-      position: relative;
-      z-index: 3;
-    }
-    .awesome-img { 
+    z-index: 3;
+  }
+  .awesome-img {
     position: absolute;
     top: -40px;
     @include media-breakpoint-up(xxl) {
@@ -17,7 +17,7 @@
     right: 0;
     z-index: 0;
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       right: 0;
@@ -47,45 +47,45 @@
         height: 654px;
       }
     }
+  }
+  .awesome-title {
+    font-size: 64px;
+    letter-spacing: -2.56px;
+    @include media-breakpoint-up(lg) {
+      font-size: 80px;
+      letter-spacing: -3.2px;
     }
-    .awesome-title {
-       font-size: 64px;
-       letter-spacing: -2.56px;
+  }
+  .awesome-deco {
+    bottom: -10%;
+    left: 20%;
+    @include media-breakpoint-up(xl) {
+      left: 0;
+    }
+    @include media-breakpoint-up(xxl) {
+      left: -10%;
+    }
+    svg {
+      width: 100%;
+    }
+  }
+
+  .awesome-card-list {
+    .awesome-card-item:not(:first-child) {
+      border-top: 2px solid $deco-bright-green;
       @include media-breakpoint-up(lg) {
-        font-size: 80px;
-        letter-spacing: -3.2px;
+        border-left: 2px solid $deco-bright-green;
+        border-top: none;
       }
     }
-    .awesome-deco {
-      bottom: -10%;
-      left: 20%;
-      @include media-breakpoint-up(xl) {
-        left: 0;
+    @include media-breakpoint-up(md) {
+      .awesome-card-item:nth-child(2) {
+        border-top: none;
+        border-left: 2px solid $deco-bright-green;
       }
-      @include media-breakpoint-up(xxl) {
-        left: -10%;
-      }
-      svg {
-          width: 100%;
-      }
-    }
-  
-    .awesome-card-list {
-      .awesome-card-item:not(:first-child) {
-        border-top: 2px solid $deco-bright-green;
-        @include media-breakpoint-up(lg) {
-          border-left: 2px solid $deco-bright-green;
-          border-top: none;
-        }
-      }
-      @include media-breakpoint-up(md) {
-        .awesome-card-item:nth-child(2) {
-          border-top: none;
-          border-left: 2px solid $deco-bright-green;
-        }
-        .awesome-card-item:nth-child(4) {
-          border-left: 2px solid $deco-bright-green;
-        }
+      .awesome-card-item:nth-child(4) {
+        border-left: 2px solid $deco-bright-green;
       }
     }
   }
+}

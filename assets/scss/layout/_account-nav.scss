@@ -1,74 +1,77 @@
 .account-nav {
-    z-index: 98;
-    margin-top: 32px;
-    background: #eee;
+  z-index: 98;
+  margin-top: 32px;
+  background: #eee;
 
-    @include media-breakpoint-up(lg) {
-        margin-top: 88px;
+  @include media-breakpoint-up(lg) {
+    margin-top: 88px;
+  }
+
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .nav-item {
+    color: $gray-700;
+    width: calc(100% / 5 - 19.2px); // 24 * 4 / 5
+
+    .dashed-line {
+      width: 100%;
+      height: 2px;
+      background-image: linear-gradient(to right, #484848 66%, transparent 0);
+      background-size: 13px;
+      background-repeat: repeat-x;
     }
 
-    .navbar-nav {
-        width: 100%;
+    &:hover {
+      color: $gray-900;
+
+      .dashed-line {
+        height: 4px;
+        background-image: linear-gradient(
+          to right,
+          $primary 100%,
+          transparent 0
+        );
+      }
+
+      svg path {
+        stroke: $gray-900;
+      }
+    }
+  }
+
+  .active {
+    color: $gray-900;
+
+    .dashed-line {
+      height: 4px;
+      background-image: linear-gradient(to right, $primary 100%, transparent 0);
     }
 
-    .nav-item {
-        color: $gray-700;
-        width: calc(100% / 5 - 19.2px); // 24 * 4 / 5
-
-        .dashed-line {
-            width: 100%;
-            height: 2px;
-            background-image: linear-gradient(to right, #484848 66%, transparent 0);
-            background-size: 13px;
-            background-repeat: repeat-x;
-        }
-
-        &:hover {
-            color: $gray-900;
-
-            .dashed-line {
-                height: 4px;
-                background-image: linear-gradient(to right, $primary 100%, transparent 0);
-            }
-
-            svg path {
-                stroke: $gray-900;
-            }
-        }
-
+    svg path {
+      stroke: $gray-900;
     }
+  }
 
-    .active {
-        color: $gray-900;
+  .dropdown-menu[data-bs-popper] {
+    left: 23%;
+  }
 
-        .dashed-line {
-            height: 4px;
-            background-image: linear-gradient(to right, $primary 100%, transparent 0);
-        }
-
-        svg path {
-            stroke: $gray-900;
-        }
-    }
-
-    .dropdown-menu[data-bs-popper] {
-        left: 23%;
-    }
-
-    .custom-dropdown-menu {
-        min-width: 0%;
-        width: 164px;
-    }
+  .custom-dropdown-menu {
+    min-width: 0%;
+    width: 164px;
+  }
 }
 
 .account-filter-overflow {
-    overflow-x: scroll;
+  overflow-x: scroll;
 
-    @include media-breakpoint-up(lg) {
-        overflow-x: hidden;
-    }
+  @include media-breakpoint-up(lg) {
+    overflow-x: hidden;
+  }
 }
 
 .path-white svg path {
-    stroke: white;
+  stroke: white;
 }
