@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
-// import ShareFoodEditModal from '../components/ShareFoodEditModal';
 import CopyUid from '../../components/CopyUid';
 import FullScreenLoading from '../../components/FullScreenLoading';
 
