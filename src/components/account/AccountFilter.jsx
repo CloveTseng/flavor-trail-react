@@ -108,7 +108,7 @@ function AccountFilter({
   return (
     <div className="container">
       <h2 className="fw-bolder text-black mb-7 d-none d-lg-block">{title}</h2>
-      <div className="posts-wrap">
+      <div className="posts-wrap account-filter">
         <ul
           ref={scrollContainerRef}
           className="g-2 mt-2 mb-2 d-flex align-items-center gap-2 posts-menu 
@@ -150,7 +150,7 @@ function AccountFilter({
                   {filterOptionDetails[option].text}
                 </span>
                 <span
-                  className={`badge text-primary rounded-circle fw-medium ${
+                  className={`badge-square text-primary rounded-circle fw-medium py-2 ${
                     filter === option ? 'bg-white' : 'bg-badge-color'
                   }`}
                 >
