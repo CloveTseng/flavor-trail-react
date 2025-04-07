@@ -84,7 +84,7 @@ const HomeFoodTalkSection = () => {
   return (
     <section className="bg-deco-coral py-lg-18 py-12">
       <div className="container">
-        <div className="row mb-lg-17 d-flex flex-column flex-lg-row mb-12 mb-lg-17">
+        <div className="row mb-lg-17 flex-column flex-lg-row mb-12 mb-lg-17">
           {loadState
             ? tempFeedbacks.map((feedback) => (
                 <div className="col-lg-4 col-12 mb-7 mb-lg-0" key={feedback.id}>

@@ -408,7 +408,7 @@ function GuideLine() {
                 strokeLinejoin="round"
               />
             </svg>
-            <div className="tips-list row row-lg-cols-3 d-flex flex-column flex-lg-row justify-content-between">
+            <div className="tips-list row row-lg-cols-3 flex-column flex-lg-row justify-content-between">
               <div className="tips-item col ps-lg-0">
                 <div className="tips-border">
                   <div className="tips-subtitle fs-3 fw-bold">食物新鮮度</div>
@@ -448,7 +448,7 @@ function GuideLine() {
         <div className="container py-12 py-lg-0">
           <div className="row">
             <div className="col-lg-10 mx-auto">
-              <div className="row d-flex justify-content-between">
+              <div className="row justify-content-between">
                 <div className="col-lg-6">
                   <div className="mb-16">
                     <h3 className="fs-4 fs-lg-3 fw-bold text-gray-900 mb-7">
@@ -503,7 +503,7 @@ function GuideLine() {
         </div>
       </section>
       <section className="contact overflow-hidden nav-mt mb-18 mb-lg-19">
-        <div className="contact-info bg-white row row-lg-cols-3 d-flex flex-column flex-lg-row text-deco-green">
+        <div className="contact-info bg-white row row-lg-cols-3 flex-column flex-lg-row text-deco-green">
           <div className="col contact-info-item">
             <div className="d-flex flex-column flex-lg-row align-items-center justify-content-center py-7">
               <svg
