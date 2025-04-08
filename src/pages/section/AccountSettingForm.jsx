@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import InputText from '../../components/formElements/InputText';
 import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
-// import logo from '/assets/images/Logo.png';
-const logo = '/assets/images/Logo.png'; // 將上一行臨時改成這樣，等其他修正後再改回來
+import logo from '/assets/images/Logo.png';
 import { toast } from 'react-hot-toast';
 import FullScreenLoading from '../../components/FullScreenLoading';
 
