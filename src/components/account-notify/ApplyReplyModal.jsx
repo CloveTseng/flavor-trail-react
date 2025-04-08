@@ -16,7 +16,7 @@ function ApplyReplyModal() {
               </h1>
               <img
                 src="./assets/images/icon/x.svg"
-                alt=""
+                alt="Close"
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"

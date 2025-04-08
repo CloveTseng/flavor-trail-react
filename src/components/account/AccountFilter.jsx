@@ -171,7 +171,7 @@ function AccountFilter({
             </form>
             <img
               src="./assets/images/icon/search.svg"
-              alt=""
+              alt="icon-search"
               className="bg-white rounded-end pe-5 "
             />
           </li>

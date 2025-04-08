@@ -193,7 +193,7 @@ const ReceiveModal = ({ app, onClose }) => {
               )}
 
               <div className="d-flex align-items-center mb-7">
-                <img src="./assets/images/icon/path.svg" />
+                <img src="./assets/images/icon/path.svg" alt="icon-smile" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2 d-block d-md-inline">
                   我已經準備好囉～
                   <span className="d-block d-md-inline">

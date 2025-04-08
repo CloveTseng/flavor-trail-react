@@ -27,7 +27,7 @@ function ApplyModal({ app, onClose }) {
               </h1>
               <img
                 src="./assets/images/icon/x.svg"
-                alt=""
+                alt="Close"
                 className="ms-auto pointer p-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"
@@ -36,12 +36,12 @@ function ApplyModal({ app, onClose }) {
             </div>
             <div className="modal-body p-lg-7 py-7 px-4">
               {postId && (
-                <Link to={`/post/${postId}`} alt="" className="d-block mb-7">
+                <Link to={`/post/${postId}`} className="d-block mb-7">
                   <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0 bg-gray-200">
                     <div className="d-flex align-items-center">
                       <img
                         src={app.post.imagesUrl}
-                        alt=""
+                        alt="icon-smile"
                         className="nofify-modal-img rounded-1"
                       />
                       <h5 className="fw-bold ps-5 text-nowrap overflow-hidden text-overflow pe-2">

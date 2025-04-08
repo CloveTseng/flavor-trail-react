@@ -146,7 +146,7 @@ function GuideLine() {
                     </div>
                     <div className="col">
                       <div className="d-flex flex-column align-items-lg-start align-items-center pt-12 mb-14 pt-lg-0 mb-lg-0">
-                        <img src="./assets/images/deco/guide-1.svg" alt="" />
+                        <img src="./assets/images/deco/guide-1.svg" alt="deco-guide-1" />
                         <h3 className="text-deco-bright-green pt-7 fw-bold">
                           發佈食物大作戰
                         </h3>
@@ -169,7 +169,7 @@ function GuideLine() {
                     <div className="col">
                       <div className="mb-14 mb-lg-0 ">
                         <div className="text-center text-lg-start">
-                          <img src="./assets/images/deco/guide-2.svg" alt="" />
+                          <img src="./assets/images/deco/guide-2.svg" alt="deco-guide-2" />
                           <h3 className="text-deco-bright-green pt-7 fw-bold">
                             追蹤申請狀態
                           </h3>
@@ -188,7 +188,7 @@ function GuideLine() {
                     <div className="col">
                       <div className="mb-12 mb-lg-0 d-flex flex-column align-items-lg-start align-items-md-center">
                         <div className="text-center text-lg-start">
-                          <img src="./assets/images/deco/guide-3.svg" alt="" />
+                          <img src="./assets/images/deco/guide-3.svg" alt="deco-guide-3" />
                           <h3 className="text-deco-bright-green pt-7 fw-bold">
                             面交步驟
                           </h3>

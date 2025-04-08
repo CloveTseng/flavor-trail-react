@@ -145,7 +145,7 @@ const ShareFoodModal = () => {
                 </h1>
                 <img
                   src="./assets/images/icon/x.svg"
-                  alt=""
+                  alt="Close"
                   className="ms-auto pointer"
                   data-bs-dismiss="modal"
                   aria-label="Close"

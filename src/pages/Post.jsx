@@ -307,7 +307,7 @@ const Post = () => {
                             >
                               <img
                                 src="../assets/images/icon/square-pen.svg"
-                                alt=""
+                                alt="icon-edit"
                               />
                             </button>
                           </div>
