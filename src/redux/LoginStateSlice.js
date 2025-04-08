@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from 'react-hot-toast';
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -59,7 +60,7 @@ const LoginStateSlice = createSlice({
 
 export const getLoginUserInfo = createAsyncThunk(
   'LoginState/getUserInfo',
-  async (id, { dispatch }) => {
+  async (id, { dispatch, rejectWithValue }) => {
     try {
       const [userRes, applicationsRes] = await Promise.all([
         axios.get(`${VITE_BASE_URL}/users/${id}`),
@@ -72,12 +73,13 @@ export const getLoginUserInfo = createAsyncThunk(
         foodApplications
       }
       dispatch(setLoginIdentity(userInfo))
+      return userInfo;
     } catch (error) {
-      console.log(error);
+      toast.error(`無法載入用戶資料: ${error.message || '發生未知錯誤'}`);
+      return rejectWithValue(error.message || '發生未知錯誤');
     }
   }
 )
-
 
 export default LoginStateSlice.reducer;
 export const { setIsLogin, setLoginIdentity, setLogout } = LoginStateSlice.actions;

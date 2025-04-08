@@ -69,11 +69,6 @@ function AllPosts() {
     // If it is empty, return null.
     return LoginPerson.length > 0 ? LoginPerson[0].userId : null;
   };
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     console.log('登入者id:', getUserId(uid));
-  //   }
-  // }, [isLogin, identity]);
 
   // 如果 URL 中有參數，則自動設置相應的篩選條件
   useEffect(() => {
@@ -90,7 +85,6 @@ function AllPosts() {
 
   // 當 URL 參數變化時，更新搜尋關鍵字
   useEffect(() => {
-    // console.log('URL 关键词:', urlKeyword);
     handleClearFilter();
     if (urlKeyword) {
       setSearchKeyword(urlKeyword);
@@ -201,7 +195,6 @@ function AllPosts() {
       setPosts(resPosts.data);
       setResult(resPosts.data);
       setLoading(false);
-      // console.log('貼文資料:', resPosts.data);
     } catch (error) {
       alert(error);
     } finally {
@@ -264,7 +257,6 @@ function AllPosts() {
       tempData = tempDataNewSort.sort(
         (a, b) => new Date(b.createdPostDate) - new Date(a.createdPostDate)
       ); //排序新到舊
-      // console.log(tempData);
     }
     // 熱門貼文 且為選取的縣市
     if (activeCity !== '地理位置') {
@@ -296,7 +288,6 @@ function AllPosts() {
     try {
       const { data } = await axios.get(`${VITE_BASE_URL}/posts/${postId}`);
       setTempPost(data); // 確保資料結構正確
-      // console.log(data);
       setLoading(false);
       myEditModal.current.show();
     } catch (error) {

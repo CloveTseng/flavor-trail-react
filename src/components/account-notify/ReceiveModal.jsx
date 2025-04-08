@@ -84,7 +84,7 @@ const ReceiveModal = ({ app, onClose }) => {
       );
       refreshPage();
     } catch (errors) {
-      console.log(errors);
+      toast.error(`取消領取失敗: ${errors.message || '未知錯誤'}`);
     } finally {
       onClose();
     }

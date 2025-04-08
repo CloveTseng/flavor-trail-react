@@ -55,7 +55,7 @@ function AccountSettingForm() {
         setInitialValues(initialData);
         reset(initialData);
       } catch (error) {
-        console.log(error);
+        toast.error(`無法載入個人資料: ${error.message || '發生未知錯誤'}`);
       }
     })();
   }, [reset]);
@@ -73,7 +73,7 @@ function AccountSettingForm() {
       setAccountData(res.data);
       window.location.reload();
     } catch (error) {
-      console.log(error.message);
+      toast.error(`更新個人資料失敗: ${error.message || '發生未知錯誤'}`)
     }
   };
 
@@ -91,7 +91,7 @@ function AccountSettingForm() {
       );
       window.location.reload();
     } catch (error) {
-      console.log(error.message);
+      toast.error(`刪除照片失敗: ${error.message || '發生未知錯誤'}`);
     }
   };
 
