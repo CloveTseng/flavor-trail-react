@@ -165,9 +165,6 @@ function AccountPosts() {
                               <div className="text-nowrap">
                                 {item.pickup.city}
                               </div>
-                              <div className="text-nowrap">
-                                {item.pickup.district}
-                              </div>
                             </div>
                           </div>
                           <div className="d-flex align-items-center">
