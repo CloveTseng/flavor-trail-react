@@ -134,7 +134,7 @@ function AccountNotifications() {
         <ul className="row">
           {filteredAppData.length > 0 ? (
             filteredAppData.map((app) => (
-              <li className="col-12 px-0" key={app.id}>
+              <li className="px-0" key={app.id}>
                 <a
                   className={`notify-cover row align-items-center position-relative stretched-link p-7 border-bottom border-gray-400 mx-4 ${getBackgroundColorClass(
                     app.isRead
