@@ -1,46 +1,48 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import ApplyReplyModal from './ApplyReplyModal';
 
-function ApplyModal({ app, onClose }) {
+function ApplyModal({ app, onClose, onAgree }) {
   if (!app) return null;
 
   const title = app.post.title;
   const message = app.message;
   const postId = app.post.id;
+  const postImage = Array.isArray(app.post.imagesUrl)
+    ? app.post.imagesUrl[0]
+    : app.post.imagesUrl;
 
   return (
     <>
+      {/* Modal 背景 */}
+      <div className="modal-backdrop fade show"></div>
+
+      {/* Modal 內容 */}
       <div
-        className="modal fade notify"
-        id="notifyApplyModal"
-        aria-hidden="true"
-        aria-labelledby="ModalToggleLabel"
+        className="modal fade show d-block notify"
+        aria-hidden="false"
         tabIndex="-1"
-        onClick={onClose}
       >
         <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
           <div className="modal-content bg-white">
+            {/* Header */}
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
-              <h1 className="modal-title fw-bolder lh-xs" id="ModalToggleLabel">
-                申請通知
-              </h1>
+              <h1 className="modal-title fw-bolder lh-xs">申請通知</h1>
               <img
                 src="./assets/images/icon/x.svg"
                 alt="Close"
                 className="ms-auto pointer p-2"
-                data-bs-dismiss="modal"
-                aria-label="Close"
                 onClick={onClose}
               />
             </div>
+
+            {/* Body */}
             <div className="modal-body p-lg-7 py-7 px-4">
               {postId && (
                 <Link to={`/post/${postId}`} className="d-block mb-7">
                   <div className="d-flex justify-content-between align-items-center alert alert-secondary p-1 border-0 bg-gray-200">
                     <div className="d-flex align-items-center">
                       <img
-                        src={app.post.imagesUrl}
+                        src={postImage}
                         alt="icon-smile"
                         className="nofify-modal-img rounded-1"
                       />
@@ -54,7 +56,6 @@ function ApplyModal({ app, onClose }) {
                         height="24"
                         viewBox="0 0 16 16"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           d="M6 12L10 8L6 4"
@@ -70,29 +71,27 @@ function ApplyModal({ app, onClose }) {
               )}
 
               <div className="d-flex align-items-center mb-7">
-                <img src="./assets/images/icon/path.svg" alt="" />
+                <img src="./assets/images/icon/path.svg" alt="icon-path" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2">
                   我喜歡你的食物，我想要領取！
                 </h4>
               </div>
+
               <h6 className="fw-bold mb-2">{app.user.nickName}：</h6>
               <p className="text-gray-700 d-inline-block">{message}</p>
             </div>
+
+            {/* Footer */}
             <div className="modal-footer py-7 p-lg-7">
-              <button
-                type="button"
-                className="btn"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={onClose}
-              >
+              <button type="button" className="btn" onClick={onClose}>
                 拒絕
               </button>
               <button
                 className="btn btn-primary"
-                data-bs-target="#notifyApplyModal2"
-                data-bs-toggle="modal"
-                data-bs-dismiss="modal"
+                onClick={() => {
+                  onClose();
+                  onAgree();
+                }}
               >
                 同意
               </button>
@@ -100,16 +99,17 @@ function ApplyModal({ app, onClose }) {
           </div>
         </div>
       </div>
-      <ApplyReplyModal />
     </>
   );
 }
+
 ApplyModal.propTypes = {
   app: PropTypes.shape({
     post: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      imagesUrl: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      imagesUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+        .isRequired,
     }).isRequired,
     user: PropTypes.shape({
       nickName: PropTypes.string.isRequired,
@@ -117,5 +117,7 @@ ApplyModal.propTypes = {
     message: PropTypes.string.isRequired,
   }),
   onClose: PropTypes.func.isRequired,
+  onAgree: PropTypes.func.isRequired,
 };
+
 export default ApplyModal;
