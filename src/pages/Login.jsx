@@ -41,8 +41,10 @@ const Login = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
-      alert(`${error.response.data.error?.message}`);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   };
 

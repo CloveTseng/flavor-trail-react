@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import AlertModal from "../components/AlertModal";
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -73,7 +74,10 @@ export const getLoginUserInfo = createAsyncThunk(
       }
       dispatch(setLoginIdentity(userInfo))
     } catch (error) {
-      console.log(error);
+      AlertModal.errorMessage({
+        title: '連線失敗',
+        text: `${error}，請稍後再試`,
+      });
     }
   }
 )
