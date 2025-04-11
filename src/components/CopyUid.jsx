@@ -48,6 +48,10 @@ const CopyUid = ({ uid, disabled }) => {
             src={disabledImg}
             alt={disabled ? '無法複製' : '複製'}
             className="px-1"
+            style={{
+              filter:
+                'invert(73%) sepia(81%) saturate(7492%) hue-rotate(157deg) brightness(98%) contrast(101%)',
+            }}
           />
           <span className="text-gray-700 px-1 ">
             {disabled ? '複製碼已過期' : '複製領取碼'}

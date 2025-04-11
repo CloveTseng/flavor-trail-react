@@ -7,6 +7,7 @@
 
     &__list-item {
         cursor: pointer;
+
         &:hover {
             background-color: $primary;
             color: $white;
@@ -16,6 +17,7 @@
 
     &__result-clear {
         background-color: $gray-200;
+
         &:hover {
             background-color: $primary;
             color: $white;
@@ -25,5 +27,18 @@
                 stroke: $white;
             }
         }
+    }
+}
+
+.account-filter {
+    .badge-square {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 18px;
+        font-size: 12px;
+        height: 18px;
+        padding: 0;
+        border-radius: 50%;
     }
 }

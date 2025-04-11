@@ -8,7 +8,7 @@ function AccountSettingModalPassword() {
         aria-labelledby="passwordModalToggleLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="accountModal modal-content bg-white">
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
               <h2
@@ -19,7 +19,7 @@ function AccountSettingModalPassword() {
               </h2>
               <img
                 src="/assets/images/icon/x.svg"
-                alt=""
+                alt="close"
                 className="ms-auto p-2 pointer"
                 data-bs-dismiss="modal"
                 aria-label="Close"
