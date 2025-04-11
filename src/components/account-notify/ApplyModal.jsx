@@ -13,18 +13,18 @@ function ApplyModal({ app, onClose, onAgree }) {
 
   return (
     <>
-      {/* Modal 背景 */}
       <div className="modal-backdrop fade show"></div>
-
-      {/* Modal 內容 */}
       <div
         className="modal fade show d-block notify"
         aria-hidden="false"
         tabIndex="-1"
+        onClick={onClose}
       >
-        <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
+        <div
+          className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="modal-content bg-white">
-            {/* Header */}
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
               <h1 className="modal-title fw-bolder lh-xs">申請通知</h1>
               <img
@@ -35,7 +35,6 @@ function ApplyModal({ app, onClose, onAgree }) {
               />
             </div>
 
-            {/* Body */}
             <div className="modal-body p-lg-7 py-7 px-4">
               {postId && (
                 <Link to={`/post/${postId}`} className="d-block mb-7">
@@ -81,7 +80,6 @@ function ApplyModal({ app, onClose, onAgree }) {
               <p className="text-gray-700 d-inline-block">{message}</p>
             </div>
 
-            {/* Footer */}
             <div className="modal-footer py-7 p-lg-7">
               <button type="button" className="btn" onClick={onClose}>
                 拒絕

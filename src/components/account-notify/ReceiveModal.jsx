@@ -27,7 +27,7 @@ const ReceiveModal = ({ app, onClose }) => {
   const [, setShowCodeHint] = useState(false);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [, setCancelClickCountPC] = useState(0);
-  // const [, setCancelClickCountPhone] = useState(0);
+  const [, setCancelClickCountPhone] = useState(0);
   const [isCorrectCode, setIsCorrectCode] = useState(null);
 
   const getCodePCValue = watch('getCodePC');
@@ -102,16 +102,16 @@ const ReceiveModal = ({ app, onClose }) => {
     });
   };
 
-  // const handleCancelClickPhone = () => {
-  //   setCancelClickCountPhone((prev) => {
-  //     const newCount = prev + 1;
-  //     if (newCount === 2) {
-  //       setCancelClickCountPhone(0);
-  //       changeAPPStatus();
-  //     }
-  //     return newCount;
-  //   });
-  // };
+  const handleCancelClickPhone = () => {
+    setCancelClickCountPhone((prev) => {
+      const newCount = prev + 1;
+      if (newCount === 2) {
+        setCancelClickCountPhone(0);
+        changeAPPStatus();
+      }
+      return newCount;
+    });
+  };
 
   const handleCheckCode = () => {
     const correct =
@@ -131,10 +131,7 @@ const ReceiveModal = ({ app, onClose }) => {
 
   return (
     <>
-      {/* Modal 背景 */}
       <div className="modal-backdrop fade show"></div>
-
-      {/* Modal 內容 */}
       <div
         className="modal fade show d-block notify"
         aria-hidden="false"
@@ -146,7 +143,6 @@ const ReceiveModal = ({ app, onClose }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="modal-content bg-white">
-            {/* Header */}
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
               <h1 className="modal-title fw-bolder lh-xs">領取通知</h1>
               <img
@@ -156,8 +152,6 @@ const ReceiveModal = ({ app, onClose }) => {
                 onClick={onClose}
               />
             </div>
-
-            {/* Body */}
             <div className="modal-body p-lg-7 py-7 px-4">
               {postId && (
                 <Link to={`/post/${postId}`} className="d-block mb-7">
@@ -191,7 +185,6 @@ const ReceiveModal = ({ app, onClose }) => {
                   </div>
                 </Link>
               )}
-
               <div className="d-flex align-items-center mb-7">
                 <img src="./assets/images/icon/path.svg" alt="icon-path" />
                 <h4 className="fw-bold fs-5 fs-lg-4 ps-2 d-block d-md-inline">
@@ -201,7 +194,6 @@ const ReceiveModal = ({ app, onClose }) => {
                   </span>
                 </h4>
               </div>
-
               <p className="text-gray-700 d-inline-block">{replyMessage}</p>
             </div>
 
@@ -216,7 +208,6 @@ const ReceiveModal = ({ app, onClose }) => {
                 >
                   放棄領取
                 </button>
-
                 <form className="d-flex align-items-center mb-2">
                   <div className="me-2">
                     <InputText
@@ -245,7 +236,27 @@ const ReceiveModal = ({ app, onClose }) => {
               </div>
             </div>
 
-            {/* 手機版 footer 可以之後一起優化！ */}
+            {/* 手機版 footer  */}
+            <div className="d-sm-none border-top text-end">
+              <div className="my-7 mx-4">
+                <button
+                  ref={popoverRefPhone}
+                  type="button"
+                  className="btn btn-white"
+                  onClick={handleCancelClickPhone}
+                >
+                  放棄領取
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleCheckCode}
+                  disabled={!getCodePhoneValue || isCodeVerified}
+                >
+                  {isCodeVerified ? '已領取' : '馬上領取'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
