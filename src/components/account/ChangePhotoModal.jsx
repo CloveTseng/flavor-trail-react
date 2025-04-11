@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const USER_ID = '2';
+const USER_ID = '1';
 
 const ChangePhotoModal = () => {
   const { register, handleSubmit, watch, reset } = useForm({
