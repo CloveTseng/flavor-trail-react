@@ -1,123 +1,125 @@
-.postCard, .notificationCard, .post-page {
-    .card-header {
-        width: 100%;
-        @include media-breakpoint-up(md) {
-            width: 40%;
-        }
+.postCard,
+.notificationCard,
+.post-page {
+  .card-header {
+    width: 100%;
+    @include media-breakpoint-up(md) {
+      width: 40%;
     }
-    
-        .badge {
-            border-radius: 8px;
-            font-size: 16px;
-            padding: 4px 8px;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-    .btn {
-        &:hover { 
-            border: 1px solid #000;
-            transition: all 0.1s ease-in-out;
-        }
+  }
+
+  .badge {
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 4px 8px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .btn {
+    &:hover {
+      border: 1px solid #000;
+      transition: all 0.1s ease-in-out;
     }
-    
-    .post-card-img {
-        display: block;
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        
-            .card-hover {
-                opacity: 0;
-                visibility: hidden;
-                transition:opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                
-            }
-        
-            &:hover {
-                .card-hover {
-                    opacity: 1;
-                    visibility: visible;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                }
-            }
-        }
+  }
+
+  .post-card-img {
+    display: block;
+    img {
+      width: 100%;
+      height: 100%;
     }
 
- .account-posts {
-    .bg-bedge-color {
-        background-color: rgba(0, 80, 63, 0.08);
+    .card-hover {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    .posts-wrap {
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        &::-webkit-scrollbar {
-            display: none;
-          }
-        @include media-breakpoint-up(lg) {
-            overflow-x: hidden;
-        }
+
+    &:hover {
+      .card-hover {
+        opacity: 1;
+        visibility: visible;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
     }
-    
-    .posts-rounded {
-        border-radius: 8px 0 0 8px;
+  }
+}
+
+.account-posts {
+  .bg-bedge-color {
+    background-color: rgba(0, 80, 63, 0.08);
+  }
+
+  .posts-wrap {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
     }
- }   
+    @include media-breakpoint-up(lg) {
+      overflow-x: hidden;
+    }
+  }
+
+  .posts-rounded {
+    border-radius: 8px 0 0 8px;
+  }
+}
 
 .notificationCard {
-        .multiline-ellipsis { 
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-        }
-        .dropdown-toggle::after {
-            display: none;
-            content: "";
-        }
-        .dropdown-menu {
-            padding: 0;
-            width: 100px;
-            min-width: 100px;
-            background: $gray-200;
-            border-radius: 8px;
-            border: 0;
-            box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25), 0px 4px 20px 0px rgba(0, 0, 0, 0.15);
-            .dropdown-item {
-                border-radius: 8px;
-                padding-block: 8px;
-                &:hover {
-                    background: $primary;
-                    color: $white;
-                    border: 0;
-                }
-            }
-        }
-        .post-card-right {
-            @include media-breakpoint-up(lg) {
-            align-items: end;
-            }
-        }
+  .multiline-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  .dropdown-toggle::after {
+    display: none;
+    content: '';
+  }
+  .dropdown-menu {
+    padding: 0;
+    width: 100px;
+    min-width: 100px;
+    background: $gray-200;
+    border-radius: 8px;
+    border: 0;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25),
+      0px 4px 20px 0px rgba(0, 0, 0, 0.15);
+    .dropdown-item {
+      border-radius: 8px;
+      padding-block: 8px;
+      &:hover {
+        background: $primary;
+        color: $white;
+        border: 0;
+      }
+    }
+  }
+  .post-card-right {
     @include media-breakpoint-up(lg) {
-        .post-card-img {
-            width: 196px;
-            height: 96px;
-            img {
-            width: 196px;
-            height: 96px;
-            }
-        }
+      align-items: end;
     }
-    .spinner-border {
-        width: 24px;
-        height: 24px;
-        --bs-spinner-border-width: 2px;
-          }
+  }
+  @include media-breakpoint-up(lg) {
+    .post-card-img {
+      width: 196px;
+      height: 96px;
+      img {
+        width: 196px;
+        height: 96px;
+      }
     }
+  }
+  .spinner-border {
+    width: 24px;
+    height: 24px;
+    --bs-spinner-border-width: 2px;
+  }
+}

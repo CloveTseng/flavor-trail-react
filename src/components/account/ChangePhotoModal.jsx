@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import * as bootstrap from 'bootstrap';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '2';
@@ -27,16 +28,18 @@ const ChangePhotoModal = () => {
   const changeDomain = async (data) => {
     setIsLoading(true);
     try {
-      const res = await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
+      await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
         avatarUrl: data.photoDomainName,
       });
       reset();
-      console.log(res.data);
       const modal = bootstrap.Modal.getInstance(modalRef.current);
       modal.hide();
-      window.location.reload();
+      toast.success('照片已成功更新！');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
-      console.log(error.message);
+      toast.error(`更新照片失敗: ${error.message || '未知錯誤'}`);
     } finally {
       setIsLoading(false);
       setIsFormChanged(false);

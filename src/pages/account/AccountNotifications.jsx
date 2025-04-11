@@ -5,6 +5,7 @@ import AccountFilter from '../../components/account/AccountFilter';
 import AccountFilterStatus from '../../components/account/AccountFilterStatus';
 import { useEffect, useState } from 'react';
 import FullScreenLoading from '../../components/FullScreenLoading';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -31,7 +32,7 @@ function AccountNotifications() {
         );
         setAppData(app.data);
       } catch (error) {
-        console.log(error.message);
+        toast.error(`無法取得通知資料: ${error.message || '發生未知錯誤'}`);
       }
     };
     getAppData();
@@ -46,7 +47,7 @@ function AccountNotifications() {
         prev.map((app) => (app.id === id ? { ...app, isRead: true } : app))
       );
     } catch (error) {
-      console.log(error.message);
+      toast.error(`標記為已讀失敗: ${error.message || '發生未知錯誤'}`);
     }
   };
 
@@ -175,7 +176,7 @@ function AccountNotifications() {
                       {formatDate(app.created_time)}
                     </time>
                   </div>
-                  <div className="col-12 col-lg-9 order-lg-2 ps-lg-6 px-0">
+                  <div className="col-lg-9 order-lg-2 ps-lg-6 px-0">
                     <h6 className="text-primary fw-bold mb-2">
                       [{app.status}]
                     </h6>

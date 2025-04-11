@@ -7,6 +7,7 @@ import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
 import CopyUid from '../../components/CopyUid';
 import FullScreenLoading from '../../components/FullScreenLoading';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID = '1';
@@ -30,7 +31,7 @@ function AccountPosts() {
         const posts = await axios.get(`${BASE_URL}/posts?userId=${ID}`);
         setPostData(posts.data);
       } catch (error) {
-        console.log(error);
+        toast.error(`無法取得貼文資料: ${error.message || '發生未知錯誤'}`);
       }
     };
     getPostData();

@@ -74,9 +74,6 @@ const ShareFoodEditModal = ({
         },
         imagesUrl: imagesUrlArray,
       });
-      // console.log('測試 data', data);
-      // console.log(getValues());
-      // console.log('res:', res.data);
       toast.success('成功更新貼文！');
       getPosts();
       closeEditModal();
