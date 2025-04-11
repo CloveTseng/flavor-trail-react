@@ -1,8 +1,32 @@
-import { Link } from 'react-router';
-
+import { Link, useNavigate } from 'react-router';
+import { Modal } from 'bootstrap';
+import { useSelector } from 'react-redux';
 import ShareFoodModal from '../components/ShareFoodModal';
+import AlertModal from '../components/AlertModal';
 
 const Footer = () => {
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const navigate = useNavigate();
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+    }
+  };
   return (
     <>
       <footer className="footer">
@@ -85,9 +109,9 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
+                        onClick={(e) => openShareFoodModal(e)}
+                        href="#"
                         className="footer-nav__link"
-                        data-bs-toggle="modal"
-                        data-bs-target="#shareFoodModal"
                       >
                         我要分享
                       </a>

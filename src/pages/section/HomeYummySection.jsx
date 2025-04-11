@@ -6,6 +6,7 @@ import 'swiper/css/grid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import AlertModal from '../../components/AlertModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 const HomeYummySection = () => {
@@ -16,7 +17,10 @@ const HomeYummySection = () => {
         const res = await axios.get(`${VITE_BASE_URL}/posts?_expand=user`);
         setPosts(res.data.filter((post, index) => index >= 10));
       } catch (error) {
-        console.log(error);
+        AlertModal.errorMessage({
+          title: '連線失敗',
+          text: `${error}，請稍後再試`,
+        });
       }
     })();
   }, []);

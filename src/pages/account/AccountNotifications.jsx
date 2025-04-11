@@ -4,6 +4,7 @@ import ReceiveModal from '../../components/account-notify/ReceiveModal';
 import AccountFilter from '../../components/account/AccountFilter';
 import AccountFilterStatus from '../../components/account/AccountFilterStatus';
 import { useEffect, useState } from 'react';
+import FullScreenLoading from '../../components/FullScreenLoading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -22,7 +23,6 @@ function AccountNotifications() {
   const [selectedApp, setSelectedApp] = useState(null);
   const [modalType, setModalType] = useState(null);
 
-  console.log(appData);
   useEffect(() => {
     const getAppData = async () => {
       try {
@@ -37,13 +37,24 @@ function AccountNotifications() {
     getAppData();
   }, []);
 
-  const getBackgroundColorClass = (status) => {
-    if (status === '已同意') {
+  const makeIsRead = async (id) => {
+    try {
+      await axios.patch(`${BASE_URL}/applications/${id}`, {
+        isRead: true,
+      });
+      setAppData((prev) =>
+        prev.map((app) => (app.id === id ? { ...app, isRead: true } : app))
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getBackgroundColorClass = (isRead) => {
+    if (isRead === true) {
       return 'bg-white';
-    } else if (status === '待回覆') {
-      return 'bg-unchecked';
     } else {
-      return 'bg-bedge-color';
+      return 'bg-badge-color';
     }
   };
 
@@ -62,7 +73,9 @@ function AccountNotifications() {
           placeholder="搜尋通知"
           filterOptions={['all', 'apply', 'receive', 'comment']}
         />
-        <div className="ms-10">Loading...</div>
+        <div className="ms-10">
+          <FullScreenLoading />
+        </div>
       </>
     );
   }
@@ -94,6 +107,7 @@ function AccountNotifications() {
     } else if (app.type === '領取通知') {
       setModalType('receive');
     }
+    makeIsRead(app.id);
   };
 
   const handleModalClose = () => {
@@ -123,7 +137,7 @@ function AccountNotifications() {
                 <li className="col-12 px-0" key={app.id}>
                   <a
                     className={`notify-cover row align-items-center position-relative stretched-link p-7 border-bottom border-gray-400 mx-4 ${getBackgroundColorClass(
-                      app.status
+                      app.isRead
                     )}`}
                     data-bs-toggle="modal"
                     data-bs-target={

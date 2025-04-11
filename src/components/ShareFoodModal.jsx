@@ -124,11 +124,6 @@ const ShareFoodModal = () => {
     setValue('expiryDate', date);
   };
 
-  const handleTimeChange = ({ startTime, endTime }) => {
-    const formattedTime = `${startTime} - ${endTime}`;
-    setValue('pickup.time', formattedTime, { shouldValidate: true });
-  };
-
   return (
     <>
       <FormProvider {...methods}>
@@ -357,7 +352,7 @@ const ShareFoodModal = () => {
                         領取地點
                         <span className="text-danger"> * </span>
                       </label>
-                      <div className="w-50 d-flex gap-2">
+                      <div className="w-lg-50 w-100 d-flex gap-2">
                         <SelectCity
                           register={register}
                           errors={errors}
@@ -416,11 +411,7 @@ const ShareFoodModal = () => {
                         領取時間
                         <span className="text-danger"> * </span>
                       </label>
-                      <TimePicker
-                        initialStartTime=""
-                        initialEndTime=""
-                        onTimeChange={handleTimeChange}
-                      />
+                      <TimePicker initialStartTime="" initialEndTime="" />
                     </div>
 
                     {/* 上傳圖片 */}

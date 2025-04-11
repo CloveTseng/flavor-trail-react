@@ -5,15 +5,13 @@ import InputText from '../../components/formElements/InputText';
 import AccountSettingModalPassword from './AccountSettingModalPassword';
 import ChangePhotoModal from '../../components/account/ChangePhotoModal';
 import logo from '/assets/images/Logo.png';
+import { toast } from 'react-hot-toast';
+import FullScreenLoading from '../../components/FullScreenLoading';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const USER_ID = '1';
 
 function AccountSettingForm() {
-  // const [cities, setCities] = useState([]);
-  // const [districts, setDistricts] = useState([]);
-  // const [selectedCityId, setSelectedCityId] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
   const [accountData, setAccountData] = useState(null);
   const [isFormChanged, setIsFormChanged] = useState(false);
   const [initialValues, setInitialValues] = useState({});
@@ -59,6 +57,7 @@ function AccountSettingForm() {
         console.log(error);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -66,6 +65,7 @@ function AccountSettingForm() {
       return getValues(key) !== initialValues[key];
     });
     setIsFormChanged(hasChanged);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchAllFields]);
 
   const changeData = async (data) => {
@@ -80,59 +80,34 @@ function AccountSettingForm() {
 
   const deletePhoto = async () => {
     try {
-      await axios.patch(`${BASE_URL}/users/${USER_ID}`, {
-        avatarUrl: null,
-      });
-      alert('照片刪除成功');
+      await toast.promise(
+        axios.patch(`${BASE_URL}/users/${USER_ID}`, {
+          avatarUrl: null,
+        }),
+        {
+          loading: '處理中...',
+          success: '照片刪除成功',
+          error: '刪除失敗，請稍候再試',
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // useEffect(() => {
-  //   const getTwCities = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const res = await axios.get(`${BASE_URL}/twCities`);
-  //       setCities(res.data);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   getTwCities();
-  // }, []);
-
-  // useEffect(() => {
-  //   const getDistricts = async () => {
-  //     if (selectedCityId) {
-  //       setIsLoading(true);
-  //       try {
-  //         const res = await axios.get(`${BASE_URL}/twCities/${selectedCityId}`);
-  //         setDistricts(res.data.districts);
-  //       } catch (error) {
-  //         console.log(error.message);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     } else {
-  //       setDistricts([]);
-  //     }
-  //   };
-  //   getDistricts();
-  // }, [selectedCityId]);
-
   const onSubmit = (data) => {
     changeData(data);
-    console.log(data);
-    alert('個人資料已修改');
+    toast.success('個人資料已修改');
     setIsFormChanged(false);
   };
 
   if (!accountData) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <FullScreenLoading />
+      </div>
+    );
   }
 
   return (

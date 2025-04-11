@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 const TextArea = ({ register, errors, labelText, id, rows, name, rules }) => {
@@ -20,5 +21,13 @@ const TextArea = ({ register, errors, labelText, id, rows, name, rules }) => {
     </>
   );
 };
-
+TextArea.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  labelText: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  rows: PropTypes.number,
+  name: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+};
 export default TextArea;

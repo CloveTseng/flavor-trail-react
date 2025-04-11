@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import AlertModal from '../../components/AlertModal';
 
 const { VITE_BASE_URL } = import.meta.env;
 
@@ -44,10 +45,12 @@ const HomeFoodTalkSection = () => {
     (async () => {
       try {
         const res = await axios.get(`${VITE_BASE_URL}/feedbacks?_expand=user`);
-        console.log(res.data);
         setAllFeedbacks(res.data);
       } catch (error) {
-        console.log(error);
+        AlertModal.errorMessage({
+          title: '連線失敗',
+          text: `${error}，請稍後再試`,
+        });
       }
     })();
   }, []);
@@ -55,26 +58,20 @@ const HomeFoodTalkSection = () => {
     const timer = setInterval(() => {
       setLoadState((pre) => !pre);
       if (flag !== 0) {
-        setTempFeedbacks((pre) => feedbacks);
+        setTempFeedbacks(feedbacks);
       }
       switch (flag) {
         case 1:
-          setFeedbacks((pre) =>
-            allFeedbacks.filter((feedback, index) => index < 3)
-          );
+          setFeedbacks(allFeedbacks.slice(0, 3));
           setFlag((pre) => pre + 1);
           break;
         case 2:
-          setFeedbacks((pre) =>
-            allFeedbacks.filter((feedback, index) => index < 6 && index >= 3)
-          );
+          setFeedbacks(allFeedbacks.slice(3, 6));
           setFlag((pre) => pre + 1);
           break;
         case 3:
-          setFeedbacks((pre) =>
-            allFeedbacks.filter((feedback, index) => index > 5)
-          );
-          setFlag((pre) => (pre = 1));
+          setFeedbacks(allFeedbacks.slice(6));
+          setFlag(1);
           break;
         default:
           setFlag((pre) => pre + 1);
@@ -82,7 +79,7 @@ const HomeFoodTalkSection = () => {
     }, 3000);
 
     return () => clearInterval(timer);
-  }, [flag]);
+  }, [flag, feedbacks, allFeedbacks]);
 
   return (
     <section className="bg-deco-coral py-lg-18 py-12">

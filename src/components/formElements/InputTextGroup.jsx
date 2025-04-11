@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import InputText from './InputText';
 
 const InputTextGroup = ({
@@ -33,4 +34,13 @@ const InputTextGroup = ({
   );
 };
 
+InputTextGroup.propTypes = {
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  labelText: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  rules: PropTypes.object,
+  name: PropTypes.string.isRequired,
+};
 export default InputTextGroup;
