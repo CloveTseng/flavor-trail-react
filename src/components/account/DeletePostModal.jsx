@@ -11,7 +11,7 @@ const DeletePostModal = ({ postId, onDeleteSuccess }) => {
 
   const deletePost = async () => {
     try {
-      await toast.promise(axios.delete(`${BASE_URL}/posts/${postId}`), {
+      await toast.promise(axios.delete(`${BASE_URL}/posts/${postId}123`), {
         loading: '刪除中...',
         success: '貼文刪除成功',
         error: '刪除失敗，請稍候再試',
@@ -20,7 +20,7 @@ const DeletePostModal = ({ postId, onDeleteSuccess }) => {
       modalInstance.hide();
       onDeleteSuccess();
     } catch (error) {
-      console.log(error.message);
+      toast.error(`刪除貼文時發生錯誤: ${error.message || '未知錯誤'}`);
     }
   };
 

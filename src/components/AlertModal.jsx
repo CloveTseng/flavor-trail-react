@@ -54,7 +54,6 @@ const AlertModal = {
         onConfirm();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         onCancel();
-        console.log('cancel');
       }
     });
   },

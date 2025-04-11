@@ -1,45 +1,44 @@
 .btn {
-    height: 48px;
+  height: 48px;
 }
 
 .btn-primary {
-    &:hover{
-        background-color: #004839;
-    }
-    &:disabled {
-                background-color: #00503F14;
-                border-color: #00503F14;
-                color: $gray-400;
-            }
+  &:hover {
+    background-color: #004839;
+  }
+  &:disabled {
+    background-color: #00503f14;
+    border-color: #00503f14;
+    color: $gray-400;
+  }
 }
 
 .btn-secondary {
-    background: #000000;
-    &:hover{
-        background-color: #333333;
-    }
-    &:disabled {
-        background-color: #E7E7E7;
-        border-color: #E7E7E7;
-        color: $gray-400;
-    }
+  background: #000000;
+  &:hover {
+    background-color: #333333;
+  }
+  &:disabled {
+    background-color: #e7e7e7;
+    border-color: #e7e7e7;
+    color: $gray-400;
+  }
 }
 
 .btn-thirdy {
-    background: transparent;
+  background: transparent;
+  color: $gray-900;
+  &:hover {
     color: $gray-900;
-    &:hover{
-        color: $gray-900;
-        background-color: #E7E7E7;
-    }
-    &:disabled {
-        background-color: transparent;
-        border-color: transparent;
-        color: $gray-400;
-    }
+    background-color: #e7e7e7;
+  }
+  &:disabled {
+    background-color: transparent;
+    border-color: transparent;
+    color: $gray-400;
+  }
 }
 
-    
 // .btn {
 //     display: flex;
 //     align-items: center;
@@ -90,7 +89,7 @@
 //         color: #e3702d;
 //         border-color: $primary;
 //         svg path{
-//             fill: #e3702d; 
+//             fill: #e3702d;
 //             transition: fill 0.1s ease-in-out;
 //             transition-delay: 0s;
 //         }

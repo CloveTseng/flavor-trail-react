@@ -404,7 +404,7 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="row my-4 gx-0 d-lg-none d-flex">
+                    <div className="row my-4 gx-0 d-lg-none">
                       <button
                         type="button"
                         className="btn btn-dark"

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { get } from 'lodash';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -24,11 +25,13 @@ const SelectBox = ({
         const res = await axios.get(`${BASE_URL}${apiEndpoint}`);
         setOptions(res.data);
       } catch (error) {
-        console.log(error.message);
+        toast.error(`無法載入${labelText}選項: ${error.message || '發生未知錯誤'}`, {
+          id: `selectbox-${name}`, // 添加唯一 ID 避免重複 toast
+        });
       }
     };
     getData();
-  }, [apiEndpoint]);
+  }, [apiEndpoint, labelText, name]);
 
   return (
     <>
@@ -39,13 +42,14 @@ const SelectBox = ({
           className={`form-select border-gray-400 py-2 px-5 rounded-3 bg-white ${
             get(errors, name) && 'is-invalid'
           }`}
+          defaultValue=""
           {...register(name, rules)}
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             請選擇{labelText}
           </option>
           {options.map((item) => (
-            <option value={item[optionValueKey]} key={item.id}>
+            <option defaultValue={item[optionValueKey]} key={item.id}>
               {item[optionLabelKey]}
             </option>
           ))}

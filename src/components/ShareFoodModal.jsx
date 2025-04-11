@@ -116,7 +116,7 @@ const ShareFoodModal = () => {
         }
       );
     } catch (error) {
-      console.log(error.message);
+      toast.error(`發送貼文失敗:: ${error.message || '未知錯誤'}`);
     }
     reset();
   };
@@ -145,7 +145,7 @@ const ShareFoodModal = () => {
                 </h1>
                 <img
                   src="./assets/images/icon/x.svg"
-                  alt=""
+                  alt="Close"
                   className="ms-auto pointer"
                   data-bs-dismiss="modal"
                   aria-label="Close"
@@ -390,6 +390,7 @@ const ShareFoodModal = () => {
                       <InputText
                         register={register}
                         errors={errors}
+                        type="text"
                         id="inputAddress"
                         name="pickup.address"
                         labelText="地址"
@@ -452,7 +453,7 @@ const ShareFoodModal = () => {
                         labelText="介紹與描述"
                         id="ReplyMessage"
                         name="content"
-                        rows="5"
+                        rows={5}
                         rules={{
                           required: {
                             value: true,
