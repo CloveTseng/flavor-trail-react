@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -31,7 +32,7 @@ function CityDistrictSelector({
         const res = await axios.get(`${BASE_URL}/twCities`);
         setCities(res.data);
       } catch (error) {
-        console.error('獲取縣市失敗:', error.message);
+        toast.error(`${error.message ? '載入縣市失敗' : ''}`);
       } finally {
         setIsLoading(false);
       }
@@ -66,7 +67,7 @@ function CityDistrictSelector({
           setDistricts([]);
         }
       } catch (error) {
-        console.error('獲取地區失敗:', error.message);
+        toast.error(`${error.message ? '獲取地區失敗:' : ''}`);
         setDistricts([]);
       } finally {
         setIsLoading(false);
@@ -111,7 +112,7 @@ function CityDistrictSelector({
 
   return (
     <>
-      <div className="d-flex gap-2 col-lg-4">
+      <div className='d-flex gap-2 col-lg-4'>
         {/* 縣市選單 */}
         <select
           id={cityId}
@@ -124,7 +125,7 @@ function CityDistrictSelector({
           disabled={isLoading}
           value={selectedCityId}
         >
-          <option value="" disabled>
+          <option value='' disabled>
             請選擇縣市
           </option>
           {cities.map((city) => (
@@ -146,7 +147,7 @@ function CityDistrictSelector({
           disabled={!selectedCityId || isLoading || districts.length === 0}
           value={selectedDistrict}
         >
-          <option className="text-gray-700" value="">
+          <option className='text-gray-700' value=''>
             請選擇地區
           </option>
           {districts.map((district) => (

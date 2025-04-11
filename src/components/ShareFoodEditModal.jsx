@@ -328,6 +328,7 @@ const ShareFoodEditModal = ({
                         }}
                       />
                       <InputText
+                        type='text'
                         register={register}
                         errors={errors}
                         id='inputAddress'
@@ -393,7 +394,7 @@ const ShareFoodEditModal = ({
                         labelText='介紹與描述'
                         id='ReplyMessage'
                         name='content'
-                        rows='5'
+                        rows={5}
                         rules={{
                           required: {
                             value: true,

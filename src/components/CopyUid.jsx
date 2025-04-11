@@ -9,12 +9,16 @@ const CopyUid = ({ uid, disabled }) => {
     try {
       await toast.promise(navigator.clipboard.writeText(uid), {
         success: '領取碼複製成功',
-        error: '複製失敗，請稍候再試',
       });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error('複製失敗', error);
+      toast.error(
+        `${
+          error.message ? '複製失敗，請稍候再試'
+            : ''
+        }`
+      );
     }
   };
 
@@ -36,24 +40,24 @@ const CopyUid = ({ uid, disabled }) => {
       {copied ? (
         <>
           <img
-            src="./assets/images/icon/check.svg"
-            alt="copy"
-            className="px-1"
+            src='./assets/images/icon/check.svg'
+            alt='copy'
+            className='px-1'
           />
-          <span className="text-gray-700 px-1">已複製</span>
+          <span className='text-gray-700 px-1'>已複製</span>
         </>
       ) : (
         <>
           <img
             src={disabledImg}
             alt={disabled ? '無法複製' : '複製'}
-            className="px-1"
+            className='px-1'
             style={{
               filter:
                 'invert(73%) sepia(81%) saturate(7492%) hue-rotate(157deg) brightness(98%) contrast(101%)',
             }}
           />
-          <span className="text-gray-700 px-1 ">
+          <span className='text-gray-700 px-1 '>
             {disabled ? '複製碼已過期' : '複製領取碼'}
           </span>
         </>

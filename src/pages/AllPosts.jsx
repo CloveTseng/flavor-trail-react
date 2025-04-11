@@ -442,7 +442,7 @@ function AllPosts() {
         <div ref={startTriggerRef} className="postNav container mb-13 mb-lg-7">
           <div className="row flex-lg-nowrap justify-content-between align-items-center bg-white rounded-3 p-3">
             {/*貼文篩選*/}
-            <div className="col-12 col-lg-auto px-0">
+            <div className="col-lg-auto px-0">
               {/* 大螢幕時顯示按鈕群組 */}
               <div className="d-none d-lg-block">
                 <div className="d-flex align-items-stretch bg-light rounded-3">
