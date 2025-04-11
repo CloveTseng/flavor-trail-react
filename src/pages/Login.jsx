@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { setIsLogin } from '../redux/LoginStateSlice';
-const baseUrl = 'https://ec-course-api.hexschool.io/v2';
+import AlertModal from '../components/AlertModal';
+const { VITE_LOGIN_URL } = import.meta.env;
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,12 +24,11 @@ const Login = () => {
 
   const signin = async (formData) => {
     try {
-      const { email, password, check } = formData;
-      const res = await axios.post(`${baseUrl}/admin/signin`, {
+      const { email, password } = formData;
+      const res = await axios.post(`${VITE_LOGIN_URL}/admin/signin`, {
         username: email,
         password,
       });
-      console.log(res);
       reset();
       dispatch(
         setIsLogin({
@@ -36,6 +36,9 @@ const Login = () => {
           isLogin: true,
         })
       );
+      AlertModal.successMessage({
+        text: '尊敬的尋者唷！歡迎回來！',
+      });
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -70,7 +73,7 @@ const Login = () => {
               className="footer-logo position-absolute top-0 start-0 z-2"
             >
               <img
-                src="../assets/images/Logo.png"
+                src="./assets/images/Logo.png"
                 alt="logo"
                 style={{
                   width: '174px',
@@ -80,18 +83,18 @@ const Login = () => {
             </Link>
             <img
               className="login-img object-fit-cover"
-              src="../assets/images/home-2.jpg"
+              src="./assets/images/home-2.jpg"
               alt="img"
             />
             <div className="login-deco-1 position-absolute d-none d-lg-block">
               <img
-                src="../assets/images/deco/login-deco-1.svg"
+                src="./assets/images/deco/login-deco-1.svg"
                 alt="login-deco"
               />
             </div>
             <div className="login-deco-2 position-absolute d-none d-lg-block">
               <img
-                src="../assets/images/deco/login-deco-2.svg"
+                src="./assets/images/deco/login-deco-2.svg"
                 alt="login-deco"
               />
             </div>
@@ -113,7 +116,7 @@ const Login = () => {
                 <p className="vertical-text text-lg-vertical ms-auto">再出發</p>
               </div>
               <img
-                src="../assets/images/deco/login-deco-3.svg"
+                src="./assets/images/deco/login-deco-3.svg"
                 alt="login-deco"
               />
             </div>

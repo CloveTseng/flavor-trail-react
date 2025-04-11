@@ -1,11 +1,39 @@
+import { Link, useNavigate } from 'react-router';
+import { Modal } from 'bootstrap';
+import { useSelector } from 'react-redux';
+import ShareFoodModal from '../components/ShareFoodModal';
+import AlertModal from '../components/AlertModal';
+
 const Footer = () => {
+  const { isLogin } = useSelector((state) => state.loginSlice.loginStatus);
+  const navigate = useNavigate();
+  const openShareFoodModal = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const shareFoodModal = new Modal(
+        document.getElementById('shareFoodModal')
+      );
+      shareFoodModal.show();
+    } else {
+      AlertModal.confirmAction({
+        title: '請先登入',
+        text: '迷路的尋者，登入後才能使用會員功能喔！',
+        icon: 'info',
+        confirmButtonText: '登入',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          navigate('/login');
+        },
+      });
+    }
+  };
   return (
     <>
       <footer className="footer">
         <div className="container">
           <div className="footer-header d-flex flex-lg-row flex-column-reverse mb-lg-19 mb-16">
             <a href="index.html" className="footer-logo">
-              <img src="/assets/images/Logo.png" alt="logo" />
+              <img src="./assets/images/Logo.png" alt="logo" />
             </a>
             <div className="slogan ms-auto mt-lg-12 fs-2 fw-bolder lh-1">
               <p>快樂齊分享，美味</p>
@@ -20,9 +48,9 @@ const Footer = () => {
                   <a className="mb-4 text-gray-700 fs-6">認識餘味尋蹤</a>
                   <ul className="d-flex flex-column gap-4 fs-4 fw-medium lh-xs">
                     <li>
-                      <a href="#" className="footer-nav__link">
+                      <Link to="/about-us" className="footer-nav__link">
                         關於我們
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#" className="footer-nav__link">
@@ -30,9 +58,9 @@ const Footer = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="footer-nav__link">
+                      <Link to="/event" className="footer-nav__link">
                         活動提案
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#" className="footer-nav__link">
@@ -70,28 +98,28 @@ const Footer = () => {
                   <a className="mb-4 text-gray-700 fs-6">會員中心</a>
                   <ul className="d-flex flex-column gap-4 fs-4 fw-medium lh-xs">
                     <li>
-                      <a href="login.html" className="footer-nav__link">
-                        註冊/登入
-                      </a>
+                      <Link to="/login" className="footer-nav__link">
+                        登入/註冊
+                      </Link>
                     </li>
                     <li>
-                      <a href="#" className="footer-nav__link">
-                        我的帳戶
-                      </a>
+                      <Link to="/account/setting" className="footer-nav__link">
+                        我的帳號
+                      </Link>
                     </li>
                     <li>
                       <a
+                        onClick={(e) => openShareFoodModal(e)}
                         href="#"
                         className="footer-nav__link"
-                        data-bs-toggle="modal"
-                        data-bs-target="#shareFoodModal"
                       >
                         我要分享
                       </a>
                     </li>
+                    <ShareFoodModal />
                     <li>
                       <a href="#" className="footer-nav__link">
-                        我的收藏
+                        我的追蹤
                       </a>
                     </li>
                   </ul>
@@ -101,20 +129,20 @@ const Footer = () => {
             <div className="col-3 d-lg-flex justify-content-end align-items-end">
               <div className="footer-social d-flex flex-lg-row flex-column align-items-end gap-2">
                 <a href="#" className="p-2">
-                  <img src="/assets/images/icon/twitter.svg" alt="twitter" />
+                  <img src="./assets/images/icon/twitter.svg" alt="twitter" />
                 </a>
                 <a href="#" className="p-2">
                   <img
-                    src="/assets/images/icon/instagram.svg"
+                    src="./assets/images/icon/instagram.svg"
                     alt="instagram"
                   />
                 </a>
                 <a href="#" className="p-2">
-                  <img src="/assets/images/icon/facebook.svg" alt="facebook" />
+                  <img src="./assets/images/icon/facebook.svg" alt="facebook" />
                 </a>
                 <a href="#" className="p-2">
                   <img
-                    src="/assets/images/icon/hugeicons_line.svg"
+                    src="./assets/images/icon/hugeicons_line.svg"
                     alt="line"
                   />
                 </a>
