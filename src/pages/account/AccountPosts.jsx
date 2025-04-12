@@ -1,7 +1,6 @@
 import axios from 'axios';
 import AccountFilter from '../../components/account/AccountFilter';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import ShareFoodModal from '../../components/ShareFoodModal';
 import DeletePostModal from '../../components/account/DeletePostModal';
@@ -51,6 +50,10 @@ function AccountPosts() {
     setSelectedPostId(postId);
   };
 
+  const handleCloseModal = () => {
+    setSelectedPostId(null);
+  };
+
   const handleDeleteSuccess = () => {
     setPostData((prevPosts) =>
       prevPosts.filter((post) => post.id !== selectedPostId)
@@ -83,13 +86,9 @@ function AccountPosts() {
   }
 
   const filteredPosts = postData.filter((item) => {
-    if (filter === 'all') {
-      return true;
-    } else if (filter === 'expired') {
-      return isExpired(item.createdPostDate);
-    } else if (filter === 'notExpired') {
-      return !isExpired(item.createdPostDate);
-    }
+    if (filter === 'all') return true;
+    if (filter === 'expired') return isExpired(item.createdPostDate);
+    if (filter === 'notExpired') return !isExpired(item.createdPostDate);
     return false;
   });
 
@@ -108,9 +107,10 @@ function AccountPosts() {
           <ul className="list-unstyled rounded-3 bg-white">
             {filteredPosts.map((item) => {
               const expired = isExpired(item.createdPostDate);
-              const postBadgeClass = `badge  ${
+              const postBadgeClass = `badge ${
                 expired ? 'bg-gray-400' : 'bg-primary'
               }`;
+
               return (
                 <li className="post-card p-5 my-5 border-bottom" key={item.id}>
                   <div className="row flex-column-reverse flex-lg-row">
@@ -118,24 +118,23 @@ function AccountPosts() {
                       <div className="flex-grow-1">
                         <div className="d-flex justify-content-between align-items-center">
                           <div className={postBadgeClass}>
-                            {isExpired(item.createdPostDate)
-                              ? '已過期'
-                              : '未過期'}
+                            {expired ? '已過期' : '未過期'}
                           </div>
                           <div className="text-gray-700 text-end d-block d-lg-none">
                             {formatDate(item.createdPostDate)}
                           </div>
                         </div>
+
                         <div className="pt-7">
                           <div className="d-flex flex-column flex-lg-row mb-5">
                             <h2 className="fs-3 pb-2 pb-lg-0">{item.title}</h2>
                             <CopyUid uid={item.redeemCode} disabled={expired} />
                           </div>
-
                           <p className="text-gray-700 multiline-ellipsis mb-5">
                             {item.content}
                           </p>
                         </div>
+
                         <div className="d-flex gap-7 text-black mt-auto">
                           <div className="d-flex align-items-center">
                             <svg
@@ -144,7 +143,6 @@ function AccountPosts() {
                               height="16"
                               viewBox="0 0 24 24"
                               fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 d="M20 10C20 14.993 14.461 20.193 12.601 21.799C12.4277 21.9293 12.2168 21.9998 12 21.9998C11.7832 21.9998 11.5723 21.9293 11.399 21.799C9.539 20.193 4 14.993 4 10C4 7.87827 4.84285 5.84344 6.34315 4.34315C7.84344 2.84285 9.87827 2 12 2C14.1217 2 16.1566 2.84285 17.6569 4.34315C19.1571 5.84344 20 7.87827 20 10Z"
@@ -161,11 +159,7 @@ function AccountPosts() {
                                 strokeLinejoin="round"
                               />
                             </svg>
-                            <div className="d-flex flex-column flex-lg-row">
-                              <div className="text-nowrap">
-                                {item.pickup.city}
-                              </div>
-                            </div>
+                            <div>{item.pickup.city}</div>
                           </div>
                           <div className="d-flex align-items-center">
                             <svg
@@ -236,22 +230,15 @@ function AccountPosts() {
                     </div>
 
                     <div className="col-lg-3 post-card-right px-4 mb-7 mb-lg-0 d-flex flex-column">
-                      {/* dropdown */}
+                      {/* dropdown 功能 */}
                       <div className="dropdown text-end">
                         <a
                           href="#"
                           className="dropdown-toggle"
-                          type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
+                          <svg width="24" height="24" viewBox="0 0 24 24">
                             <path
                               d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
                               stroke="black"
@@ -289,8 +276,8 @@ function AccountPosts() {
                           </li>
                         </ul>
                       </div>
-                      <ShareFoodModal />
 
+                      <ShareFoodModal />
                       {/* dropdown */}
                       <div className="post-card-img my-7 text-center">
                         <Link
@@ -298,13 +285,7 @@ function AccountPosts() {
                           className="img-hover position-relative"
                         >
                           <div className="card-hover bg-primary w-100 h-100 position-absolute top-0 start-0 rounded-3">
-                            <svg
-                              width="40"
-                              height="40"
-                              viewBox="0 0 40 40"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
+                            <svg width="40" height="40" viewBox="0 0 40 40">
                               <path
                                 d="M40 0L10 6.69388L17.6562 12.5714L0 27.2653C0 27.2653 4.58333 28.6946 8.4375 31.8367C12.2917 34.9788 14.8958 40 14.8958 40L28.4375 21.2245L34.5312 29.7143L40 0Z"
                                 fill="#ffffff"
@@ -321,6 +302,7 @@ function AccountPosts() {
                           />
                         </Link>
                       </div>
+
                       <div className="text-gray-700 text-end d-none d-lg-block">
                         {formatDate(item.createdPostDate)}
                       </div>
@@ -332,11 +314,15 @@ function AccountPosts() {
           </ul>
         </div>
       </div>
-      <DeletePostModal
-        postId={selectedPostId}
-        onDeleteSuccess={handleDeleteSuccess}
-      />
+      {selectedPostId && (
+        <DeletePostModal
+          postId={selectedPostId}
+          onDeleteSuccess={handleDeleteSuccess}
+          onClose={handleCloseModal}
+        />
+      )}
     </>
   );
 }
+
 export default AccountPosts;
