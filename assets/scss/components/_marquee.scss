@@ -72,7 +72,7 @@
 }
 
 .display-lg-1 {
-  @media (min-width: 768px) {
+  @include media-breakpoint-up(md) {
     font-size: 80px;
   }
 }

@@ -7,14 +7,14 @@ function EventDeliverMeals() {
             <div className="col-lg-4">
               <img
                 className="event-deliver-meals-img img-fluid object-fit-cover"
-                src="./assets/images/event-1.png"
+                src="./assets/images/event-1.jpg"
                 alt="event-picture1"
               />
             </div>
             <div className="col-lg-6">
               <img
                 className="event-deliver-meals-img img-fluid object-fit-cover"
-                src="./assets/images/event-2.png"
+                src="./assets/images/event-2.jpg"
                 alt="event-picture2"
               />
             </div>

@@ -1,7 +1,4 @@
-
 function Account() {
-    return(<>
-        123
-    </>)
+  return <>123</>;
 }
-export default Account
+export default Account;

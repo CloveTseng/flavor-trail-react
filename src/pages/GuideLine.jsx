@@ -146,7 +146,7 @@ function GuideLine() {
                     </div>
                     <div className="col">
                       <div className="d-flex flex-column align-items-lg-start align-items-center pt-12 mb-14 pt-lg-0 mb-lg-0">
-                        <img src="./assets/images/deco/guide-1.svg" alt="" />
+                        <img src="./assets/images/deco/guide-1.svg" alt="deco-guide-1" />
                         <h3 className="text-deco-bright-green pt-7 fw-bold">
                           發佈食物大作戰
                         </h3>
@@ -169,7 +169,7 @@ function GuideLine() {
                     <div className="col">
                       <div className="mb-14 mb-lg-0 ">
                         <div className="text-center text-lg-start">
-                          <img src="./assets/images/deco/guide-2.svg" alt="" />
+                          <img src="./assets/images/deco/guide-2.svg" alt="deco-guide-2" />
                           <h3 className="text-deco-bright-green pt-7 fw-bold">
                             追蹤申請狀態
                           </h3>
@@ -188,7 +188,7 @@ function GuideLine() {
                     <div className="col">
                       <div className="mb-12 mb-lg-0 d-flex flex-column align-items-lg-start align-items-md-center">
                         <div className="text-center text-lg-start">
-                          <img src="./assets/images/deco/guide-3.svg" alt="" />
+                          <img src="./assets/images/deco/guide-3.svg" alt="deco-guide-3" />
                           <h3 className="text-deco-bright-green pt-7 fw-bold">
                             面交步驟
                           </h3>
@@ -408,7 +408,7 @@ function GuideLine() {
                 strokeLinejoin="round"
               />
             </svg>
-            <div className="tips-list row row-lg-cols-3 d-flex flex-column flex-lg-row justify-content-between">
+            <div className="tips-list row row-lg-cols-3 flex-column flex-lg-row justify-content-between">
               <div className="tips-item col ps-lg-0">
                 <div className="tips-border">
                   <div className="tips-subtitle fs-3 fw-bold">食物新鮮度</div>
@@ -448,7 +448,7 @@ function GuideLine() {
         <div className="container py-12 py-lg-0">
           <div className="row">
             <div className="col-lg-10 mx-auto">
-              <div className="row d-flex justify-content-between">
+              <div className="row justify-content-between">
                 <div className="col-lg-6">
                   <div className="mb-16">
                     <h3 className="fs-4 fs-lg-3 fw-bold text-gray-900 mb-7">
@@ -503,7 +503,7 @@ function GuideLine() {
         </div>
       </section>
       <section className="contact overflow-hidden nav-mt mb-18 mb-lg-19">
-        <div className="contact-info bg-white row row-lg-cols-3 d-flex flex-column flex-lg-row text-deco-green">
+        <div className="contact-info bg-white row row-lg-cols-3 flex-column flex-lg-row text-deco-green">
           <div className="col contact-info-item">
             <div className="d-flex flex-column flex-lg-row align-items-center justify-content-center py-7">
               <svg

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -31,7 +32,7 @@ function CityDistrictSelector({
         const res = await axios.get(`${BASE_URL}/twCities`);
         setCities(res.data);
       } catch (error) {
-        console.error('獲取縣市失敗:', error.message);
+        toast.error(`${error.message ? '載入縣市失敗' : ''}`);
       } finally {
         setIsLoading(false);
       }
@@ -66,7 +67,7 @@ function CityDistrictSelector({
           setDistricts([]);
         }
       } catch (error) {
-        console.error('獲取地區失敗:', error.message);
+        toast.error(`${error.message ? '獲取地區失敗:' : ''}`);
         setDistricts([]);
       } finally {
         setIsLoading(false);
@@ -172,9 +173,5 @@ CityDistrictSelector.propTypes = {
   initialDistrict: PropTypes.string,
   cityName: PropTypes.string,
   districtName: PropTypes.string,
-};
-
-CityDistrictSelector.defaultProps = {
-  errors: {},
 };
 export default CityDistrictSelector;
