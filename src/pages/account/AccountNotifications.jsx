@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ApplyModal from '../../components/account-notify/ApplyModal';
 import ReceiveModal from '../../components/account-notify/ReceiveModal';
+import ApplyReplyModal from '../../components/account-notify/ApplyReplyModal';
 import AccountFilter from '../../components/account/AccountFilter';
 import AccountFilterStatus from '../../components/account/AccountFilterStatus';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,7 @@ function AccountNotifications() {
   const [statusFilter, setStatusFilter] = useState(undefined);
   const [selectedApp, setSelectedApp] = useState(null);
   const [modalType, setModalType] = useState(null);
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
   useEffect(() => {
     const getAppData = async () => {
@@ -51,12 +53,22 @@ function AccountNotifications() {
     }
   };
 
-  const getBackgroundColorClass = (isRead) => {
-    if (isRead === true) {
-      return 'bg-white';
-    } else {
-      return 'bg-badge-color';
+  const getBackgroundColorClass = (isRead) =>
+    isRead ? 'bg-white' : 'bg-badge-color';
+
+  const handleNotifyClick = (app) => {
+    setModalType(null);
+    setSelectedApp(app);
+    if (app.type === '申請通知') {
+      setModalType('apply');
+    } else if (app.type === '領取通知') {
+      setModalType('receive');
     }
+    makeIsRead(app.id);
+  };
+
+  const handleModalClose = () => {
+    setModalType(null);
   };
 
   if (!appData) {
@@ -83,37 +95,15 @@ function AccountNotifications() {
 
   const filteredAppData = appData
     .filter((item) => {
-      if (filter === 'all') {
-        return true;
-      } else if (filter === 'apply') {
-        return item.type === '申請通知';
-      } else if (filter === 'receive') {
-        return item.type === '領取通知';
-      } else if (filter === 'comment') {
-        return item.type === '評價通知';
-      }
+      if (filter === 'all') return true;
+      if (filter === 'apply') return item.type === '申請通知';
+      if (filter === 'receive') return item.type === '領取通知';
+      if (filter === 'comment') return item.type === '評價通知';
       return false;
     })
-    .filter((item) => {
-      return statusFilter ? item.status === statusFilter : true;
-    });
+    .filter((item) => (statusFilter ? item.status === statusFilter : true));
 
   const filteredAppCount = filteredAppData.length;
-
-  const handleNotifyClick = (app) => {
-    setModalType(null);
-    setSelectedApp(app);
-    if (app.type === '申請通知') {
-      setModalType('apply');
-    } else if (app.type === '領取通知') {
-      setModalType('receive');
-    }
-    makeIsRead(app.id);
-  };
-
-  const handleModalClose = () => {
-    setModalType(null);
-  };
 
   return (
     <>
@@ -139,14 +129,6 @@ function AccountNotifications() {
                   className={`notify-cover row align-items-center position-relative stretched-link p-7 border-bottom border-gray-400 mx-4 ${getBackgroundColorClass(
                     app.isRead
                   )}`}
-                  data-bs-toggle="modal"
-                  data-bs-target={
-                    app.type === '申請通知'
-                      ? '#notifyApplyModal'
-                      : app.type === '領取通知'
-                      ? '#notifyClaimModal'
-                      : ''
-                  }
                   onClick={() => handleNotifyClick(app)}
                 >
                   <div className="notify-back w-100 h-100 position-absolute">
@@ -172,7 +154,7 @@ function AccountNotifications() {
                     </p>
                   </div>
                   <div className="col-6 col-lg-2 order-lg-3 text-end mb-6 mb-lg-0 px-0">
-                    <time dateTime="2024-08-01" className="text-gray-700">
+                    <time className="text-gray-700">
                       {formatDate(app.created_time)}
                     </time>
                   </div>
@@ -197,13 +179,22 @@ function AccountNotifications() {
           )}
         </ul>
       </section>
+
       {modalType === 'apply' && (
-        <ApplyModal app={selectedApp} onClose={handleModalClose} />
+        <ApplyModal
+          app={selectedApp}
+          onClose={handleModalClose}
+          onAgree={() => setIsReplyModalOpen(true)}
+        />
       )}
       {modalType === 'receive' && (
         <ReceiveModal app={selectedApp} onClose={handleModalClose} />
       )}
+      {isReplyModalOpen && (
+        <ApplyReplyModal onClose={() => setIsReplyModalOpen(false)} />
+      )}
     </>
   );
 }
+
 export default AccountNotifications;

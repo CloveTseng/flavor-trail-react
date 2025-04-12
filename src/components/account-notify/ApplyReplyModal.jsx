@@ -1,25 +1,24 @@
-function ApplyReplyModal() {
+import PropTypes from 'prop-types';
+
+function ApplyReplyModal({ onClose }) {
   return (
     <>
+      <div className="modal-backdrop fade show"></div>
+
       <div
-        className="modal fade notify"
-        id="notifyApplyModal2"
-        aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel2"
+        className="modal fade show d-block notify"
+        aria-hidden="false"
         tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
           <div className="modal-content">
             <div className="modal-header border-0 p-lg-7 py-7 px-4">
-              <h1 className="modal-title fw-bolder lh-xs" id="ModalToggleLabel">
-                回覆申請通知
-              </h1>
+              <h1 className="modal-title fw-bolder lh-xs">回覆申請通知</h1>
               <img
                 src="./assets/images/icon/x.svg"
                 alt="Close"
                 className="ms-auto pointer p-2"
-                data-bs-dismiss="modal"
-                aria-label="Close"
+                onClick={onClose}
               />
             </div>
             <div className="modal-body p-lg-7">
@@ -65,11 +64,11 @@ function ApplyReplyModal() {
                       name="city"
                       className="form-select py-2 px-5 border-gray-400 rounded-3 d-inline-blok w-auto"
                     >
-                      <option disabled>請選擇縣市</option>
-                      <option value="taipei">台北市</option>
-                      <option value="newTaipei" selected>
-                        新北市
+                      <option disabled value="">
+                        請選擇縣市
                       </option>
+                      <option value="taipei">台北市</option>
+                      <option value="newTaipei">新北市</option>
                     </select>
                     <select
                       id="district"
@@ -122,12 +121,10 @@ function ApplyReplyModal() {
                       </a>
                       <div className="dropdown-menu bg-gray-200 rounded-3 time-range-picker overflow-hidden">
                         <div className="d-flex">
-                          {/* <!-- 開始時間 --> */}
                           <ul
                             className="list-unstyled dropdown-menu-start-time"
                             id="start-time"
                           ></ul>
-                          {/* <!-- 結束時間 --> */}
                           <ul
                             className="list-unstyled dropdown-menu-end-time disabled"
                             id="end-time"
@@ -148,19 +145,13 @@ function ApplyReplyModal() {
                     className="form-control py-2 px-5 border-gray-400 rounded-3"
                     id="replyMessage"
                     rows="5"
-                  >
-                    嗨!感謝你對我的食物分享活動感興趣,你所預訂的食物可以領取了!
-                  </textarea>
+                    defaultValue="嗨!感謝你對我的食物分享活動感興趣,你所預訂的食物可以領取了!"
+                  ></textarea>
                 </div>
               </form>
             </div>
             <div className="modal-footer p-7 p-lg-7">
-              <button
-                className="btn btn-primary"
-                data-bs-target="#exampleModalToggle"
-                data-bs-toggle="modal"
-                data-bs-dismiss="modal"
-              >
+              <button className="btn btn-primary" onClick={onClose}>
                 送出
               </button>
             </div>
@@ -170,4 +161,9 @@ function ApplyReplyModal() {
     </>
   );
 }
+
+ApplyReplyModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
+
 export default ApplyReplyModal;
