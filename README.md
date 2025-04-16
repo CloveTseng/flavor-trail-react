@@ -13,11 +13,11 @@
 <img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-15%20192016.png?alt=media&token=bc1c7d21-c56b-4ed0-b3c2-a7765e57ea1e">*使用 Apidog 來測試並產出 API 文件*
 - 使用 React Hook Form 處理表單輸入及資料驗證
 - 使用 React Router 的巢狀路由打造『我的帳號』分頁切換功能
+<img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20155803.png?alt=media&token=c29f1b44-1ead-4ab2-b72c-dee2fa1a8c62">
 - 客製化 Bootstrap 切版與 RWD 設計，適應桌機與手機使用體驗
 - 協作面參與：使用者故事撰寫、流程圖、線稿圖設計與討論
 
 ## 技術挑戰與解決方案
-
 ### 🚧 挑戰 1：GitHub 版本控管與團隊協作
 
 > **問題** 初期組員對 Git 僅有基礎觀念，實務操作不熟。PR 習慣尚未建立，常出現如：
@@ -33,7 +33,7 @@
 - 規劃切版順序與元件分工，避免多人同時修改同一份檔案
 
 ### 🚧 挑戰 2：模擬 API 的資料設計與實務邏輯不符
-![api 格式有誤](https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20154953.png?alt=media&token=84fba8ab-582a-49b8-afdb-db93560dabbe)
+<img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20154953.png?alt=media&token=84fba8ab-582a-49b8-afdb-db93560dabbe" width="400px">
 > **問題** 初期 JSON Server 的資料格式設計偏向靜態展示，缺乏關聯與真實互動情境。
 
 **解決問題**
@@ -47,4 +47,4 @@
 
 ## 專案連結
 - [GitHub](https://github.com/CloveTseng/flavor-trail-react) 
-- [Demo]((https://ariel0508.github.io/flavor-trail-react/))
+- [Demo](https://ariel0508.github.io/flavor-trail-react/)
