@@ -34,7 +34,7 @@
 - 規劃切版順序與元件分工，避免多人同時修改同一份檔案
 
 ### 🚧 挑戰 2：模擬 API 的資料設計與實務邏輯不符
-<img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20154953.png?alt=media&token=84fba8ab-582a-49b8-afdb-db93560dabbe" width="500px">
+<img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20154953.png?alt=media&token=84fba8ab-582a-49b8-afdb-db93560dabbe" width="600px">
 
 > **問題** 初期 JSON Server 的資料格式設計偏向靜態展示，缺乏關聯與真實互動情境。
 
