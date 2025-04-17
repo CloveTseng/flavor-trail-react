@@ -9,13 +9,15 @@ import AlertModal from '../AlertModal';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getUserId } from '../../utils/loginUser';
 
 const { VITE_BASE_URL } = import.meta.env;
 const logoUrl = './assets/images/Logo.png';
 
-const OtherPosts = ({ id, isDisabled, clickMethod }) => {
+const OtherPosts = ({ id, clickMethod }) => {
   const [otherPosts, setOtherPosts] = useState(null);
-
+  const { uid, isLogin } = useSelector((state) => state.loginSlice.loginStatus);
   const getOtherPosts = useCallback(
     (posts, count) => {
       let tempPosts = [...posts].filter((post) => post.id != id);
@@ -133,14 +135,14 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
                           </span>
                         </h5>
                       )}
-                      {(dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
-                        post.food?.restQuantity) > 0 && (
-                        <h5>
-                          <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
-                            仍可領取
-                          </span>
-                        </h5>
-                      )}
+                      {dayjs().isBefore(dayjs(post.food?.expiryDate)) &&
+                        post.food?.restQuantity > 0 && (
+                          <h5>
+                            <span className="bg-primary rounded-3 fs-6 text-white py-1 px-2">
+                              仍可領取
+                            </span>
+                          </h5>
+                        )}
                     </div>
                   </div>
                   {/* <!--內文--> */}
@@ -239,7 +241,11 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
                           type="button"
                           className="btn btn-dark w-100 p-4 d-flex align-items-center justify-content-center"
                           onClick={clickMethod}
-                          disabled={isDisabled}
+                          disabled={
+                            (isLogin && post?.user?.id === getUserId(uid)) ||
+                            dayjs().isAfter(dayjs(post.food?.expiryDate)) ||
+                            post.food?.restQuantity === 0
+                          }
                         >
                           <small className="me-1">我要領取</small>
                           <svg
@@ -409,7 +415,11 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
                         type="button"
                         className="btn btn-dark"
                         onClick={clickMethod}
-                        disabled={isDisabled}
+                        disabled={
+                          (isLogin && post?.user?.id === getUserId(uid)) ||
+                          dayjs().isAfter(dayjs(post.food?.expiryDate)) ||
+                          post.food?.restQuantity === 0
+                        }
                       >
                         <span className="me-2">我要領取</span>
                         <svg
@@ -449,7 +459,6 @@ const OtherPosts = ({ id, isDisabled, clickMethod }) => {
 
 OtherPosts.propTypes = {
   id: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
   clickMethod: PropTypes.func.isRequired,
 };
 

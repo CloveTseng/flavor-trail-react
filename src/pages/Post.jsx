@@ -799,11 +799,6 @@ const Post = () => {
                   {/* 其他貼文 */}
                   <OtherPosts
                     id={id}
-                    isDisabled={
-                      (isLogin && post?.user?.id == getUserId(uid)) ||
-                      post?.food?.restQuantity === 0 ||
-                      !postTag.expired
-                    }
                     clickMethod={() => openApplyModal(post)}
                   />
                 </div>
