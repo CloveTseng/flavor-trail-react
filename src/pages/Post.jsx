@@ -155,7 +155,7 @@ const Post = () => {
   const foodApplyRef = useRef(null);
   const foodApplyModalRef = useRef(null);
   const [applyInfo, setApplyInfo] = useState({
-    postId: '',
+    postId: 0,
     postTitle: '',
     userNickname: '',
   });
