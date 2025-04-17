@@ -48,13 +48,14 @@ function AccountNotifications() {
       setAppData((prev) =>
         prev.map((app) => (app.id === id ? { ...app, isRead: true } : app))
       );
+      console.log(appData);
     } catch (error) {
       toast.error(`標記為已讀失敗: ${error.message || '發生未知錯誤'}`);
     }
   };
 
   const getBackgroundColorClass = (isRead) =>
-    isRead ? 'bg-white' : 'bg-badge-color';
+    isRead ? 'bg-white' : 'bg-primary-100';
 
   const handleNotifyClick = (app) => {
     setModalType(null);

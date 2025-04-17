@@ -31,6 +31,7 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
         message,
         status: '待回覆',
         created_time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        isRead: false,
       });
       dispatch(getLoginUserInfo(userId));
       toast.success('尊敬的尋者唷！領取申請已送出，請靜候通知！');
@@ -140,10 +141,10 @@ const FoodApplyModal = ({ foodApplyModalRef, applyInfo }) => {
 FoodApplyModal.propTypes = {
   foodApplyModalRef: PropTypes.object,
   applyInfo: PropTypes.shape({
-    postId: PropTypes.string,
+    postId: PropTypes.number,
     postTitle: PropTypes.string,
-    postImgUrl: PropTypes.string,
-    userId: PropTypes.string,
+    postImgUrl: PropTypes.array,
+    userId: PropTypes.number,
     userNickname: PropTypes.string,
   }),
 };
