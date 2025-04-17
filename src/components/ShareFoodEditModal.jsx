@@ -74,9 +74,6 @@ const ShareFoodEditModal = ({
         },
         imagesUrl: imagesUrlArray,
       });
-      // console.log('測試 data', data);
-      // console.log(getValues());
-      // console.log('res:', res.data);
       toast.success('成功更新貼文！');
       getPosts();
       closeEditModal();
@@ -331,6 +328,7 @@ const ShareFoodEditModal = ({
                         }}
                       />
                       <InputText
+                        type='text'
                         register={register}
                         errors={errors}
                         id='inputAddress'
@@ -396,7 +394,7 @@ const ShareFoodEditModal = ({
                         labelText='介紹與描述'
                         id='ReplyMessage'
                         name='content'
-                        rows='5'
+                        rows={5}
                         rules={{
                           required: {
                             value: true,

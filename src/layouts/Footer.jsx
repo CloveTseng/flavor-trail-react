@@ -32,9 +32,9 @@ const Footer = () => {
       <footer className="footer">
         <div className="container">
           <div className="footer-header d-flex flex-lg-row flex-column-reverse mb-lg-19 mb-16">
-            <a href="index.html" className="footer-logo">
+            <Link to="/" className="footer-logo">
               <img src="./assets/images/Logo.png" alt="logo" />
-            </a>
+            </Link>
             <div className="slogan ms-auto mt-lg-12 fs-2 fw-bolder lh-1">
               <p>快樂齊分享，美味</p>
               <p className="vertical-text text-lg-vertical ms-auto">再出發</p>

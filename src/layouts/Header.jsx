@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsLogin } from '../redux/LoginStateSlice';
 const { VITE_BASE_URL } = import.meta.env;
@@ -127,7 +127,7 @@ const Header = () => {
     (async () => {
       try {
         const foodTypeResponse = await axios.get(`${VITE_BASE_URL}/foodTypes`);
-        const locationResponse = await axios.get(`${VITE_BASE_URL}/TwCities`);
+        const locationResponse = await axios.get(`${VITE_BASE_URL}/twCities`);
         setFoodTypes(foodTypeResponse.data);
         setLocation(locationResponse.data);
       } catch (error) {
@@ -489,9 +489,9 @@ const Header = () => {
           >
             <div className='offcanvas-header d-flex justify-content-between mb-12'>
               <h1 className='offcanvas-title' id='offcanvasNavLabel'>
-                <a href='index.html'>
+                <Link to='/'>
                   <img src='./assets/images/Logo-navbar.svg' alt='logo' />
-                </a>
+                </Link>
               </h1>
               {!isLogin ? (
                 <>
@@ -830,12 +830,9 @@ const Header = () => {
         role='search'
       >
         <div className='search-bar container d-flex'>
-          <a
-            className='navbar-brand d-flex align-items-center me-4'
-            href='index.html'
-          >
+          <Link to='/' className='navbar-brand d-flex align-items-center me-4'>
             <img src='./assets/images/Logo-navbar.svg' alt='logo' />
-          </a>
+          </Link>
           <ul className='search-form d-flex py-7 gap-2 ms-auto me-2 flex-grow-1 justify-content-end'>
             <li className='input-group mb-5 mb-lg-0 rounded-3 bg-white'>
               <input

@@ -306,8 +306,8 @@ const Post = () => {
                               onClick={openEditPost}
                             >
                               <img
-                                src="../assets/images/icon/square-pen.svg"
-                                alt=""
+                                src="./assets/images/icon/square-pen.svg"
+                                alt="icon-edit"
                               />
                             </button>
                           </div>

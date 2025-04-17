@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { setIsLogin } from '../redux/LoginStateSlice';
 import AlertModal from '../components/AlertModal';
+import toast from 'react-hot-toast';
 const { VITE_LOGIN_URL } = import.meta.env;
 const Login = () => {
   const navigate = useNavigate();
@@ -41,8 +42,7 @@ const Login = () => {
       });
       navigate('/');
     } catch (error) {
-      console.log(error);
-      alert(`${error.response.data.error?.message}`);
+      toast.error(`無法載入用戶資料: ${error.message || '發生未知錯誤'}`);
     }
   };
 
