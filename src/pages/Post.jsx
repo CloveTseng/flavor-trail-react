@@ -155,7 +155,7 @@ const Post = () => {
   const foodApplyRef = useRef(null);
   const foodApplyModalRef = useRef(null);
   const [applyInfo, setApplyInfo] = useState({
-    postId: '',
+    postId: 0,
     postTitle: '',
     userNickname: '',
   });
@@ -799,11 +799,6 @@ const Post = () => {
                   {/* 其他貼文 */}
                   <OtherPosts
                     id={id}
-                    isDisabled={
-                      (isLogin && post?.user?.id == getUserId(uid)) ||
-                      post?.food?.restQuantity === 0 ||
-                      !postTag.expired
-                    }
                     clickMethod={() => openApplyModal(post)}
                   />
                 </div>
