@@ -46,10 +46,6 @@ function AccountPosts() {
     return diffDays > 30;
   };
 
-  const handleOpenDeleteModal = (postId) => {
-    setSelectedPostId(postId);
-  };
-
   const handleCloseModal = () => {
     setSelectedPostId(null);
   };
@@ -232,9 +228,8 @@ function AccountPosts() {
                     <div className="col-lg-3 post-card-right px-4 mb-7 mb-lg-0 d-flex flex-column">
                       {/* dropdown 功能 */}
                       <div className="dropdown text-end">
-                        <a
-                          href="#"
-                          className="dropdown-toggle"
+                        <button
+                          className="dropdown-toggle border-0 bg-transparent"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
@@ -261,18 +256,15 @@ function AccountPosts() {
                               strokeLinejoin="round"
                             />
                           </svg>
-                        </a>
+                        </button>
                         <ul className="dropdown-menu">
                           <li>
-                            <a
+                            <button
                               className="dropdown-item"
-                              href="#"
-                              data-bs-toggle="modal"
-                              data-bs-target="#deletePostModal"
-                              onClick={() => handleOpenDeleteModal(item.id)}
+                              onClick={() => setSelectedPostId(item.id)}
                             >
                               刪除貼文
-                            </a>
+                            </button>
                           </li>
                         </ul>
                       </div>
@@ -317,6 +309,7 @@ function AccountPosts() {
       {selectedPostId && (
         <DeletePostModal
           postId={selectedPostId}
+          isOpen={!!selectedPostId}
           onDeleteSuccess={handleDeleteSuccess}
           onClose={handleCloseModal}
         />
