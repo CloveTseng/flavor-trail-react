@@ -2,7 +2,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { overfoodOptions, meatOrVeggieOptions } from '../data/radioOptions';
 import CityDistrictSelector from './formElements/CityDistrictSelector';
 import InputTextGroup from './formElements/InputTextGroup';
@@ -34,7 +34,6 @@ const ShareFoodEditModal = ({
     handleSubmit,
     formState: { errors, isValid },
     reset,
-    setValue,
     getValues,
   } = methods;
   //監聽 tempPost 變化，確保表單數據更新
@@ -43,9 +42,6 @@ const ShareFoodEditModal = ({
       reset(tempPost); //重新載入表單數據
     }
   }, [tempPost, reset]); //去掉 `reset`，確保 `tempPost` 變更時能執行
-  const handleDateChange = (date) => {
-    setValue('food.expiryDate', dayjs(date).format('YYYY-MM-DD'));
-  };
 
   const onSubmit = async (data) => {
     const { food, imagesUrl, pickup, ...rest } = data;
@@ -259,18 +255,22 @@ const ShareFoodEditModal = ({
                               有效期限
                             </label>
                           </div>
-                          <DatePicker
-                            id='exp'
-                            selected={
-                              getValues('food.expiryDate')
-                                ? new Date(getValues('food.expiryDate'))
-                                : null
-                            }
-                            onChange={handleDateChange}
+                          <Controller
                             name='food.expiryDate'
-                            dateFormat='yyyy/MM/dd'
-                            className='form-select border-gray-400 py-2 px-5 rounded-3 bg-white'
-                            placeholderText='請選擇有效期限'
+                            control={methods.control}
+                            rules={{ required: '請選擇有效期限' }}
+                            render={({ field }) => (
+                              <DatePicker
+                                id='exp'
+                                selected={
+                                  field.value ? new Date(field.value) : null
+                                }
+                                onChange={(date) => field.onChange(date)}
+                                dateFormat='yyyy/MM/dd'
+                                className='form-select border-gray-400 py-2 px-5 rounded-3 bg-white'
+                                placeholderText='請選擇有效期限'
+                              />
+                            )}
                           />
                         </div>
                       </div>
@@ -319,7 +319,6 @@ const ShareFoodEditModal = ({
                         districtId='pickup.district'
                         initialCityId={tempPost?.pickup?.city}
                         initialDistrict={tempPost?.pickup?.district}
-                        // setValue={setValue} // 傳遞 setValue 以更新表單
                         rules={{
                           required: {
                             value: true,
@@ -353,7 +352,6 @@ const ShareFoodEditModal = ({
                           tempPost?.pickup?.time?.split(' - ')[0]
                         }
                         initialEndTime={tempPost?.pickup?.time?.split(' - ')[1]}
-                        // setValue={setValue}
                         name='pickup.time'
                       />
                     </div>
