@@ -85,8 +85,8 @@ const OtherPosts = ({ id, clickMethod }) => {
                       <div className="my-5">
                         <div className="fs-5 fw-bold">{post.user.nickName}</div>
                         <div style={{ fontSize: '14px' }}>
-                          {`${post.user.pickupCity} / ${
-                            post.user.pickupDistrict
+                          {`${post.pickup.city} / ${
+                            post.pickup.district
                           }· ${dayjs(post.createdPostDate).fromNow()}`}
                         </div>
                       </div>
