@@ -192,7 +192,7 @@ const ShareFoodModal = () => {
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodType"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap py-4 pe-1"
                             >
                               食物類型
                               <span className="text-danger"> * </span>
@@ -256,7 +256,7 @@ const ShareFoodModal = () => {
                           <div className="me-lg-7 mb-2">
                             <label
                               htmlFor="FoodNum"
-                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-7 py-4"
+                              className="form-label h6 fw-bold text-gray-700 col-lg-1 text-nowrap pe-8 py-4"
                             >
                               食物份數
                               <span className="text-danger"> * </span>
