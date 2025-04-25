@@ -16,6 +16,12 @@
 <img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-16%20155803.png?alt=media&token=c29f1b44-1ead-4ab2-b72c-dee2fa1a8c62">
 
 - 客製化 Bootstrap 切版與 RWD 設計，適應桌機與手機使用體驗
+- 建立客製化變數文件，方便開發時快速的查找
+
+  <img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-25%20154227.png?alt=media&token=9d749d9e-f9d1-4eb9-bb95-8eddd0b8e904" width="400px">
+- Git 分支管理規劃：依據 GitHub Flow 規則設計分支結構，使用 `main` 作為發布主幹，並為每個功能頁面與模組建立獨立分支，統一命名規則與協作流程，並以分支對照表清楚追蹤進度與負責人。
+
+  <img src="https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-04-25%20154607.png?alt=media&token=b550f969-6a2a-4a1c-b060-892ba630fe76" width="400px">
 - 協作面參與：使用者故事撰寫、流程圖、線稿圖設計與討論
 
 ## 技術挑戰與解決方案
