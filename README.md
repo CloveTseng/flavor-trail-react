@@ -1,7 +1,8 @@
 [![專案預覽](https://firebasestorage.googleapis.com/v0/b/mobaocoffee.appspot.com/o/Pasted%20image%2020250415172900.png?alt=media&token=08cce3a2-8a5b-4a99-8bd6-9917428faccd)](https://ariel0508.github.io/flavor-trail-react/)
 *點擊圖片可連結至網站*
-後台測試帳號：flavortrail@gmail.com
-後台測試密碼：20250316
+
+- 後台測試帳號：`flavortrail@gmail.com`
+- 後台測試密碼：`20250316`
 
 ## 專案簡介：
 我們希望創建一個平台，讓商家和個人能夠方便地 <mark>捐贈或領取剩食</mark>，從而促進資源的有效利用，保護環境， 通過合作和參與實現「零食物浪費」的目標，打造更可持續的未來。
@@ -64,7 +65,7 @@
 - 學會如何在有限時間內分工合作，並完成一個專案
 
 ## 專案連結
-後台測試帳號：flavortrail@gmail.com
-後台測試密碼：20250316
+- 後台測試帳號：`flavortrail@gmail.com`
+- 後台測試密碼：`20250316`
 - [GitHub](https://github.com/CloveTseng/flavor-trail-react) 
 - [Demo](https://ariel0508.github.io/flavor-trail-react/)
